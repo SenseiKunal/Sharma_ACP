@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Dashboard — AluminoPro</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --gold:#B8860B;--gold-light:#F0C040;--gold2:#D4A017;
+  --primary:#1A1A2E;
+  --bg:#F8F9FA;--bg2:#FFFFFF;--bg3:#F0F2F5;
+  --white:#FFFFFF;
+  --dark:#1A1A2E;--dark2:#FFFFFF;--dark3:#FFFFFF;--dark4:#F0F2F5;
+  --text:#1A1A2E;--text2:#4A5568;--text3:#718096;
+  --grey:#718096;--grey-light:#A0AEC0;
+  --border:#E2E8F0;--border2:#CBD5E0;
+  --success:#2D8A4E;--danger:#C53030;--warning:#C05621;--info:#2B6CB0;
+  --shadow:0 2px 12px rgba(0,0,0,.07);--shadow2:0 8px 32px rgba(0,0,0,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;display:flex;min-height:100vh;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg3);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
+
+/* SIDEBAR */
+.sidebar{width:260px;background:var(--primary);border-right:none;display:flex;flex-direction:column;position:fixed;height:100vh;overflow-y:auto;z-index:200;}
+.sidebar-logo{padding:22px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo-icon{width:36px;height:36px;background:var(--gold);display:flex;align-items:center;justify-content:center;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);}
+.logo-icon i{color:#fff;font-size:15px;}
+.logo-text{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:2px;color:#fff;}
+.logo-text span{color:var(--gold-light);}
+.sidebar-user{padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.user-avatar{width:44px;height:44px;background:linear-gradient(135deg,var(--gold),var(--primary));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px;color:#fff;flex-shrink:0;overflow:hidden;border:2px solid rgba(255,255,255,.2);}
+.user-avatar img{width:100%;height:100%;object-fit:cover;}
+.user-name{font-weight:600;font-size:14px;color:#fff;}
+.user-role{font-size:10px;color:var(--gold-light);letter-spacing:1px;text-transform:uppercase;}
+.sidebar-nav{padding:14px 0;flex:1;}
+.nav-section{padding:8px 24px 4px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);}
+.nav-item{display:flex;align-items:center;gap:12px;padding:10px 24px;color:rgba(255,255,255,.6);font-size:13px;font-weight:500;transition:all .2s;cursor:pointer;border-left:3px solid transparent;}
+.nav-item:hover,.nav-item.active{color:#fff;background:var(--border);border-color:var(--gold-light);}
+.nav-item.active{color:var(--gold-light);}
+.nav-item i{width:18px;text-align:center;font-size:14px;}
+.sidebar-footer{padding:16px 24px;border-top:1px solid var(--border);}
+.btn-logout{width:100%;padding:10px;background:rgba(197,48,48,.15);border:1px solid rgba(197,48,48,.3);color:#FC8181;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;border-radius:6px;}
+.btn-logout:hover{background:rgba(197,48,48,.25);}
+
+/* MAIN */
+.main{margin-left:260px;flex:1;background:var(--bg);}
+.topbar{background:#fff;border-bottom:1px solid var(--border);padding:14px 36px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow);}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--text);}
+.topbar-actions{display:flex;gap:10px;}
+.btn-sm{padding:8px 18px;font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;border-radius:6px;}
+.btn-gold{background:var(--gold);color:#fff;box-shadow:0 2px 8px rgba(184,134,11,.3);}
+.btn-gold:hover{background:var(--gold2);}
+.btn-outline{background:transparent;border:1.5px solid var(--border2);color:var(--text2);}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+
+.page{padding:28px 36px;display:none;}
+.page.active{display:block;}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px;}
+.stat-card{background:#fff;padding:22px;border:1px solid var(--border);border-radius:8px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,var(--gold));}
+.stat-ico{width:36px;height:36px;background:rgba(184,134,11,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+.stat-ico i{color:var(--c,var(--gold));font-size:15px;}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--c,var(--gold));line-height:1;}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:4px;font-weight:600;}
+
+/* ORDERS */
+.card{background:#fff;border:1px solid var(--border);margin-bottom:10px;padding:18px 22px;transition:all .2s;border-radius:8px;box-shadow:var(--shadow);}
+.card:hover{border-color:rgba(184,134,11,.25);box-shadow:var(--shadow2);}
+.card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;}
+.card-title{font-weight:700;font-size:14px;color:var(--text);}
+.card-meta{font-size:11px;color:var(--text3);margin-top:2px;}
+.card-specs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0;}
+.spec-chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;background:var(--bg3);border:1px solid var(--border);font-size:11px;color:var(--text2);border-radius:100px;}
+.spec-chip i{color:var(--gold);font-size:10px;}
+.admin-note{margin-top:8px;padding:8px 12px;background:rgba(184,134,11,.06);border-left:3px solid var(--gold);font-size:12px;color:var(--text2);border-radius:0 4px 4px 0;}
+.admin-note strong{color:var(--gold);}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;}
+.badge-pending{background:rgba(192,86,33,.1);color:var(--warning);border:1px solid rgba(192,86,33,.2);}
+.badge-running{background:rgba(43,108,176,.1);color:var(--info);border:1px solid rgba(43,108,176,.2);}
+.badge-done{background:rgba(45,138,78,.1);color:var(--success);border:1px solid rgba(45,138,78,.2);}
+.badge-hold{background:rgba(197,48,48,.1);color:var(--danger);border:1px solid rgba(197,48,48,.2);}
+
+/* FORMS */
+.form-box{background:#fff;border:1px solid var(--border);padding:28px 32px;border-radius:8px;box-shadow:var(--shadow);}
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px;font-weight:700;}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:10px 14px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s;border-radius:6px;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.1);}
+.form-group select option{background:#fff;}
+.form-group textarea{resize:vertical;min-height:80px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* ── CUSTOM CALCULATOR ─────────────────────────── */
+.calc-section{background:var(--bg3);border:1px solid rgba(184,134,11,.2);padding:24px;margin-bottom:20px;position:relative;overflow:hidden;border-radius:8px;}
+.calc-section::before{content:'PRICE CALCULATOR';position:absolute;top:14px;right:16px;font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;color:rgba(184,134,11,.3);}
+.calc-mode-tabs{display:flex;gap:0;border:1.5px solid var(--border);width:fit-content;margin-bottom:20px;border-radius:6px;overflow:hidden;}
+.calc-tab{padding:7px 18px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);cursor:pointer;transition:all .2s;border-right:1px solid var(--border);}
+.calc-tab:last-child{border-right:none;}
+.calc-tab.active{background:var(--gold);color:#fff;}
+.calc-mode{display:none;}
+.calc-mode.active{display:block;}
+
+/* Price Result Box */
+.price-result{background:#fff;border:1.5px solid rgba(184,134,11,.25);padding:20px;margin-top:16px;display:none;border-radius:8px;box-shadow:var(--shadow);}
+.price-result.show{display:block;}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);}
+.price-row:last-child{border-bottom:none;}
+.price-row .lbl{font-size:12px;color:var(--text3);}
+.price-row .val{font-size:13px;font-weight:600;color:var(--text);}
+.price-total-row{padding:12px 0 4px;margin-top:4px;}
+.price-total-row .lbl{font-size:13px;color:var(--text);font-weight:700;}
+.price-total-row .val{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold);}
+.price-disclaimer{font-size:11px;color:var(--text3);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+
+/* Color Picker */
+.color-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+.color-chip{padding:5px 12px;border:1.5px solid var(--border);font-size:11px;cursor:pointer;transition:all .2s;color:var(--text2);border-radius:100px;}
+.color-chip.selected{border-color:var(--gold);color:var(--gold);background:rgba(184,134,11,.08);}
+
+/* PROFILE */
+.profile-header{display:flex;align-items:center;gap:20px;padding:24px;background:#fff;margin-bottom:24px;border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);}
+.profile-avatar{width:72px;height:72px;background:linear-gradient(135deg,var(--gold),var(--primary));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff;overflow:hidden;position:relative;border:3px solid var(--gold);}
+.profile-avatar img{width:100%;height:100%;object-fit:cover;}
+.dp-upload-btn{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);color:#fff;font-size:9px;text-align:center;padding:4px;cursor:pointer;font-weight:700;letter-spacing:.5px;}
+
+/* STARS */
+.star-rating{display:flex;gap:6px;margin-bottom:16px;}
+.star-btn{background:none;border:none;font-size:28px;cursor:pointer;color:var(--border2);transition:all .2s;}
+.star-btn.active{color:var(--gold);}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;z-index:999;background:#fff;border-left:4px solid var(--success);padding:12px 18px;font-size:13px;max-width:300px;transform:translateX(130%);transition:transform .3s;border-radius:0 6px 6px 0;box-shadow:var(--shadow2);color:var(--text);}
+.toast.show{transform:translateX(0);}
+.toast.error{border-color:var(--danger);}
+.toast.warn{border-color:var(--warning);}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.section-head h3{font-family:'Bebas Neue',sans-serif;font-size:22px;}
+.empty{text-align:center;padding:50px 20px;color:var(--grey);}
+.empty i{font-size:44px;color:rgba(201,168,76,.12);margin-bottom:14px;}
+
+@media(max-width:768px){.sidebar{width:60px;}.sidebar .logo-text,.sidebar .user-name,.sidebar .user-role,.sidebar .nav-item span,.sidebar .nav-section,.sidebar-footer .btn-logout span{display:none;}.main{margin-left:60px;}.page{padding:20px 16px;}.topbar{padding:14px 20px;}.form-row,.form-row-3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <a href="/" class="sidebar-logo">
+    <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+    <span class="logo-text">Alumino<span>Pro</span></span>
+  </a>
+  <div class="sidebar-user">
+    <div class="user-avatar" id="sideAvatar">?</div>
+    <div><div class="user-name" id="sideName">Loading…</div><div class="user-role">Customer</div></div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Main</div>
+    <div class="nav-item active" onclick="showPage('overview')"><i class="fas fa-home"></i> <span>Overview</span></div>
+    <div class="nav-item" onclick="showPage('order')"><i class="fas fa-plus-circle"></i> <span>Place Order</span></div>
+    <div class="nav-item" onclick="showPage('orders')"><i class="fas fa-box-open"></i> <span>My Orders</span></div>
+    <div class="nav-item" onclick="showPage('appt')"><i class="fas fa-calendar-alt"></i> <span>Appointment</span></div>
+    <div class="nav-item" onclick="showPage('invoice')"><i class="fas fa-file-invoice"></i> <span>Invoices</span></div>
+    <div class="nav-item" onclick="showPage('payment')"><i class="fas fa-qrcode"></i> <span>Pay Now</span></div>
+    <div class="nav-section">Account</div>
+    <div class="nav-item" onclick="showPage('feedback')"><i class="fas fa-star"></i> <span>Feedback</span></div>
+    <div class="nav-item" onclick="showPage('profile')"><i class="fas fa-user-circle"></i> <span>Profile</span></div>
+    <div class="nav-item" onclick="window.open('/')"><i class="fas fa-globe"></i> <span>Website</span></div>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></button>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <span class="topbar-title" id="pageTitle">Overview</span>
+    <div class="topbar-actions">
+      <button class="btn-sm btn-outline" onclick="showPage('appt')"><i class="fas fa-calendar-plus"></i> Book Visit</button>
+      <button class="btn-sm btn-gold" onclick="showPage('order')"><i class="fas fa-plus"></i> New Order</button>
+    </div>
+  </div>
+
+  <!-- ── OVERVIEW ───────────────────────────────── -->
+  <div class="page active" id="page-overview">
+    <div class="stats-grid">
+      <div class="stat-card" style="--c:#C9A84C"><div class="stat-ico"><i class="fas fa-box-open"></i></div><div class="stat-val" id="stTotal">0</div><div class="stat-lbl">Total Orders</div></div>
+      <div class="stat-card" style="--c:#F0A500"><div class="stat-ico"><i class="fas fa-clock"></i></div><div class="stat-val" id="stPend">0</div><div class="stat-lbl">Pending</div></div>
+      <div class="stat-card" style="--c:#5AA3E0"><div class="stat-ico"><i class="fas fa-spinner"></i></div><div class="stat-val" id="stRun">0</div><div class="stat-lbl">Running</div></div>
+      <div class="stat-card" style="--c:#4CAF74"><div class="stat-ico"><i class="fas fa-check-circle"></i></div><div class="stat-val" id="stDone">0</div><div class="stat-lbl">Completed</div></div>
+    </div>
+    <div class="section-head"><h3>Recent Orders</h3><button class="btn-sm btn-outline" onclick="showPage('orders')">View All</button></div>
+    <div id="recentOrders"><div class="empty"><i class="fas fa-box-open"></i><p>No orders yet</p></div></div>
+  </div>
+
+  <!-- ── PLACE ORDER (Custom Calculator) ───────── -->
+  <div class="page" id="page-order">
+    <div class="form-box">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:28px;margin-bottom:4px;">Place Custom Order</h2>
+      <p style="font-size:13px;color:var(--grey);margin-bottom:24px;">Enter your measurements for an instant price estimate before submitting.</p>
+
+      <!-- Step 1: Service -->
+      <div class="form-group">
+        <label>1. Select Service *</label>
+        <select id="oService" onchange="onServiceChange()">
+          <option value="">— Choose a service —</option>
+          <option>Aluminum Windows (Single Glass)</option>
+          <option>Aluminum Windows (Double Glass)</option>
+          <option>Aluminum Sliding Door</option>
+          <option>Aluminum Casement Door</option>
+          <option>ACP Cladding (Standard 3mm)</option>
+          <option>ACP Cladding (FR Grade 4mm)</option>
+          <option>Glass Office Partition</option>
+          <option>Structural Glazing Facade</option>
+          <option>Shopfront Aluminum Frame</option>
+          <option>Skylight / Canopy</option>
+        </select>
+      </div>
+
+      <!-- Step 2: Calculator -->
+      <div class="calc-section" id="calcSection" style="display:none;">
+        <p style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;">2. Enter Measurements</p>
+        <div class="calc-mode-tabs">
+          <div class="calc-tab active" onclick="switchCalcMode('dims',this)">Width × Height</div>
+          <div class="calc-tab" onclick="switchCalcMode('sqft',this)">Custom Sqft</div>
+        </div>
+
+        <!-- Mode A: Width x Height -->
+        <div class="calc-mode active" id="calc-dims">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Width (feet)</label>
+              <input type="number" id="oWidth" placeholder="e.g. 4" step="0.1" min="0" oninput="calcPrice()">
+            </div>
+            <div class="form-group">
+              <label>Height (feet)</label>
+              <input type="number" id="oHeight" placeholder="e.g. 5" step="0.1" min="0" oninput="calcPrice()">
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--grey);margin-top:-8px;">Area per unit = Width × Height in sqft</p>
+        </div>
+
+        <!-- Mode B: Custom sqft -->
+        <div class="calc-mode" id="calc-sqft">
+          <div class="form-group">
+            <label>Custom Area (sqft)</label>
+            <input type="number" id="oCustomSqft" placeholder="e.g. 120" step="0.5" min="0" oninput="calcPrice()">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top:14px;">
+          <label>Quantity (number of units)</label>
+          <input type="number" id="oQty" value="1" min="1" step="1" oninput="calcPrice()" style="max-width:160px;">
+        </div>
+
+        <!-- Live Price Result -->
+        <div class="price-result" id="priceResult">
+          <p style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Estimated Price</p>
+          <div class="price-row"><span class="lbl">Sqft per unit</span><span class="val" id="rSqftPer">—</span></div>
+          <div class="price-row"><span class="lbl">Qty × Total sqft</span><span class="val" id="rTotalSqft">—</span></div>
+          <div class="price-row"><span class="lbl">Rate range</span><span class="val" id="rRate">—</span></div>
+          <div class="price-row"><span class="lbl">Base price (before GST)</span><span class="val" id="rBase">—</span></div>
+          <div class="price-row"><span class="lbl">GST @ 18%</span><span class="val" id="rGst">—</span></div>
+          <div class="price-row price-total-row"><span class="lbl">Total (incl. GST)</span><span class="val" id="rTotal">—</span></div>
+          <p class="price-disclaimer">⚠️ This is an <strong>indicative estimate</strong>. Final pricing confirmed after site survey. Rates vary by glass type, finish, and site conditions.</p>
+        </div>
+      </div>
+
+      <!-- Step 3: Customization -->
+      <div id="customSection" style="display:none;">
+        <p style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">3. Customise Your Order</p>
+        <div class="form-group">
+          <label>Frame / Finish Color</label>
+          <div class="color-grid" id="colorGrid"></div>
+          <input type="hidden" id="oColorFinish">
+        </div>
+        <div class="form-group" id="glassGroup">
+          <label>Glass Type</label>
+          <select id="oGlassType">
+            <option value="">Select glass type</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description / Special Requirements</label>
+          <textarea id="oDesc" placeholder="Any special requirements, design notes, opening type, etc..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Site Address for Survey</label>
+            <input type="text" id="oAddress" placeholder="Full address">
+          </div>
+          <div class="form-group">
+            <label>Preferred Installation Date</label>
+            <input type="date" id="oDate">
+          </div>
+        </div>
+        <button class="btn-sm btn-gold" style="padding:12px 32px;margin-top:8px;" onclick="placeOrder()">
+          <i class="fas fa-paper-plane"></i> Confirm & Place Order
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MY ORDERS ──────────────────────────────── -->
+  <div class="page" id="page-orders">
+    <div class="section-head"><h3>My Orders</h3></div>
+    <div id="ordersList"><div class="empty"><i class="fas fa-box-open"></i><p>No orders yet</p></div></div>
+  </div>
+
+  <!-- ── APPOINTMENT ────────────────────────────── -->
+  <div class="page" id="page-appt">
+    <div class="form-box" style="max-width:580px;">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:26px;margin-bottom:4px;">Book Appointment</h2>
+      <p style="font-size:13px;color:var(--grey);margin-bottom:22px;">Schedule a site survey or consultation.</p>
+      <div class="form-row">
+        <div class="form-group"><label>Your Name *</label><input type="text" id="aName" placeholder="Full name"></div>
+        <div class="form-group"><label>Phone *</label><input type="tel" id="aPhone" placeholder="Mobile"></div>
+      </div>
+      <div class="form-group"><label>Service *</label>
+        <select id="aService">
+          <option value="">Select service</option>
+          <option>Site Survey</option><option>Aluminum Windows</option><option>ACP Cladding</option>
+          <option>Glass Partition</option><option>General Consultation</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Date *</label><input type="date" id="aDate"></div>
+        <div class="form-group"><label>Time Slot *</label>
+          <select id="aTime">
+            <option value="">Select</option>
+            <option>9:00 AM – 11:00 AM</option><option>11:00 AM – 1:00 PM</option>
+            <option>2:00 PM – 4:00 PM</option><option>4:00 PM – 6:00 PM</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Message</label><textarea id="aMsg" placeholder="Any specific requirements…"></textarea></div>
+      <button class="btn-sm btn-gold" style="padding:12px 28px;" onclick="bookAppt()"><i class="fas fa-calendar-check"></i> Confirm Appointment</button>
+    </div>
+  </div>
+
+  <!-- ── INVOICES ───────────────────────────────── -->
+  <div class="page" id="page-invoice">
+    <div class="section-head"><h3>Invoices</h3></div>
+    <div id="invoiceList"><div class="empty"><i class="fas fa-file-invoice"></i><p>Invoices appear for completed orders</p></div></div>
+  </div>
+
+  <!-- ── FEEDBACK ───────────────────────────────── -->
+  <div class="page" id="page-feedback">
+    <div class="form-box" style="max-width:480px;">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:26px;margin-bottom:4px;">Give Feedback</h2>
+      <p style="font-size:13px;color:var(--grey);margin-bottom:22px;">Your feedback helps us improve.</p>
+      <div class="form-group"><label>Order (optional)</label><select id="fbOrder"><option value="">General feedback</option></select></div>
+      <div class="form-group">
+        <label>Rating *</label>
+        <div class="star-rating" id="stars">
+          <button class="star-btn" onclick="setRating(1)">★</button>
+          <button class="star-btn" onclick="setRating(2)">★</button>
+          <button class="star-btn" onclick="setRating(3)">★</button>
+          <button class="star-btn" onclick="setRating(4)">★</button>
+          <button class="star-btn" onclick="setRating(5)">★</button>
+        </div>
+        <p id="ratingLbl" style="font-size:12px;color:var(--grey);">Click to rate</p>
+      </div>
+      <div class="form-group"><label>Comment</label><textarea id="fbComment" placeholder="Tell us about your experience…"></textarea></div>
+      <button class="btn-sm btn-gold" style="padding:12px 28px;" onclick="submitFb()"><i class="fas fa-star"></i> Submit</button>
+    </div>
+  </div>
+
+  <!-- ── UPI PAYMENT ──────────────────────────────── -->
+  <div class="page" id="page-payment">
+    <div class="section-head"><h3 id="payPageTitle">Pay via UPI</h3></div>
+
+    <!-- Order Amount Banner — shown when coming from an order -->
+    <div id="payAmountBanner" style="display:none;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border:1px solid rgba(201,168,76,.3);padding:18px 24px;margin-bottom:24px;display:none;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Amount to Pay</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--white);line-height:1;">₹<span id="bannerAmount">0</span></div>
+        <div style="font-size:12px;color:var(--grey);margin-top:3px;">Order <span id="bannerOrderId">#—</span> · <span id="bannerService">—</span></div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;color:var(--grey);margin-bottom:6px;">Includes 18% GST</div>
+        <!-- Mobile UPI deep-link button — opens UPI app directly with amount -->
+        <a id="openUpiAppBtn" href="#" target="_blank"
+           style="display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:var(--gold);color:#fff;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:background .2s;">
+          <i class="fas fa-mobile-alt"></i> Open UPI App
+        </a>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;">
+      <!-- QR Box -->
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:24px;text-align:center;min-width:260px;max-width:300px;box-shadow:var(--shadow);">
+        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px;">Scan &amp; Pay</p>
+        <div style="background:#fff;padding:10px;display:inline-block;margin-bottom:12px;border:1px solid var(--border);border-radius:6px;">
+          <img id="upiQrImg" src="" alt="UPI QR Code" style="width:200px;height:200px;display:block;">
+        </div>
+        <div style="background:var(--bg3);border:1px solid var(--border);padding:9px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;border-radius:6px;">
+          <span id="upiIdDisplay" style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--gold);letter-spacing:1px;">9508777145@apl</span>
+          <button onclick="copyUPI()" style="background:var(--gold);border:none;color:#fff;padding:4px 10px;font-size:9px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;border-radius:4px;white-space:nowrap;">COPY</button>
+        </div>
+        <p id="upiName" style="font-size:11px;color:var(--text3);margin-bottom:12px;">Kunal Sharma UG Sandeep Sharma</p>
+        <div id="qrAmountBadge" style="display:none;background:var(--gold);color:#fff;padding:6px 14px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:12px;border-radius:6px;">
+          ₹<span id="qrAmountVal">0</span> pre-filled
+        </div>
+        <div style="display:flex;justify-content:center;gap:5px;flex-wrap:wrap;">
+          <span style="padding:2px 8px;border:1px solid var(--border);font-size:9px;color:var(--text3);border-radius:4px;">PhonePe</span>
+          <span style="padding:2px 8px;border:1px solid var(--border);font-size:9px;color:var(--text3);border-radius:4px;">Google Pay</span>
+          <span style="padding:2px 8px;border:1px solid var(--border);font-size:9px;color:var(--text3);border-radius:4px;">Paytm</span>
+          <span style="padding:2px 8px;border:1px solid var(--border);font-size:9px;color:var(--text3);border-radius:4px;">BHIM</span>
+          <span style="padding:2px 8px;border:1px solid var(--border);font-size:9px;color:var(--text3);border-radius:4px;">Amazon Pay</span>
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div style="flex:1;min-width:240px;">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:14px;box-shadow:var(--shadow);">
+          <h4 style="font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--text);margin-bottom:14px;">How to Pay</h4>
+          <div style="display:flex;flex-direction:column;gap:11px;">
+            <div style="display:flex;align-items:flex-start;gap:11px;">
+              <div style="width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#1A1A2E;flex-shrink:0;border-radius:2px;">1</div>
+              <p style="font-size:13px;color:var(--grey-light);line-height:1.5;">Open any UPI app — PhonePe, Google Pay, Paytm, BHIM, or Amazon Pay.</p>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:11px;">
+              <div style="width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#1A1A2E;flex-shrink:0;border-radius:2px;">2</div>
+              <p style="font-size:13px;color:var(--grey-light);line-height:1.5;">Scan QR code <strong style="color:var(--white)">OR</strong> tap <strong style="color:var(--gold)">Open UPI App</strong> button above — amount will be <strong style="color:var(--success)">pre-filled automatically</strong>.</p>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:11px;">
+              <div style="width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#1A1A2E;flex-shrink:0;border-radius:2px;">3</div>
+              <p style="font-size:13px;color:var(--grey-light);line-height:1.5;">Verify the amount matches your invoice. The note will say <strong style="color:var(--white)">"AluminoPro Order #XX"</strong>.</p>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:11px;">
+              <div style="width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;border-radius:2px;">4</div>
+              <p style="font-size:13px;color:var(--text2);line-height:1.5;">Complete payment and share screenshot on WhatsApp: <strong style="color:var(--gold)">+91 95087 77145</strong></p>
+            </div>
+          </div>
+        </div>
+        <!-- Pay custom amount -->
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:22px;margin-bottom:14px;box-shadow:var(--shadow);">
+          <h4 style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text);margin-bottom:14px;">Or Enter Custom Amount</h4>
+          <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;">
+            <div style="flex:1;min-width:140px;">
+              <label style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;font-weight:700;">Amount (₹)</label>
+              <input type="number" id="customPayAmount" placeholder="e.g. 25000" min="1"
+                style="width:100%;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:10px 14px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;border-radius:6px;" oninput="updateCustomPayQR()">
+            </div>
+            <div style="flex:1;min-width:140px;">
+              <label style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;font-weight:700;">Order # (optional)</label>
+              <input type="text" id="customPayOrderId" placeholder="e.g. 5"
+                style="width:100%;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:10px 14px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;border-radius:6px;" oninput="updateCustomPayQR()">
+            </div>
+            <button onclick="updateCustomPayQR(true)"
+              style="padding:10px 20px;background:var(--gold);color:#fff;border:none;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;height:42px;border-radius:6px;">
+              Generate QR
+            </button>
+          </div>
+        </div>
+        <div style="background:rgba(184,134,11,.05);border:1px solid rgba(184,134,11,.15);padding:14px;border-radius:6px;">
+          <p style="font-size:12px;color:var(--gold);font-weight:600;margin-bottom:3px;"><i class="fas fa-shield-alt"></i> Safe &amp; Secure</p>
+          <p style="font-size:12px;color:var(--text2);line-height:1.6;">All payments go directly to our registered UPI account. We never ask for OTP or card details.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PROFILE ────────────────────────────────── -->
+  <div class="page" id="page-profile">
+    <div class="profile-header">
+      <div class="profile-avatar" id="profAvatar">
+        <span id="profAvatarInitial">?</span>
+        <div class="dp-upload-btn" onclick="document.getElementById('dpInput').click()">CHANGE</div>
+      </div>
+      <input type="file" id="dpInput" accept=".jpg,.jpeg,.png,.webp" style="display:none" onchange="uploadDP(this)">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);" id="profName">—</div>
+        <div style="font-size:13px;color:var(--text3);" id="profEmail">—</div>
+        <div style="font-size:11px;color:var(--gold);margin-top:4px;font-weight:600;" id="profJoined">—</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:6px;"><i class="fas fa-camera" style="color:var(--gold)"></i> Click your photo to change profile picture</div>
+      </div>
+    </div>
+    <div class="form-box" style="max-width:480px;">
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:22px;margin-bottom:18px;color:var(--text);">Edit Profile</h3>
+      <div class="form-group"><label>Full Name</label><input type="text" id="pName"></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="pPhone"></div>
+      <div class="form-group"><label>Address</label><input type="text" id="pAddress"></div>
+      <div class="form-group"><label>Email <span style="color:var(--text3);font-size:10px;">(read-only)</span></label><input type="email" id="pEmail" disabled style="opacity:.5;cursor:not-allowed;background:var(--bg3);"></div>
+      <button class="btn-sm btn-gold" style="padding:11px 26px;" onclick="saveProfile()"><i class="fas fa-save"></i> Save Changes</button>
+    </div>
+  </div>
+</main>
+
+<!-- ── CANCEL ORDER MODAL ────────────── -->
+<div id="cancelModalOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;display:none;align-items:center;justify-content:center;" onclick="if(event.target===this)closeCancelModal()">
+  <div style="background:#fff;border-radius:10px;padding:36px;width:90%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.18);position:relative;">
+    <button onclick="closeCancelModal()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:18px;color:var(--text3);cursor:pointer;"><i class="fas fa-times"></i></button>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--danger);margin-bottom:4px;">Request Cancellation</h2>
+    <p style="font-size:13px;color:var(--text3);margin-bottom:20px;">Order #<span id="cancelOrderId">—</span> · <span id="cancelOrderService" style="color:var(--text2);font-weight:600;"></span></p>
+
+    <!-- Terms & Conditions -->
+    <div style="background:#FFF5F5;border:1px solid rgba(197,48,48,.2);border-radius:8px;padding:18px;margin-bottom:20px;">
+      <p style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:12px;letter-spacing:.5px;text-transform:uppercase;"><i class="fas fa-exclamation-triangle"></i> Terms & Conditions</p>
+      <div id="cancelTermsList" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+
+    <!-- Reason -->
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px;font-weight:700;">Reason for Cancellation *</label>
+      <textarea id="cancelReason" rows="3" placeholder="Please explain why you want to cancel this order..."
+        style="width:100%;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:10px 14px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s;border-radius:6px;resize:vertical;"></textarea>
+    </div>
+
+    <!-- Agreement checkbox -->
+    <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;margin-bottom:20px;padding:12px;background:var(--bg3);border-radius:6px;">
+      <input type="checkbox" id="cancelAgree" style="width:16px;height:16px;margin-top:2px;accent-color:var(--danger);flex-shrink:0;">
+      <span style="font-size:13px;color:var(--text2);line-height:1.5;">I have read and agree to the cancellation terms and conditions listed above. I understand this request is subject to admin approval.</span>
+    </label>
+
+    <div style="display:flex;gap:10px;">
+      <button onclick="closeCancelModal()" style="flex:1;padding:12px;background:var(--bg3);border:1px solid var(--border);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;border-radius:6px;letter-spacing:.8px;text-transform:uppercase;">Back</button>
+      <button onclick="submitCancelRequest()" style="flex:1;padding:12px;background:var(--danger);color:#fff;border:none;font-size:12px;font-weight:700;cursor:pointer;border-radius:6px;letter-spacing:.8px;text-transform:uppercase;"><i class="fas fa-times-circle"></i> Submit Request</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── RAZORPAY MODAL ─────────────────── -->
+<div id="rzModalOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;display:none;align-items:center;justify-content:center;" onclick="if(event.target===this)document.getElementById('rzModalOverlay').style.display='none'">
+  <div style="background:#fff;border-radius:10px;padding:36px;width:90%;max-width:440px;box-shadow:0 16px 48px rgba(0,0,0,.18);text-align:center;position:relative;">
+    <button onclick="document.getElementById('rzModalOverlay').style.display='none'" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:18px;color:var(--text3);cursor:pointer;"><i class="fas fa-times"></i></button>
+    <div style="width:64px;height:64px;background:rgba(45,138,78,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+      <i class="fas fa-credit-card" style="font-size:28px;color:var(--success);"></i>
+    </div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--text);margin-bottom:4px;">Online Payment</h2>
+    <p style="font-size:13px;color:var(--text3);margin-bottom:24px;" id="rzModalDesc">Secure payment via Razorpay</p>
+    <div style="background:var(--bg3);border-radius:8px;padding:16px;margin-bottom:20px;">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:4px;">Amount to Pay</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:44px;color:var(--success);">₹<span id="rzModalAmount">0</span></div>
+      <div style="font-size:11px;color:var(--text3);margin-top:2px;">Including all taxes</div>
+    </div>
+    <div style="background:rgba(43,108,176,.06);border:1px solid rgba(43,108,176,.15);border-radius:6px;padding:12px;margin-bottom:20px;text-align:left;">
+      <p style="font-size:12px;color:var(--info);font-weight:600;margin-bottom:4px;"><i class="fas fa-shield-alt"></i> 100% Secure Payment</p>
+      <p style="font-size:11px;color:var(--text3);line-height:1.5;">Powered by Razorpay. Supports Credit Card, Debit Card, Net Banking, UPI, Wallets.</p>
+    </div>
+    <button id="rzPayBtn" onclick="launchRazorpay()" style="width:100%;padding:14px;background:var(--success);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;border-radius:6px;letter-spacing:.5px;display:flex;align-items:center;justify-content:center;gap:10px;">
+      <i class="fas fa-lock"></i> Pay Securely with Razorpay
+    </button>
+    <p style="font-size:11px;color:var(--text3);margin-top:12px;"><i class="fas fa-info-circle"></i> You'll be redirected to Razorpay's secure checkout</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Razorpay SDK -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+// ── State ──────────────────────────────────────────────────────
+let currentRating = 0;
+let calcMode = 'dims';
+let ratesData = {};
+let selectedColor = '';
+const ratingLabels = ['','Poor','Fair','Good','Very Good','Excellent ★'];
+
+// ── Utils ──────────────────────────────────────────────────────
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type==='error'?' error':type==='warn'?' warn':'');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const titles = {overview:'Overview',order:'Place Custom Order',orders:'My Orders',appt:'Book Appointment',invoice:'Invoices',payment:'Pay via UPI',feedback:'Give Feedback',profile:'My Profile'};
+  document.getElementById('pageTitle').textContent = titles[id] || id;
+  if(id==='invoice') loadInvoices();
+  if(id==='feedback') loadFbOrders();
+  if(id==='payment') loadUPI();
+  if(id==='orders') loadOrders();
+}
+
+function badge(s) {
+  const map = {pending:'badge-pending',running:'badge-running',done:'badge-done',hold:'badge-hold'};
+  const ic = {pending:'fa-clock',running:'fa-spinner fa-spin',done:'fa-check',hold:'fa-pause'};
+  return `<span class="badge ${map[s]||'badge-pending'}"><i class="fas ${ic[s]||'fa-clock'}"></i> ${s.toUpperCase()}</span>`;
+}
+
+// ── CALCULATOR ─────────────────────────────────────────────────
+function onServiceChange() {
+  const svc = document.getElementById('oService').value;
+  document.getElementById('calcSection').style.display = svc ? 'block' : 'none';
+  document.getElementById('customSection').style.display = svc ? 'block' : 'none';
+  document.getElementById('priceResult').classList.remove('show');
+  if(svc && ratesData[svc]) {
+    calcPrice();
+  }
+  // show/hide glass selector based on service type
+  const showGlass = svc && !svc.includes('ACP');
+  document.getElementById('glassGroup').style.display = showGlass ? 'block' : 'none';
+}
+
+function switchCalcMode(mode, tab) {
+  calcMode = mode;
+  document.querySelectorAll('.calc-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById('calc-dims').classList.toggle('active', mode==='dims');
+  document.getElementById('calc-sqft').classList.toggle('active', mode==='sqft');
+  calcPrice();
+}
+
+async function calcPrice() {
+  const svc = document.getElementById('oService').value;
+  if(!svc) return;
+  const width  = parseFloat(document.getElementById('oWidth').value) || 0;
+  const height = parseFloat(document.getElementById('oHeight').value) || 0;
+  const csqft  = parseFloat(document.getElementById('oCustomSqft').value) || 0;
+  const qty    = parseInt(document.getElementById('oQty').value) || 1;
+
+  const sqft_per = calcMode === 'sqft' ? csqft : (width * height);
+  if(sqft_per <= 0) { document.getElementById('priceResult').classList.remove('show'); return; }
+
+  try {
+    const res = await fetch('/api/calculate', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ service_type: svc, width_ft: width, height_ft: height, custom_sqft: csqft, quantity: qty })
+    });
+    const d = await res.json();
+    if(d.error) return;
+    document.getElementById('rSqftPer').textContent   = `${d.sqft_per_unit} sqft`;
+    document.getElementById('rTotalSqft').textContent = `${qty} × ${d.sqft_per_unit} = ${d.total_sqft} sqft`;
+    document.getElementById('rRate').textContent      = `₹${d.min_rate} – ₹${d.max_rate} /sqft`;
+    document.getElementById('rBase').textContent      = `₹${d.min_price.toLocaleString('en-IN')} – ₹${d.max_price.toLocaleString('en-IN')}`;
+    document.getElementById('rGst').textContent       = `₹${d.gst_min.toLocaleString('en-IN')} – ₹${d.gst_max.toLocaleString('en-IN')}`;
+    document.getElementById('rTotal').textContent     = `₹${d.total_min_gst.toLocaleString('en-IN')} – ₹${d.total_max_gst.toLocaleString('en-IN')}`;
+    document.getElementById('priceResult').classList.add('show');
+  } catch(e) {}
+}
+
+async function loadRates() {
+  try {
+    const res = await fetch('/api/rates');
+    const data = await res.json();
+    ratesData = data.rates || {};
+    // Populate color chips
+    const cg = document.getElementById('colorGrid');
+    (data.colors || []).forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'color-chip';
+      el.textContent = c;
+      el.onclick = () => {
+        document.querySelectorAll('.color-chip').forEach(x => x.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedColor = c;
+        document.getElementById('oColorFinish').value = c;
+      };
+      cg.appendChild(el);
+    });
+    // Populate glass options
+    const gs = document.getElementById('oGlassType');
+    (data.glass || []).forEach(g => {
+      const o = document.createElement('option'); o.value = g; o.textContent = g; gs.appendChild(o);
+    });
+  } catch(e) {}
+}
+
+// ── PLACE ORDER ────────────────────────────────────────────────
+async function placeOrder() {
+  const svc = document.getElementById('oService').value;
+  if(!svc) { showToast('Please select a service.','error'); return; }
+  const width  = parseFloat(document.getElementById('oWidth').value) || 0;
+  const height = parseFloat(document.getElementById('oHeight').value) || 0;
+  const csqft  = parseFloat(document.getElementById('oCustomSqft').value) || 0;
+  const qty    = parseInt(document.getElementById('oQty').value) || 1;
+  const sqft_per = calcMode === 'sqft' ? csqft : (width * height);
+  if(sqft_per <= 0) { showToast('Please enter measurements.','warn'); return; }
+
+  const res = await fetch('/api/orders', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      service_type: svc, width_ft: width, height_ft: height,
+      custom_sqft: csqft, quantity: qty,
+      color_finish: document.getElementById('oColorFinish').value,
+      glass_type: document.getElementById('oGlassType').value,
+      description: document.getElementById('oDesc').value,
+      address: document.getElementById('oAddress').value,
+      preferred_date: document.getElementById('oDate').value,
+    })
+  });
+  const d = await res.json();
+  if(d.success) {
+    showToast(d.message);
+    // Reset form
+    document.getElementById('oService').value = '';
+    document.getElementById('oWidth').value = '';
+    document.getElementById('oHeight').value = '';
+    document.getElementById('oCustomSqft').value = '';
+    document.getElementById('oQty').value = '1';
+    document.getElementById('oDesc').value = '';
+    document.getElementById('oAddress').value = '';
+    document.getElementById('oDate').value = '';
+    document.getElementById('oColorFinish').value = '';
+    document.querySelectorAll('.color-chip').forEach(x => x.classList.remove('selected'));
+    document.getElementById('calcSection').style.display = 'none';
+    document.getElementById('customSection').style.display = 'none';
+    document.getElementById('priceResult').classList.remove('show');
+    loadDashboard();
+    setTimeout(() => showPage('orders'), 1500);
+  } else if(res.status === 401) {
+    window.location.href = '/login';
+  } else {
+    showToast(d.message || 'Error placing order.', 'error');
+  }
+}
+
+// ── ORDERS LIST ────────────────────────────────────────────────
+async function loadOrders() {
+  const orders = await (await fetch('/api/orders/my')).json();
+  const container = document.getElementById('ordersList');
+  if(!orders.length) { container.innerHTML='<div class="empty"><i class="fas fa-box-open"></i><p>No orders yet. <a href="#" onclick="showPage(\'order\')" style="color:var(--gold)">Place your first order →</a></p></div>'; return; }
+  container.innerHTML = orders.map(o => {
+    const statusColor = {pending:'var(--warning)',running:'var(--info)',done:'var(--success)',hold:'var(--danger)',cancelled:'#999'}[o.status]||'var(--text3)';
+    const isCancelled   = o.status === 'cancelled';
+    const canCancel     = !isCancelled && !o.cancel_requested && o.status === 'pending';
+    const cancelPending = o.cancel_requested == 1 && !isCancelled;
+    const isPaid        = o.payment_status === 'paid';
+    const hasAmount     = o.total_amount > 0;
+    const canPay        = hasAmount && !isPaid && !isCancelled;
+    return `
+    <div class="card" style="${isCancelled?'opacity:.7;':''}">
+      <div class="card-head">
+        <div>
+          <div class="card-title">${o.service_type}</div>
+          <div class="card-meta">Order #${o.id} · ${new Date(o.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+          ${badge(o.status)}
+          ${cancelPending ? `<span style="font-size:10px;font-weight:700;color:var(--warning);background:rgba(192,86,33,.1);padding:2px 8px;border-radius:100px;border:1px solid rgba(192,86,33,.2);">⏳ Cancel Pending</span>` : ''}
+          ${isPaid ? `<span style="font-size:10px;font-weight:700;color:var(--success);background:rgba(45,138,78,.1);padding:2px 8px;border-radius:100px;border:1px solid rgba(45,138,78,.2);">✓ PAID</span>` : ''}
+          ${o.payment_status==='refund_pending' ? `<span style="font-size:10px;font-weight:700;color:var(--info);background:rgba(43,108,176,.1);padding:2px 8px;border-radius:100px;">↩ Refund Pending</span>` : ''}
+        </div>
+      </div>
+      <div class="card-specs">
+        ${o.estimated_area ? `<span class="spec-chip"><i class="fas fa-ruler-combined"></i>${o.estimated_area}</span>`:''}
+        ${o.quantity > 1 ? `<span class="spec-chip"><i class="fas fa-hashtag"></i>Qty: ${o.quantity}</span>`:''}
+        ${o.color_finish ? `<span class="spec-chip"><i class="fas fa-palette"></i>${o.color_finish}</span>`:''}
+        ${o.glass_type ? `<span class="spec-chip"><i class="fas fa-border-all"></i>${o.glass_type}</span>`:''}
+        ${o.preferred_date ? `<span class="spec-chip"><i class="fas fa-calendar"></i>${o.preferred_date}</span>`:''}
+        ${hasAmount ? `<span class="spec-chip" style="color:var(--gold);border-color:rgba(184,134,11,.3);font-weight:700;"><i class="fas fa-rupee-sign"></i>₹${Number(o.total_amount).toLocaleString('en-IN')}</span>`:''}
+      </div>
+      ${o.description ? `<p style="font-size:12px;color:var(--text3);margin-bottom:4px;">${o.description}</p>`:''}
+      ${o.admin_note ? `<div class="admin-note"><strong>Admin:</strong> ${o.admin_note}</div>`:''}
+      <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+        ${o.status==='done' && hasAmount ? `<button class="btn-sm btn-outline" style="font-size:11px;" onclick="viewInvoice(${o.id})"><i class="fas fa-file-invoice"></i> Invoice</button>` : ''}
+        ${canPay ? `
+          <button class="btn-sm" style="font-size:11px;background:var(--success);color:#fff;border-radius:6px;"
+            onclick="startRazorpay(${o.id}, ${o.total_amount}, '${o.service_type.replace(/'/g,"\\'")}')">
+            <i class="fas fa-credit-card"></i> Pay ₹${Number(o.total_amount).toLocaleString('en-IN')} Online
+          </button>
+          <button class="btn-sm btn-outline" style="font-size:11px;"
+            onclick="openPayment(${o.id}, ${o.total_amount}, '${o.service_type.replace(/'/g,"\\'")}')">
+            <i class="fas fa-qrcode"></i> Pay via UPI QR
+          </button>` : ''}
+        ${canCancel ? `<button class="btn-sm" style="font-size:11px;background:rgba(197,48,48,.1);border:1px solid rgba(197,48,48,.2);color:var(--danger);border-radius:6px;" onclick="openCancelModal(${o.id},'${o.service_type.replace(/'/g,"\\'")}')"><i class="fas fa-times-circle"></i> Request Cancel</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── DASHBOARD STATS ────────────────────────────────────────────
+async function loadDashboard() {
+  const orders = await (await fetch('/api/orders/my')).json();
+  document.getElementById('stTotal').textContent = orders.length;
+  document.getElementById('stPend').textContent  = orders.filter(o=>o.status==='pending').length;
+  document.getElementById('stRun').textContent   = orders.filter(o=>o.status==='running').length;
+  document.getElementById('stDone').textContent  = orders.filter(o=>o.status==='done').length;
+  const recent = orders.slice(0,3);
+  if(!recent.length) return;
+  document.getElementById('recentOrders').innerHTML = recent.map(o => `
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">${o.service_type}</div>
+          <div class="card-meta">Order #${o.id} · ${new Date(o.created_at).toLocaleDateString('en-IN')}</div>
+        </div>
+        ${badge(o.status)}
+      </div>
+      <div class="card-specs">
+        ${o.estimated_area?`<span class="spec-chip"><i class="fas fa-ruler-combined"></i>${o.estimated_area}</span>`:''}
+        ${o.total_amount?`<span class="spec-chip" style="color:var(--gold)"><i class="fas fa-rupee-sign"></i>₹${Number(o.total_amount).toLocaleString('en-IN')}</span>`:''}
+      </div>
+      ${o.admin_note?`<div class="admin-note"><strong>Admin:</strong> ${o.admin_note}</div>`:''}
+    </div>`).join('');
+}
+
+// ── APPOINTMENT ────────────────────────────────────────────────
+async function bookAppt() {
+  const name=document.getElementById('aName').value, phone=document.getElementById('aPhone').value,
+    service=document.getElementById('aService').value, date=document.getElementById('aDate').value, time=document.getElementById('aTime').value;
+  if(!name||!phone||!service||!date||!time){showToast('Please fill all required fields.','warn');return;}
+  const res=await fetch('/api/appointments',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,phone,service,date,time_slot:time,message:document.getElementById('aMsg').value})});
+  const d=await res.json();
+  if(d.success){showToast(d.message);['aName','aPhone','aDate','aMsg'].forEach(id=>document.getElementById(id).value='');}
+  else showToast(d.message||'Error','error');
+}
+
+// ── INVOICES ───────────────────────────────────────────────────
+async function loadInvoices() {
+  const orders = await (await fetch('/api/orders/my')).json();
+  const done = orders.filter(o=>o.status==='done'&&o.total_amount);
+  const el = document.getElementById('invoiceList');
+  if(!done.length){el.innerHTML='<div class="empty"><i class="fas fa-file-invoice"></i><p>Invoices appear for completed & priced orders.</p></div>';return;}
+  el.innerHTML = done.map(o=>`
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div class="card-title">Order #${o.id} — ${o.service_type}</div>
+        <div class="card-meta">${new Date(o.updated_at||o.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})} · ₹${Number(o.total_amount).toLocaleString('en-IN')} (excl. GST)</div>
+      </div>
+      <button class="btn-sm btn-gold" onclick="viewInvoice(${o.id})"><i class="fas fa-download"></i> Download Invoice</button>
+    </div>`).join('');
+}
+
+async function viewInvoice(orderId) {
+  const res = await fetch('/api/invoice/'+orderId);
+  const o = await res.json();
+  const gstAmt = (Number(o.total_amount)*0.18).toFixed(0);
+  const grandTotal = (Number(o.total_amount)*1.18).toFixed(0);
+  const sqftInfo = o.estimated_area ? `<br><small>Area: ${o.estimated_area}</small>` : '';
+  const colorInfo = o.color_finish ? `<br><small>Finish: ${o.color_finish}</small>` : '';
+  const glassInfo = o.glass_type ? `<br><small>Glass: ${o.glass_type}</small>` : '';
+  const win = window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Invoice — AluminoPro #${o.id}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>*{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#f4f4f0;color:#111;font-family:Outfit,sans-serif;padding:40px;}
+  .inv{background:#fff;max-width:720px;margin:0 auto;padding:48px;box-shadow:0 4px 24px rgba(0,0,0,.1);}
+  .hd{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:28px;border-bottom:2px solid #C9A84C;margin-bottom:28px;}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:32px;color:#C9A84C;letter-spacing:3px;}
+  .logo small{display:block;font-size:11px;color:#888;letter-spacing:1px;font-family:Outfit,sans-serif;font-weight:400;margin-top:2px;}
+  .inv-id{font-size:22px;font-weight:700;text-align:right;}
+  .inv-date{font-size:12px;color:#888;margin-top:4px;text-align:right;}
+  .billing{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-bottom:28px;}
+  .billing h4{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#C9A84C;margin-bottom:8px;}
+  .billing p{font-size:13px;line-height:1.6;}
+  table{width:100%;border-collapse:collapse;margin-bottom:20px;}
+  th{background:#C9A84C;color:#fff;padding:11px 14px;font-size:11px;letter-spacing:1px;text-transform:uppercase;text-align:left;}
+  td{padding:12px 14px;border-bottom:1px solid #eee;font-size:13px;vertical-align:top;}
+  .totals{margin-left:auto;width:280px;}
+  .tot-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:13px;}
+  .tot-row.grand{font-size:18px;font-weight:700;border-bottom:none;color:#C9A84C;padding-top:14px;}
+  .footer{margin-top:28px;padding-top:20px;border-top:1px solid #eee;font-size:11px;color:#aaa;text-align:center;}
+  .status-badge{display:inline-block;padding:4px 12px;background:#e8f7ef;color:#2d7a4f;font-size:11px;font-weight:700;letter-spacing:1px;border-radius:100px;}
+  @media print{body{background:#fff;padding:0;}.inv{box-shadow:none;padding:32px;}.no-print{display:none;}}</style>
+  </head><body>
+  <div class="inv">
+    <div class="hd">
+      <div><div class="logo">AluminoPro<small>Premium Aluminum Solutions</small></div>
+        <p style="font-size:12px;color:#888;margin-top:8px;line-height:1.6;">Plot No. 42, Sector 58, Noida, UP 201301<br>📞 +91 98765 43210 | ✉️ info@aluminopro.in<br>GST: 09ABCDE1234F1Z5</p>
+      </div>
+      <div><div class="inv-id">INVOICE #INV-${String(o.id).padStart(4,'0')}</div>
+        <div class="inv-date">Date: ${new Date(o.updated_at||o.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</div>
+        <div style="margin-top:8px;"><span class="status-badge">✓ COMPLETED</span></div>
+      </div>
+    </div>
+    <div class="billing">
+      <div><h4>Billed To</h4><p><strong>${o.name}</strong><br>${o.email}<br>${o.phone||''}<br>${o.user_address||''}</p></div>
+      <div><h4>Order Details</h4><p>Order #${o.id}<br>Service: ${o.service_type}${sqftInfo}${colorInfo}${glassInfo}</p></div>
+    </div>
+    <table>
+      <thead><tr><th>Description</th><th>Area / Qty</th><th>Rate</th><th>Amount</th></tr></thead>
+      <tbody>
+        <tr><td>${o.service_type}${o.description?'<br><small style="color:#888">'+o.description+'</small>':''}</td>
+            <td>${o.estimated_area||'—'}</td>
+            <td>₹${o.base_rate||'—'}/sqft</td>
+            <td>₹${Number(o.total_amount).toLocaleString('en-IN')}</td></tr>
+      </tbody>
+    </table>
+    <div class="totals">
+      <div class="tot-row"><span>Subtotal</span><span>₹${Number(o.total_amount).toLocaleString('en-IN')}</span></div>
+      <div class="tot-row"><span>GST @ 18%</span><span>₹${Number(gstAmt).toLocaleString('en-IN')}</span></div>
+      <div class="tot-row grand"><span>Total</span><span>₹${Number(grandTotal).toLocaleString('en-IN')}</span></div>
+    </div>
+    <div class="footer">Thank you for choosing AluminoPro! | This is a computer-generated invoice and does not require a signature.<br>For queries: info@aluminopro.in | +91 98765 43210</div>
+    <div style="text-align:center;margin-top:24px;" class="no-print">
+      <button onclick="window.print()" style="padding:11px 28px;background:#C9A84C;color:#111;border:none;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:1px;">🖨️ PRINT / SAVE AS PDF</button>
+    </div>
+  </div></body></html>`);
+}
+
+// ── FEEDBACK ───────────────────────────────────────────────────
+function setRating(v) {
+  currentRating = v;
+  const labels=['','Poor','Fair','Good','Very Good','Excellent ★'];
+  document.querySelectorAll('.star-btn').forEach((b,i) => b.classList.toggle('active', i<v));
+  const lbl = document.getElementById('ratingLbl');
+  lbl.textContent = labels[v]+` (${v}/5)`;
+  lbl.style.color = 'var(--gold)';
+}
+async function loadFbOrders() {
+  const orders = await (await fetch('/api/orders/my')).json();
+  const sel = document.getElementById('fbOrder');
+  sel.innerHTML = '<option value="">General feedback</option>' +
+    orders.filter(o=>o.status==='done').map(o=>`<option value="${o.id}">Order #${o.id} — ${o.service_type}</option>`).join('');
+}
+async function submitFb() {
+  if(!currentRating){showToast('Please select a rating.','warn');return;}
+  const res=await fetch('/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({rating:currentRating,order_id:document.getElementById('fbOrder').value||null,comment:document.getElementById('fbComment').value})});
+  const d=await res.json();
+  if(d.success){showToast(d.message);currentRating=0;document.querySelectorAll('.star-btn').forEach(b=>b.classList.remove('active'));document.getElementById('fbComment').value='';document.getElementById('ratingLbl').textContent='Click to rate';document.getElementById('ratingLbl').style.color='var(--grey)';}
+}
+
+// ── PROFILE ────────────────────────────────────────────────────
+async function saveProfile() {
+  const res=await fetch('/api/update_profile',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name:document.getElementById('pName').value,phone:document.getElementById('pPhone').value,address:document.getElementById('pAddress').value})});
+  const d=await res.json();
+  if(d.success){showToast(d.message);loadUser();}
+}
+
+async function uploadDP(input) {
+  const f = input.files[0];
+  if(!f) return;
+  const fd = new FormData();
+  fd.append('dp', f);
+  showToast('Uploading photo...', 'warn');
+  const res = await fetch('/api/user/upload-dp', {method:'POST', body:fd});
+  const d = await res.json();
+  if(d.success) {
+    // Update sidebar avatar + profile avatar
+    const avatarEl = document.getElementById('sideAvatar');
+    const profEl   = document.getElementById('profAvatar');
+    avatarEl.innerHTML = `<img src="${d.dp_url}?t=${Date.now()}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    profEl.innerHTML   = `<img src="${d.dp_url}?t=${Date.now()}" style="width:100%;height:100%;object-fit:cover;"><div class="dp-upload-btn" onclick="document.getElementById('dpInput').click()">CHANGE</div>`;
+    showToast('Profile photo updated!');
+  } else {
+    showToast(d.message || 'Upload failed', 'error');
+  }
+}
+
+// ── UPI PAYMENT ────────────────────────────────────────────────
+// Called from order cards: openPayment(orderId, amount, serviceType)
+async function openPayment(orderId, amount, serviceType) {
+  showPage('payment');
+  await loadUPI(); // ensure QR + info is loaded
+
+  const upiId   = document.getElementById('upiIdDisplay').textContent;
+  const upiName = document.getElementById('upiName')?.textContent || 'AluminoPro';
+  const note    = `AluminoPro Order #${orderId}`;
+
+  // Show the amount banner
+  const banner = document.getElementById('payAmountBanner');
+  banner.style.display = 'flex';
+  document.getElementById('bannerAmount').textContent    = Number(amount).toLocaleString('en-IN');
+  document.getElementById('bannerOrderId').textContent   = '#' + orderId;
+  document.getElementById('bannerService').textContent   = serviceType || '';
+  document.getElementById('qrAmountBadge').style.display = 'block';
+  document.getElementById('qrAmountVal').textContent     = Number(amount).toLocaleString('en-IN');
+
+  // Build UPI deep link with amount (used for "Open UPI App" button on mobile)
+  const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
+  document.getElementById('openUpiAppBtn').href = upiLink;
+
+  // Check if admin has uploaded a custom QR
+  try {
+    const qrRes  = await fetch('/api/payment/qr-image');
+    const qrData = await qrRes.json();
+    if(qrData.custom && qrData.url) {
+      // Use admin's uploaded QR — can't embed amount, but show banner clearly
+      document.getElementById('upiQrImg').src = qrData.url + '?t=' + Date.now();
+    } else {
+      // Auto-generate QR with amount baked in
+      document.getElementById('upiQrImg').src =
+        `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(upiLink)}&choe=UTF-8`;
+    }
+  } catch(e) {
+    document.getElementById('upiQrImg').src =
+      `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(upiLink)}&choe=UTF-8`;
+  }
+}
+
+// Called when user manually enters custom amount
+function updateCustomPayQR(toast) {
+  const amount  = document.getElementById('customPayAmount').value;
+  const orderId = document.getElementById('customPayOrderId').value;
+  if(!amount || parseFloat(amount) <= 0) return;
+  const upiId   = document.getElementById('upiIdDisplay').textContent;
+  const upiName = document.getElementById('upiName').textContent;
+  const note    = orderId ? `AluminoPro Order #${orderId}` : 'AluminoPro Payment';
+  const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
+  // Update QR
+  document.getElementById('upiQrImg').src =
+    `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(upiLink)}&choe=UTF-8`;
+  // Update deep link button
+  document.getElementById('openUpiAppBtn').href = upiLink;
+  // Show amount badge
+  document.getElementById('qrAmountBadge').style.display = 'block';
+  document.getElementById('qrAmountVal').textContent = Number(amount).toLocaleString('en-IN');
+  // Show banner
+  const banner = document.getElementById('payAmountBanner');
+  banner.style.display = 'flex';
+  document.getElementById('bannerAmount').textContent = Number(amount).toLocaleString('en-IN');
+  document.getElementById('bannerOrderId').textContent = orderId ? '#' + orderId : '—';
+  document.getElementById('bannerService').textContent = 'Custom Amount';
+  if(toast) showToast('QR updated with ₹' + Number(amount).toLocaleString('en-IN'));
+}
+
+async function loadUPI() {
+  try {
+    // First check if admin has uploaded a custom QR photo
+    const qrRes  = await fetch('/api/payment/qr-image');
+    const qrData = await qrRes.json();
+
+    const infoRes  = await fetch('/api/payment/info');
+    const infoData = await infoRes.json();
+    const upiId   = infoData.upi_id   || '9508777145@apl';
+    const upiName = infoData.upi_name || 'AluminoPro';
+
+    document.getElementById('upiIdDisplay').textContent = upiId;
+    if(document.getElementById('upiName'))
+      document.getElementById('upiName').textContent = upiName;
+
+    if(qrData.custom && qrData.url) {
+      // ✅ Admin has uploaded a real QR photo — show it directly
+      document.getElementById('upiQrImg').src = qrData.url + '?t=' + Date.now();
+    } else {
+      // Fallback: auto-generate QR from UPI ID using Google Charts
+      const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&cu=INR`;
+      document.getElementById('upiQrImg').src =
+        `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(upiLink)}&choe=UTF-8`;
+    }
+
+    // Default "Open UPI App" button — no amount pre-filled
+    const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&cu=INR`;
+    document.getElementById('openUpiAppBtn').href = upiLink;
+
+  } catch(e) {
+    // Fallback on any error
+    document.getElementById('upiQrImg').src =
+      'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=upi%3A%2F%2Fpay%3Fpa%3D9508777145%40apl%26pn%3DAluminoPro%26cu%3DINR&choe=UTF-8';
+  }
+}
+
+function copyUPI() {
+  const upiId = document.getElementById('upiIdDisplay').textContent;
+  navigator.clipboard.writeText(upiId).then(() => showToast('UPI ID copied — ' + upiId));
+}
+
+async function doLogout(){await fetch('/api/logout',{method:'POST'});window.location.href='/';}
+
+// ── INIT ───────────────────────────────────────────────────────
+async function loadUser() {
+  const me = await (await fetch('/api/me')).json();
+  if(!me.logged_in){window.location.href='/login';return;}
+  const u=me.user;
+  document.getElementById('sideName').textContent=u.name;
+
+  // Sidebar avatar — show photo or initial
+  const sideAv = document.getElementById('sideAvatar');
+  if(u.dp_url) {
+    sideAv.innerHTML = `<img src="${u.dp_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  } else {
+    sideAv.textContent = u.name[0].toUpperCase();
+  }
+
+  // Profile header
+  document.getElementById('profName').textContent=u.name;
+  document.getElementById('profEmail').textContent=u.email;
+  document.getElementById('profJoined').textContent='Member since '+new Date(u.created_at).toLocaleDateString('en-IN',{month:'long',year:'numeric'});
+  const profAv = document.getElementById('profAvatar');
+  if(u.dp_url) {
+    profAv.innerHTML = `<img src="${u.dp_url}" style="width:100%;height:100%;object-fit:cover;"><div class="dp-upload-btn" onclick="document.getElementById('dpInput').click()">CHANGE</div>`;
+  } else {
+    profAv.innerHTML = `<span id="profAvatarInitial">${u.name[0].toUpperCase()}</span><div class="dp-upload-btn" onclick="document.getElementById('dpInput').click()">CHANGE</div>`;
+  }
+
+  document.getElementById('pName').value=u.name;
+  document.getElementById('pPhone').value=u.phone||'';
+  document.getElementById('pAddress').value=u.address||'';
+  document.getElementById('pEmail').value=u.email;
+  // Pre-fill appointment name/phone
+  document.getElementById('aName').value=u.name;
+  document.getElementById('aPhone').value=u.phone||'';
+}
+
+// ── CANCEL ORDER ────────────────────────────────────────────────
+let cancelOrderId = null;
+
+async function openCancelModal(orderId, serviceType) {
+  cancelOrderId = orderId;
+  document.getElementById('cancelOrderId').textContent = orderId;
+  document.getElementById('cancelOrderService').textContent = serviceType;
+  document.getElementById('cancelReason').value = '';
+  document.getElementById('cancelAgree').checked = false;
+
+  // Load terms from server
+  const res   = await fetch('/api/cancel-terms');
+  const data  = await res.json();
+  document.getElementById('cancelTermsList').innerHTML = data.terms.map((t,i) =>
+    `<div style="display:flex;align-items:flex-start;gap:8px;">
+      <span style="width:18px;height:18px;background:var(--danger);color:#fff;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">${i+1}</span>
+      <p style="font-size:12px;color:var(--text2);line-height:1.5;">${t}</p>
+    </div>`
+  ).join('');
+
+  document.getElementById('cancelModalOverlay').style.display = 'flex';
+}
+
+function closeCancelModal() {
+  document.getElementById('cancelModalOverlay').style.display = 'none';
+  cancelOrderId = null;
+}
+
+async function submitCancelRequest() {
+  const reason = document.getElementById('cancelReason').value.trim();
+  const agreed = document.getElementById('cancelAgree').checked;
+  if(!reason)  { showToast('Please provide a reason for cancellation.','warn'); return; }
+  if(!agreed)  { showToast('Please agree to the terms and conditions.','warn'); return; }
+
+  const res  = await fetch(`/api/orders/${cancelOrderId}/cancel-request`, {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ reason, agreed_terms: true })
+  });
+  const data = await res.json();
+  if(data.success) {
+    showToast(data.message);
+    closeCancelModal();
+    loadOrders();
+    loadDashboard();
+  } else {
+    showToast(data.message, 'error');
+  }
+}
+
+// ── RAZORPAY ────────────────────────────────────────────────────
+let rzCurrentOrder = null;
+
+async function startRazorpay(orderId, amount, serviceType) {
+  rzCurrentOrder = { orderId, amount, serviceType };
+  document.getElementById('rzModalAmount').textContent = Number(amount).toLocaleString('en-IN');
+  document.getElementById('rzModalDesc').textContent   = `Order #${orderId} · ${serviceType}`;
+  document.getElementById('rzModalOverlay').style.display = 'flex';
+}
+
+async function launchRazorpay() {
+  if(!rzCurrentOrder) return;
+  const btn = document.getElementById('rzPayBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating order...';
+
+  try {
+    // Create Razorpay order on backend
+    const createRes  = await fetch('/api/razorpay/create-order', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ order_id: rzCurrentOrder.orderId, amount: rzCurrentOrder.amount })
+    });
+    const createData = await createRes.json();
+
+    if(!createData.success) {
+      showToast(createData.message || 'Could not create payment order.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
+      return;
+    }
+
+    // Get user info for prefill
+    const meRes  = await fetch('/api/me');
+    const meData = await meRes.json();
+    const user   = meData.user || {};
+
+    document.getElementById('rzModalOverlay').style.display = 'none';
+
+    // Open Razorpay checkout
+    const options = {
+      key:         createData.key_id,
+      amount:      createData.amount,
+      currency:    'INR',
+      name:        'AluminoPro',
+      description: `Order #${rzCurrentOrder.orderId} · ${rzCurrentOrder.serviceType}`,
+      order_id:    createData.rz_order_id,
+      prefill: {
+        name:    user.name  || '',
+        email:   user.email || '',
+        contact: user.phone || '',
+      },
+      theme:   { color: '#B8860B' },
+      handler: async function(response) {
+        // Verify payment on backend
+        const verifyRes  = await fetch('/api/razorpay/verify', {
+          method: 'POST', headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            razorpay_order_id:   response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature:  response.razorpay_signature,
+            order_id:            rzCurrentOrder.orderId,
+          })
+        });
+        const verifyData = await verifyRes.json();
+        if(verifyData.success) {
+          showToast('🎉 Payment successful! Order #' + rzCurrentOrder.orderId + ' marked as paid.');
+          loadOrders();
+          loadDashboard();
+        } else {
+          showToast('Payment received but verification failed. Contact support.', 'warn');
+        }
+      },
+      modal: {
+        ondismiss: function() {
+          showToast('Payment cancelled.', 'warn');
+        }
+      }
+    };
+
+    if(typeof Razorpay === 'undefined') {
+      showToast('Razorpay SDK not loaded. Check your internet connection.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
+      return;
+    }
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+
+  } catch(err) {
+    showToast('Payment error: ' + err.message, 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-lock"></i> Pay Securely with Razorpay';
+}
+
+async function init() {
+  await loadUser();
+  await loadRates();
+  await loadDashboard();
+  loadUPI(); // pre-load UPI info in background
+}
+init();
+</script>
+</body>
+</html>

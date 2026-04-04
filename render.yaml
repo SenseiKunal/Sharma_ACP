@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: aluminopro
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: aluminopro-db
+          property: connectionString
+
+databases:
+  - name: aluminopro-db
+    databaseName: aluminopro
+    user: aluminopro
+    plan: free

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — AluminoPro</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --gold:#B8860B;--gold2:#D4A017;--gold-light:#F0C040;
+  --primary:#1A1A2E;--primary2:#16213E;
+  --bg:#F8F9FA;--bg2:#FFFFFF;--bg3:#F0F2F5;
+  --text:#1A1A2E;--text2:#4A5568;--text3:#718096;
+  --border:#E2E8F0;--border2:#CBD5E0;
+  --success:#2D8A4E;--danger:#C53030;
+  --shadow:0 2px 16px rgba(0,0,0,.08);--shadow2:0 12px 40px rgba(0,0,0,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;display:flex;}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg3);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
+
+/* ── LEFT PANEL ── */
+.auth-left{flex:1;background:linear-gradient(145deg,var(--primary) 0%,var(--primary2) 60%,#0F3460 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:48px;min-height:100vh;}
+.left-pattern{position:absolute;inset:0;background-image:radial-gradient(circle at 25% 75%,rgba(184,134,11,.18) 0%,transparent 50%),radial-gradient(circle at 75% 25%,rgba(184,134,11,.1) 0%,transparent 50%);pointer-events:none;}
+.left-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:55px 55px;pointer-events:none;}
+.left-logo{display:flex;align-items:center;gap:12px;text-decoration:none;position:relative;z-index:1;}
+.logo-icon{width:42px;height:42px;background:var(--gold);display:flex;align-items:center;justify-content:center;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);}
+.logo-icon i{color:#fff;font-size:18px;}
+.logo-text{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:#fff;}
+.logo-text span{color:var(--gold-light);}
+.left-content{position:relative;z-index:1;}
+.left-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,5vw,62px);line-height:1;color:#fff;margin-bottom:18px;}
+.left-title span{color:var(--gold-light);}
+.left-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.7;max-width:340px;margin-bottom:36px;}
+.left-features{display:flex;flex-direction:column;gap:16px;}
+.feat{display:flex;align-items:flex-start;gap:14px;}
+.feat-icon{width:38px;height:38px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;border-radius:8px;background:rgba(255,255,255,.06);}
+.feat-icon i{color:var(--gold-light);font-size:15px;}
+.feat-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;}
+.feat-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.4;}
+.left-footer{position:relative;z-index:1;font-size:11px;color:rgba(255,255,255,.3);}
+
+/* ── RIGHT PANEL ── */
+.auth-right{width:480px;background:#fff;display:flex;align-items:center;justify-content:center;padding:48px 44px;min-height:100vh;}
+.auth-box{width:100%;}
+
+/* Tabs */
+.auth-tabs{display:flex;margin-bottom:32px;border-bottom:2px solid var(--border);}
+.auth-tab{flex:1;padding:12px;text-align:center;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.auth-tab.active{color:var(--gold);border-color:var(--gold);}
+.auth-panel{display:none;}
+.auth-panel.active{display:block;}
+
+.auth-title{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--text);margin-bottom:4px;}
+.auth-sub{font-size:13px;color:var(--text3);margin-bottom:28px;}
+
+/* Form */
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px;font-weight:700;}
+.input-wrap{position:relative;}
+.input-wrap .icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none;}
+.input-wrap input{width:100%;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:11px 14px 11px 38px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s;border-radius:7px;}
+.input-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.1);}
+.input-wrap .eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;padding:4px;line-height:1;}
+.input-wrap .eye-btn:hover{color:var(--text);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* Checkbox */
+.form-check{display:flex;align-items:flex-start;gap:8px;margin-top:4px;cursor:pointer;}
+.form-check input{width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--gold);cursor:pointer;}
+.form-check label{font-size:12px;color:var(--text3);cursor:pointer;line-height:1.5;}
+.form-check a{color:var(--gold);text-decoration:none;}
+.form-check a:hover{text-decoration:underline;}
+
+/* Button */
+.btn-auth{width:100%;padding:13px;background:var(--gold);color:#fff;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:7px;box-shadow:0 3px 12px rgba(184,134,11,.3);}
+.btn-auth:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(184,134,11,.4);}
+.btn-auth:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+
+/* Alerts */
+.alert{padding:10px 14px;font-size:13px;border-radius:6px;margin-bottom:14px;display:none;}
+.alert.show{display:flex;align-items:center;gap:8px;}
+.alert-error{background:rgba(197,48,48,.08);border:1px solid rgba(197,48,48,.2);color:var(--danger);}
+.alert-success{background:rgba(45,138,78,.08);border:1px solid rgba(45,138,78,.2);color:var(--success);}
+
+.divider{text-align:center;font-size:12px;color:var(--text3);margin:20px 0;position:relative;}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:var(--border);}
+.divider::before{left:0;}
+.divider::after{right:0;}
+
+.switch-link{text-align:center;font-size:12px;color:var(--text3);margin-top:18px;}
+.switch-link a{color:var(--gold);font-weight:700;text-decoration:none;cursor:pointer;}
+.switch-link a:hover{text-decoration:underline;}
+
+@media(max-width:860px){
+  .auth-left{display:none;}
+  .auth-right{width:100%;padding:36px 24px;}
+}
+</style>
+</head>
+<body>
+
+<div class="auth-left">
+  <div class="left-pattern"></div>
+  <div class="left-grid"></div>
+  <a href="/" class="left-logo">
+    <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
+    <span class="logo-text">Alumino<span>Pro</span></span>
+  </a>
+  <div class="left-content">
+    <h1 class="left-title">Your Projects,<br><span>Our Precision.</span></h1>
+    <p class="left-sub">Track orders, get instant quotes, book site visits, and pay securely — all in one place.</p>
+    <div class="left-features">
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-calculator"></i></div>
+        <div><div class="feat-title">Live Price Calculator</div><div class="feat-desc">Enter dimensions, get instant estimate with GST.</div></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-box-open"></i></div>
+        <div><div class="feat-title">Real-Time Order Tracking</div><div class="feat-desc">Know where your project stands — Pending, Running, or Done.</div></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-file-invoice"></i></div>
+        <div><div class="feat-title">GST Invoices</div><div class="feat-desc">Download professional invoices on order completion.</div></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-qrcode"></i></div>
+        <div><div class="feat-title">UPI Payment</div><div class="feat-desc">Pay directly via PhonePe, GPay, Paytm with pre-filled amount.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="left-footer">© 2024 AluminoPro · Plot 42, Sector 58, Noida, UP</div>
+</div>
+
+<div class="auth-right">
+  <div class="auth-box">
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</div>
+      <div class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Create Account</div>
+    </div>
+
+    <!-- ── LOGIN ── -->
+    <div class="auth-panel active" id="panel-login">
+      <h2 class="auth-title">Welcome Back</h2>
+      <p class="auth-sub">Sign in to your AluminoPro account</p>
+      <div class="alert alert-error" id="loginErr"><i class="fas fa-exclamation-circle"></i><span id="loginErrMsg"></span></div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <div class="input-wrap">
+          <i class="icon fas fa-envelope"></i>
+          <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-wrap">
+          <i class="icon fas fa-lock"></i>
+          <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
+          <button class="eye-btn" type="button" onclick="toggleEye('loginPass',this)"><i class="fas fa-eye-slash"></i></button>
+        </div>
+      </div>
+      <button class="btn-auth" id="loginBtn" onclick="doLogin()">
+        Sign In <i class="fas fa-arrow-right"></i>
+      </button>
+      <div class="switch-link">Don't have an account? <a onclick="switchTab('signup')">Create one free</a></div>
+    </div>
+
+    <!-- ── SIGNUP ── -->
+    <div class="auth-panel" id="panel-signup">
+      <h2 class="auth-title">Create Account</h2>
+      <p class="auth-sub">Join AluminoPro and track all your projects</p>
+      <div class="alert alert-error"   id="signupErr"><i class="fas fa-exclamation-circle"></i><span id="signupErrMsg"></span></div>
+      <div class="alert alert-success" id="signupOk"><i class="fas fa-check-circle"></i><span id="signupOkMsg"></span></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <div class="input-wrap"><i class="icon fas fa-user"></i><input type="text" id="sName" placeholder="Rajesh Kumar" autocomplete="name"></div>
+        </div>
+        <div class="form-group">
+          <label>Phone *</label>
+          <div class="input-wrap"><i class="icon fas fa-phone"></i><input type="tel" id="sPhone" placeholder="98765 43210" autocomplete="tel"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <div class="input-wrap"><i class="icon fas fa-envelope"></i><input type="email" id="sEmail" placeholder="you@example.com" autocomplete="email"></div>
+      </div>
+      <div class="form-group">
+        <label>City / Address</label>
+        <div class="input-wrap"><i class="icon fas fa-map-marker-alt"></i><input type="text" id="sAddress" placeholder="Your city or area"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Password *</label>
+          <div class="input-wrap">
+            <i class="icon fas fa-lock"></i>
+            <input type="password" id="sPass" placeholder="Min 6 chars" autocomplete="new-password">
+            <button class="eye-btn" type="button" onclick="toggleEye('sPass',this)"><i class="fas fa-eye-slash"></i></button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Confirm Password *</label>
+          <div class="input-wrap">
+            <i class="icon fas fa-lock"></i>
+            <input type="password" id="sPass2" placeholder="Repeat password" autocomplete="new-password">
+          </div>
+        </div>
+      </div>
+      <label class="form-check">
+        <input type="checkbox" id="sTerms">
+        <label for="sTerms">I agree to the <a href="#" onclick="return false;">Terms of Service</a> and <a href="#" onclick="return false;">Privacy Policy</a></label>
+      </label>
+      <button class="btn-auth" id="signupBtn" onclick="doSignup()" style="margin-top:16px;">
+        Create Account <i class="fas fa-user-plus"></i>
+      </button>
+      <div class="switch-link">Already have an account? <a onclick="switchTab('login')">Sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Tab switching ──────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+  // Clear errors
+  ['loginErr','signupErr','signupOk'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
+  });
+}
+
+// Check URL hash for signup tab
+if(window.location.hash === '#signup') switchTab('signup');
+
+// ── Password toggle ────────────────────────────────────────────
+function toggleEye(id, btn) {
+  const inp = document.getElementById(id);
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+}
+
+// ── Alert helpers ──────────────────────────────────────────────
+function showErr(errId, msgId, msg) {
+  const el = document.getElementById(errId);
+  document.getElementById(msgId).textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 5000);
+}
+function showOk(okId, msgId, msg) {
+  document.getElementById(msgId).textContent = msg;
+  document.getElementById(okId).classList.add('show');
+}
+
+// ── Login ──────────────────────────────────────────────────────
+async function doLogin() {
+  const btn   = document.getElementById('loginBtn');
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPass').value;
+  if(!email || !pass) { showErr('loginErr','loginErrMsg','Please fill in all fields.'); return; }
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+  try {
+    const res  = await fetch('/api/login', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({email, password: pass})
+    });
+    const data = await res.json();
+    if(data.success) {
+      window.location.href = '/dashboard';
+    } else {
+      showErr('loginErr','loginErrMsg', data.message || 'Invalid credentials.');
+      btn.disabled = false;
+      btn.innerHTML = 'Sign In <i class="fas fa-arrow-right"></i>';
+    }
+  } catch(e) {
+    showErr('loginErr','loginErrMsg','Network error. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = 'Sign In <i class="fas fa-arrow-right"></i>';
+  }
+}
+
+// ── Signup ─────────────────────────────────────────────────────
+async function doSignup() {
+  const btn  = document.getElementById('signupBtn');
+  const name = document.getElementById('sName').value.trim();
+  const phone= document.getElementById('sPhone').value.trim();
+  const email= document.getElementById('sEmail').value.trim();
+  const addr = document.getElementById('sAddress').value.trim();
+  const pass = document.getElementById('sPass').value;
+  const pass2= document.getElementById('sPass2').value;
+
+  if(!name || !email || !pass)   { showErr('signupErr','signupErrMsg','Name, email and password are required.'); return; }
+  if(pass !== pass2)             { showErr('signupErr','signupErrMsg','Passwords do not match.'); return; }
+  if(pass.length < 6)            { showErr('signupErr','signupErrMsg','Password must be at least 6 characters.'); return; }
+  if(!document.getElementById('sTerms').checked) { showErr('signupErr','signupErrMsg','Please accept the Terms of Service.'); return; }
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+  try {
+    const res  = await fetch('/api/signup', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name, phone, email, address: addr, password: pass})
+    });
+    const data = await res.json();
+    if(data.success) {
+      showOk('signupOk','signupOkMsg', data.message + ' Redirecting to sign in...');
+      document.getElementById('signupErr').classList.remove('show');
+      setTimeout(() => {
+        switchTab('login');
+        document.getElementById('loginEmail').value = email;
+      }, 1800);
+    } else {
+      showErr('signupErr','signupErrMsg', data.message);
+    }
+  } catch(e) {
+    showErr('signupErr','signupErrMsg','Network error. Please try again.');
+  }
+  btn.disabled = false;
+  btn.innerHTML = 'Create Account <i class="fas fa-user-plus"></i>';
+}
+
+// ── Enter key ──────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Enter') return;
+  if(document.getElementById('panel-login').classList.contains('active')) doLogin();
+  else doSignup();
+});
+
+// ── Redirect if already logged in ─────────────────────────────
+(async () => {
+  try {
+    const res  = await fetch('/api/me');
+    const data = await res.json();
+    if(data.logged_in) window.location.href = '/dashboard';
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

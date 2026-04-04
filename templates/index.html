@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AluminoPro — Premium Aluminum & ACP Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --gold:#B8860B; --gold2:#D4A017; --gold-light:#F0C040;
+  --primary:#1A1A2E; --primary2:#16213E;
+  --bg:#F8F9FA; --bg2:#FFFFFF; --bg3:#F0F2F5;
+  --text:#1A1A2E; --text2:#4A5568; --text3:#718096;
+  --border:#E2E8F0; --border2:#CBD5E0;
+  --success:#2D8A4E; --danger:#C53030; --warning:#C05621;
+  --shadow:0 2px 16px rgba(0,0,0,.08); --shadow2:0 8px 32px rgba(0,0,0,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg3);}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:14px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:var(--shadow);transition:all .3s;}
+nav.scrolled{padding:10px 60px;}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo-icon{width:40px;height:40px;background:var(--gold);display:flex;align-items:center;justify-content:center;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);}
+.nav-logo-icon i{color:#fff;font-size:17px;}
+.nav-logo-text{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--primary);}
+.nav-logo-text span{color:var(--gold);}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;transition:color .2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gold);transition:width .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{display:flex;align-items:center;gap:10px;}
+.btn-nav{padding:8px 20px;border-radius:6px;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all .2s;}
+.btn-nav-outline{border:2px solid var(--gold);color:var(--gold);background:transparent;}
+.btn-nav-outline:hover{background:var(--gold);color:#fff;}
+.btn-nav-fill{background:var(--gold);color:#fff;border:2px solid var(--gold);box-shadow:0 2px 8px rgba(184,134,11,.3);}
+.btn-nav-fill:hover{background:var(--gold2);transform:translateY(-1px);}
+#userNavBtn{display:none;}
+
+/* ── HERO ── */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;background:linear-gradient(135deg,var(--primary) 0%,var(--primary2) 60%,#0F3460 100%);overflow:hidden;padding-top:70px;}
+.hero-pattern{position:absolute;inset:0;background-image:radial-gradient(circle at 20% 80%,rgba(184,134,11,.15) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(184,134,11,.1) 0%,transparent 50%);pointer-events:none;}
+.hero-grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero-content{position:relative;z-index:2;padding:0 60px;max-width:680px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid rgba(184,134,11,.4);border-radius:100px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);margin-bottom:28px;animation:fadeUp .8s .2s both;}
+.hero-badge-dot{width:6px;height:6px;background:var(--gold-light);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,7.5vw,105px);line-height:.93;letter-spacing:2px;color:#fff;animation:fadeUp .8s .3s both;}
+.hero-title .line2{color:var(--gold-light);}
+.hero-title .line3{-webkit-text-stroke:1px rgba(184,134,11,.5);color:transparent;}
+.hero-sub{font-size:16px;font-weight:300;color:rgba(255,255,255,.7);line-height:1.7;max-width:460px;margin:26px 0 40px;animation:fadeUp .8s .5s both;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .7s both;}
+.btn-primary{padding:14px 30px;background:var(--gold);color:#fff;font-weight:700;font-size:13px;letter-spacing:1.2px;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .25s;border-radius:6px;box-shadow:0 4px 16px rgba(184,134,11,.4);}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(184,134,11,.5);}
+.btn-secondary{padding:14px 30px;border:2px solid rgba(255,255,255,.4);color:#fff;background:transparent;font-weight:600;font-size:13px;letter-spacing:1.2px;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .25s;border-radius:6px;}
+.btn-secondary:hover{border-color:#fff;background:rgba(255,255,255,.08);}
+.hero-right{position:absolute;right:0;top:0;bottom:0;width:45%;background:linear-gradient(135deg,rgba(184,134,11,.08),rgba(15,52,96,.3));display:flex;align-items:center;justify-content:center;padding:40px;}
+.hero-stats-wrap{display:flex;flex-direction:column;gap:24px;}
+.hero-stat-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);padding:20px 28px;backdrop-filter:blur(8px);display:flex;align-items:center;gap:16px;}
+.hero-stat-card i{font-size:24px;color:var(--gold-light);}
+.hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold-light);line-height:1;}
+.hero-stat-label{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.hero-scroll{position:absolute;bottom:30px;left:60px;display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);animation:fadeUp 1s 1.2s both;}
+.hero-scroll-line{width:40px;height:1px;background:rgba(255,255,255,.3);}
+
+/* ── MARQUEE ── */
+.marquee-strip{background:var(--gold);padding:13px 0;overflow:hidden;display:flex;}
+.marquee-track{display:flex;animation:marquee 25s linear infinite;white-space:nowrap;}
+.marquee-item{padding:0 36px;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:#fff;display:flex;align-items:center;gap:14px;}
+.marquee-dot{width:5px;height:5px;background:rgba(255,255,255,.5);border-radius:50%;}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── SECTIONS ── */
+section{padding:90px 60px;}
+.section-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:700;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,4.5vw,60px);line-height:1.05;color:var(--text);margin-bottom:20px;}
+.section-title span{color:var(--gold);}
+.section-sub{color:var(--text2);font-weight:400;line-height:1.7;max-width:480px;margin-bottom:56px;}
+
+/* ── SERVICES ── */
+.services{background:#fff;}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);}
+.service-card{background:#fff;padding:40px 32px;position:relative;overflow:hidden;transition:all .3s;cursor:default;border-bottom:3px solid transparent;}
+.service-card:hover{background:var(--bg3);border-bottom-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow2);}
+.service-icon{width:52px;height:52px;background:rgba(184,134,11,.1);border:1px solid rgba(184,134,11,.2);display:flex;align-items:center;justify-content:center;margin-bottom:20px;border-radius:8px;transition:all .3s;}
+.service-card:hover .service-icon{background:var(--gold);border-color:var(--gold);}
+.service-icon i{font-size:22px;color:var(--gold);transition:color .3s;}
+.service-card:hover .service-icon i{color:#fff;}
+.service-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.5px;color:var(--text);margin-bottom:10px;}
+.service-desc{color:var(--text2);font-size:14px;line-height:1.7;margin-bottom:18px;}
+.service-price{display:flex;align-items:baseline;gap:4px;}
+.price-from{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;}
+.price-val{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold);}
+.price-unit{font-size:12px;color:var(--text3);}
+
+/* ── RATES TABLE ── */
+.rates{background:var(--bg3);}
+.rates-table-wrap{overflow-x:auto;border-radius:8px;box-shadow:var(--shadow);}
+.rates-table{width:100%;border-collapse:collapse;background:#fff;}
+.rates-table th{background:var(--primary);color:#fff;padding:14px 20px;text-align:left;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;}
+.rates-table th:first-child{border-radius:0;}
+.rates-table td{padding:14px 20px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2);}
+.rates-table tr:last-child td{border-bottom:none;}
+.rates-table tr:hover td{background:rgba(184,134,11,.04);}
+.rate-price{color:var(--gold);font-weight:700;font-family:'Bebas Neue',sans-serif;font-size:18px;}
+.badge-avail{display:inline-block;padding:3px 10px;border-radius:100px;font-size:10px;letter-spacing:1px;font-weight:700;background:rgba(45,138,78,.1);color:var(--success);border:1px solid rgba(45,138,78,.2);}
+
+/* ── PROCESS ── */
+.process{background:#fff;}
+.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0;position:relative;}
+.process-steps::before{content:'';position:absolute;top:38px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);z-index:0;}
+.process-step{text-align:center;padding:32px 16px;position:relative;z-index:1;}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:56px;color:rgba(184,134,11,.08);line-height:1;margin-bottom:6px;}
+.step-icon-wrap{width:76px;height:76px;border:2px solid var(--border2);background:#fff;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;border-radius:50%;}
+.step-icon-wrap i{font-size:26px;color:var(--gold);}
+.step-title{font-weight:700;color:var(--text);margin-bottom:8px;font-size:14px;}
+.step-desc{font-size:12px;color:var(--text3);line-height:1.6;}
+
+/* ── BLOG ── */
+.blog{background:var(--bg3);}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;}
+.blog-card{background:#fff;border:1px solid var(--border);overflow:hidden;transition:all .3s;border-radius:8px;box-shadow:var(--shadow);}
+.blog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow2);}
+.blog-img{height:180px;background:linear-gradient(135deg,var(--bg3),var(--border2));display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.blog-img-icon{font-size:52px;color:rgba(184,134,11,.2);}
+.blog-body{padding:24px;}
+.blog-date{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:700;}
+.blog-title{font-weight:700;font-size:16px;line-height:1.4;color:var(--text);margin-bottom:10px;}
+.blog-excerpt{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* ── CONTACT ── */
+.contact-section{background:#fff;}
+.contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:56px;align-items:start;}
+.contact-info{display:flex;flex-direction:column;gap:16px;}
+.contact-item{display:flex;align-items:flex-start;gap:14px;padding:20px;background:var(--bg3);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;}
+.contact-item i{color:var(--gold);font-size:18px;flex-shrink:0;margin-top:2px;}
+.contact-item-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:4px;font-weight:700;}
+.contact-item-val{font-size:13px;font-weight:500;color:var(--text);}
+.contact-form{background:#fff;padding:36px;border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);}
+.form-group{margin-bottom:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group label{display:block;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;font-weight:700;}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:11px 14px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s;border-radius:6px;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.1);}
+.form-group textarea{resize:vertical;min-height:100px;}
+
+/* ── FOOTER ── */
+footer{background:var(--primary);color:rgba(255,255,255,.8);padding:60px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;}
+.footer-brand .nav-logo-text{color:#fff;}
+.footer-brand p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;max-width:240px;margin-top:12px;}
+.footer-social{display:flex;gap:10px;margin-top:18px;}
+.social-btn{width:36px;height:36px;border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);transition:all .2s;text-decoration:none;border-radius:6px;}
+.social-btn:hover{border-color:var(--gold-light);color:var(--gold-light);}
+.footer-col h4{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);margin-bottom:18px;font-weight:700;}
+.footer-col a{display:block;color:rgba(255,255,255,.5);text-decoration:none;font-size:13px;margin-bottom:10px;transition:color .2s;}
+.footer-col a:hover{color:#fff;}
+.footer-bottom{background:rgba(0,0,0,.3);padding:18px 60px;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom p{font-size:12px;color:rgba(255,255,255,.35);}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+.modal-overlay.active{opacity:1;pointer-events:all;}
+.modal{background:#fff;border-radius:10px;padding:40px;width:90%;max-width:500px;position:relative;max-height:90vh;overflow-y:auto;transform:translateY(16px);transition:transform .3s;box-shadow:var(--shadow2);}
+.modal-overlay.active .modal{transform:translateY(0);}
+.modal-close{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;}
+.modal-close:hover{color:var(--text);}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--text);margin-bottom:4px;}
+.modal-sub{font-size:13px;color:var(--text3);margin-bottom:24px;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;right:28px;z-index:3000;background:#fff;border-left:4px solid var(--success);padding:14px 20px;font-size:13px;max-width:300px;transform:translateX(130%);transition:transform .3s;border-radius:0 6px 6px 0;box-shadow:var(--shadow2);color:var(--text);}
+.toast.show{transform:translateX(0);}
+.toast.error{border-color:var(--danger);}
+.toast.warn{border-color:var(--warning);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── CHATBOT ── */
+.chat-fab{position:fixed;bottom:28px;right:28px;z-index:1500;width:56px;height:56px;background:var(--gold);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(184,134,11,.5);transition:all .3s;}
+.chat-fab:hover{background:var(--gold2);transform:scale(1.08);}
+.chat-fab i{color:#fff;font-size:22px;}
+.chat-fab .chat-badge{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:var(--danger);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700;}
+.chatbot{position:fixed;bottom:96px;right:28px;z-index:1500;width:360px;background:#fff;border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,.18);display:none;flex-direction:column;overflow:hidden;border:1px solid var(--border);}
+.chatbot.open{display:flex;}
+.chat-header{background:var(--primary);color:#fff;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+.chat-avatar{width:36px;height:36px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.chat-title{font-weight:700;font-size:14px;}
+.chat-subtitle{font-size:11px;color:rgba(255,255,255,.6);}
+.chat-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.6);font-size:18px;cursor:pointer;}
+.chat-close:hover{color:#fff;}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;max-height:340px;background:var(--bg);}
+.chat-msg{max-width:82%;padding:10px 14px;border-radius:14px;font-size:13px;line-height:1.5;}
+.chat-msg.bot{background:#fff;color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px;align-self:flex-start;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.chat-msg.user{background:var(--primary);color:#fff;border-bottom-right-radius:4px;align-self:flex-end;}
+.chat-msg.typing{color:var(--text3);font-style:italic;}
+.chat-quick{padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px;background:#fff;border-top:1px solid var(--border);}
+.quick-btn{padding:5px 12px;border:1.5px solid var(--gold);background:#fff;color:var(--gold);font-size:11px;font-weight:600;cursor:pointer;border-radius:100px;transition:all .2s;white-space:nowrap;}
+.quick-btn:hover{background:var(--gold);color:#fff;}
+.chat-input-row{display:flex;padding:12px 14px;gap:8px;background:#fff;border-top:1px solid var(--border);}
+.chat-input{flex:1;border:1.5px solid var(--border);border-radius:20px;padding:9px 14px;font-family:'Outfit',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.chat-input:focus{border-color:var(--gold);}
+.chat-send{width:36px;height:36px;background:var(--gold);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.chat-send:hover{background:var(--gold2);}
+.chat-send i{color:#fff;font-size:14px;}
+
+@media(max-width:768px){
+  nav{padding:12px 20px;}
+  .nav-links{display:none;}
+  section{padding:60px 24px;}
+  .hero-content{padding:0 24px;}
+  .hero-right{display:none;}
+  footer{grid-template-columns:1fr 1fr;padding:40px 24px;}
+  .contact-grid{grid-template-columns:1fr;}
+  .chatbot{width:calc(100vw - 40px);right:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon"><i class="fas fa-layer-group"></i></div>
+    <span class="nav-logo-text">Alumino<span>Pro</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#rates">Rates</a>
+    <a href="#blog">Blog</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-cta">
+    <a href="/login" class="btn-nav btn-nav-outline" id="loginNavBtn">Login</a>
+    <a href="/dashboard" class="btn-nav btn-nav-fill" id="userNavBtn" style="display:none;"></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-pattern"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Premium Aluminum Solutions Since 2005</div>
+    <h1 class="hero-title">
+      <div>CRAFTING</div>
+      <div class="line2">PRECISION</div>
+      <div class="line3">IN ALUMINUM</div>
+    </h1>
+    <p class="hero-sub">Expert aluminum fabrication, ACP cladding, and structural glazing for residential and commercial projects across NCR.</p>
+    <div class="hero-actions">
+      <a href="#services" class="btn-primary">Explore Services <i class="fas fa-arrow-right"></i></a>
+      <a href="#contact" class="btn-secondary"><i class="fas fa-calendar-alt"></i> Book Consultation</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats-wrap">
+      <div class="hero-stat-card">
+        <i class="fas fa-hard-hat"></i>
+        <div><div class="hero-stat-num">500+</div><div class="hero-stat-label">Projects Done</div></div>
+      </div>
+      <div class="hero-stat-card">
+        <i class="fas fa-calendar-check"></i>
+        <div><div class="hero-stat-num">18+</div><div class="hero-stat-label">Years Experience</div></div>
+      </div>
+      <div class="hero-stat-card">
+        <i class="fas fa-star"></i>
+        <div><div class="hero-stat-num">98%</div><div class="hero-stat-label">Client Satisfaction</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>Scroll to explore</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">Aluminum Windows <span class="marquee-dot"></span></span>
+    <span class="marquee-item">ACP Cladding <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Glass Partitions <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Structural Glazing <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Spider Glazing <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Skylights <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Shopfronts <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Curtain Wall <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Aluminum Windows <span class="marquee-dot"></span></span>
+    <span class="marquee-item">ACP Cladding <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Glass Partitions <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Structural Glazing <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Spider Glazing <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Skylights <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Shopfronts <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Curtain Wall <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <p class="section-label reveal">What We Do</p>
+  <h2 class="section-title reveal">Our <span>Services</span></h2>
+  <p class="section-sub reveal">From residential windows to large commercial facades — precision-engineered aluminum solutions with unmatched quality.</p>
+  <div class="services-grid">
+    <div class="service-card reveal"><div class="service-icon"><i class="fas fa-border-all"></i></div><div class="service-name">Aluminum Windows</div><p class="service-desc">Powder-coated aluminum windows with thermal breaks. Single, double or triple glazing. Custom sizes available.</p><div class="service-price"><span class="price-from">FROM</span><span class="price-val">₹280</span><span class="price-unit">/sqft</span></div></div>
+    <div class="service-card reveal"><div class="service-icon"><i class="fas fa-door-open"></i></div><div class="service-name">Aluminum Doors</div><p class="service-desc">Heavy-duty aluminum frame doors — sliding, casement, bi-fold, and French door styles for modern interiors.</p><div class="service-price"><span class="price-from">FROM</span><span class="price-val">₹320</span><span class="price-unit">/sqft</span></div></div>
+    <div class="service-card reveal"><div class="service-icon"><i class="fas fa-th-large"></i></div><div class="service-name">ACP Cladding</div><p class="service-desc">Aluminium Composite Panel facade cladding for commercial buildings. Weather resistant, fire rated options.</p><div class="service-price"><span class="price-from">FROM</span><span class="price-val">₹180</span><span class="price-unit">/sqft</span></div></div>
+    <div class="service-card reveal"><div class="service-icon"><i class="fas fa-clone"></i></div><div class="service-name">Glass Partitions</div><p class="service-desc">Modular frameless and framed glass partition systems for modern offices. Frosted, clear, tinted options.</p><div class="service-price"><span class="price-from">FROM</span><span class="price-val">₹450</span><span class="price-unit">/sqft</span></div></div>
+    <div class="service-card reveal"><div class="service-icon"><i class="fas fa-building"></i></div><div class="service-name">Structural Glazing</div><p class="service-desc">High-performance structural silicone glazing for commercial facades. Frameless appearance, maximum light.</p><div class="service-price"><span class="price-from">FROM</span><span class="price-val">₹850</span><span class="price-unit">/sqft</span></div></div>
+    <div class="service-card reveal"><div class="service-icon"><i class="fas fa-sun"></i></div><div class="service-name">Skylights & Canopies</div><p class="service-desc">Aluminum-framed glass skylights and entrance canopies. Custom shapes — flat, pitched, barrel vault designs.</p><div class="service-price"><span class="price-from">FROM</span><span class="price-val">₹950</span><span class="price-unit">/sqft</span></div></div>
+  </div>
+</section>
+
+<!-- RATES -->
+<section class="rates" id="rates">
+  <p class="section-label reveal">Pricing</p>
+  <h2 class="section-title reveal">Current <span>Rate Card</span></h2>
+  <p class="section-sub reveal">Transparent pricing for all services. Final quotes depend on glass type, finish, and site conditions. GST extra.</p>
+  <div class="rates-table-wrap reveal">
+    <table class="rates-table">
+      <thead><tr><th>Service</th><th>Material</th><th>Rate (₹/sqft)</th><th>Min. Order</th><th>Lead Time</th><th>Available</th></tr></thead>
+      <tbody>
+        <tr><td>Aluminum Window (Single Glass)</td><td>6063 Alloy + 5mm Glass</td><td class="rate-price">₹280 – ₹350</td><td>10 sqft</td><td>7–10 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Aluminum Window (Double Glass)</td><td>6063 Alloy + DGU</td><td class="rate-price">₹420 – ₹520</td><td>10 sqft</td><td>10–14 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Aluminum Sliding Door</td><td>Heavy Section + 8mm Glass</td><td class="rate-price">₹320 – ₹400</td><td>20 sqft</td><td>7–12 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Aluminum Casement Door</td><td>Heavy Section + Glass</td><td class="rate-price">₹380 – ₹480</td><td>15 sqft</td><td>7–12 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>ACP Cladding (Standard)</td><td>3mm ACP + Framework</td><td class="rate-price">₹180 – ₹220</td><td>50 sqft</td><td>5–7 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>ACP Cladding (FR Grade)</td><td>4mm FR ACP + Framework</td><td class="rate-price">₹240 – ₹300</td><td>50 sqft</td><td>5–7 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Glass Office Partition</td><td>Aluminum + 10mm Glass</td><td class="rate-price">₹450 – ₹600</td><td>30 sqft</td><td>10–15 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Structural Glazing Facade</td><td>Structural Silicone + DGU</td><td class="rate-price">₹850 – ₹1200</td><td>100 sqft</td><td>15–21 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Shopfront Aluminum Frame</td><td>Box Section + Glass</td><td class="rate-price">₹500 – ₹700</td><td>40 sqft</td><td>7–10 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Skylight / Canopy</td><td>Special Section + Toughened Glass</td><td class="rate-price">₹950 – ₹1400</td><td>20 sqft</td><td>14–21 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:14px;font-size:12px;color:var(--text3);">* Rates are indicative. Site survey required for final quotation. 18% GST applicable.</p>
+</section>
+
+<!-- PROCESS -->
+<section class="process reveal">
+  <p class="section-label">How It Works</p>
+  <h2 class="section-title">Our <span>Process</span></h2>
+  <div class="process-steps">
+    <div class="process-step reveal"><div class="step-num">01</div><div class="step-icon-wrap"><i class="fas fa-comments"></i></div><div class="step-title">Consultation</div><p class="step-desc">Share your requirements. We discuss design, material, and budget options.</p></div>
+    <div class="process-step reveal"><div class="step-num">02</div><div class="step-icon-wrap"><i class="fas fa-ruler-combined"></i></div><div class="step-title">Site Survey</div><p class="step-desc">Our team visits your site, takes measurements, and prepares a detailed quotation.</p></div>
+    <div class="process-step reveal"><div class="step-num">03</div><div class="step-icon-wrap"><i class="fas fa-drafting-compass"></i></div><div class="step-title">Fabrication</div><p class="step-desc">We fabricate your order at our workshop with precision cutting and powder coating.</p></div>
+    <div class="process-step reveal"><div class="step-num">04</div><div class="step-icon-wrap"><i class="fas fa-tools"></i></div><div class="step-title">Installation</div><p class="step-desc">Our experienced team installs everything cleanly and on schedule.</p></div>
+    <div class="process-step reveal"><div class="step-num">05</div><div class="step-icon-wrap"><i class="fas fa-shield-alt"></i></div><div class="step-title">Warranty</div><p class="step-desc">Site cleanup, walkthrough, and warranty documentation handed to you.</p></div>
+  </div>
+</section>
+
+<!-- BLOG -->
+<section class="blog" id="blog">
+  <p class="section-label reveal">Knowledge Base</p>
+  <h2 class="section-title reveal">Our <span>Blog</span></h2>
+  <p class="section-sub reveal">Tips, trends and insights from our aluminum fabrication experts.</p>
+  <div class="blog-grid" id="blogGrid"><div style="color:var(--text3);font-size:13px;">Loading...</div></div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <p class="section-label reveal">Get In Touch</p>
+  <h2 class="section-title reveal">Contact <span>Us</span></h2>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="contact-item"><i class="fas fa-map-marker-alt"></i><div><div class="contact-item-label">Workshop</div><div class="contact-item-val">Plot No. 42, Industrial Area, Sector 58, Noida, UP 201301</div></div></div>
+      <div class="contact-item"><i class="fas fa-phone-alt"></i><div><div class="contact-item-label">Call Us</div><div class="contact-item-val">+91 95087 77145<br>+91 91234 56789</div></div></div>
+      <div class="contact-item"><i class="fas fa-envelope"></i><div><div class="contact-item-label">Email</div><div class="contact-item-val">info@aluminopro.in<br>orders@aluminopro.in</div></div></div>
+      <div class="contact-item"><i class="fas fa-clock"></i><div><div class="contact-item-label">Hours</div><div class="contact-item-val">Mon–Sat: 9 AM – 7 PM<br>Sunday: By Appointment</div></div></div>
+    </div>
+    <div class="contact-form reveal">
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--text);margin-bottom:4px;">Send A Message</h3>
+      <p style="font-size:13px;color:var(--text3);margin-bottom:22px;">We reply within 4 business hours.</p>
+      <form id="contactForm">
+        <div class="form-row">
+          <div class="form-group"><label>Your Name *</label><input type="text" id="cName" required placeholder="Rajesh Kumar"></div>
+          <div class="form-group"><label>Phone</label><input type="tel" id="cPhone" placeholder="+91 98765 00000"></div>
+        </div>
+        <div class="form-group"><label>Email *</label><input type="email" id="cEmail" required placeholder="you@example.com"></div>
+        <div class="form-group"><label>Subject</label>
+          <select id="cSubject"><option value="">Select subject</option><option>Aluminum Window Enquiry</option><option>ACP Cladding Project</option><option>Glass Partition</option><option>Structural Glazing</option><option>General Query</option></select>
+        </div>
+        <div class="form-group"><label>Message *</label><textarea id="cMessage" required placeholder="Tell us about your project..."></textarea></div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;">Send Message <i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="/" class="nav-logo"><div class="nav-logo-icon"><i class="fas fa-layer-group"></i></div><span class="nav-logo-text">Alumino<span>Pro</span></span></a>
+    <p>Premium aluminum fabrication and ACP cladding solutions for residential and commercial projects across NCR.</p>
+    <div class="footer-social">
+      <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+      <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+    </div>
+  </div>
+  <div class="footer-col"><h4>Services</h4><a href="#services">Aluminum Windows</a><a href="#services">Aluminum Doors</a><a href="#services">ACP Cladding</a><a href="#services">Glass Partitions</a><a href="#services">Structural Glazing</a></div>
+  <div class="footer-col"><h4>Company</h4><a href="#">About Us</a><a href="#blog">Blog</a><a href="#contact">Contact</a><a href="/login">Login</a><a href="/login">Sign Up</a></div>
+  <div class="footer-col"><h4>Quick Links</h4><a href="#rates">Rate Card</a><a href="/dashboard">My Dashboard</a><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+</footer>
+<div class="footer-bottom"><p>© 2024 AluminoPro. All rights reserved. Made with ♥ in Noida.</p><p style="color:var(--gold-light);font-size:12px;">GST: 09ABCDE1234F1Z5</p></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ── CHATBOT ────────────────────────────────────── -->
+<button class="chat-fab" onclick="toggleChat()" id="chatFab">
+  <i class="fas fa-comments" id="chatIcon"></i>
+  <span class="chat-badge" id="chatBadge">1</span>
+</button>
+
+<div class="chatbot" id="chatbot">
+  <div class="chat-header">
+    <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+    <div><div class="chat-title">AluminoPro Assistant</div><div class="chat-subtitle">Ask about rates, products & more</div></div>
+    <button class="chat-close" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg bot">👋 Hi! I'm your AluminoPro assistant. I can help you with:<br><br>• Product information<br>• Price estimates<br>• Lead times<br>• How to place an order<br><br>What would you like to know?</div>
+  </div>
+  <div class="chat-quick" id="quickReplies">
+    <button class="quick-btn" onclick="sendQuick('Window rates')">Window rates</button>
+    <button class="quick-btn" onclick="sendQuick('ACP cladding price')">ACP price</button>
+    <button class="quick-btn" onclick="sendQuick('How to order')">How to order</button>
+    <button class="quick-btn" onclick="sendQuick('Lead time')">Lead time</button>
+    <button class="quick-btn" onclick="sendQuick('Glass partition')">Glass partition</button>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chatInput" type="text" placeholder="Ask me anything..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<script>
+// ── Nav scroll ─────────────────────────────────────────────────
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', scrollY > 40));
+
+// ── Reveal on scroll ───────────────────────────────────────────
+const obs = new IntersectionObserver(e => e.forEach(el => {if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target);}}), {threshold:.1});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ── Toast ──────────────────────────────────────────────────────
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type==='error'?' error':type==='warn'?' warn':'');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── Auth state ─────────────────────────────────────────────────
+async function checkAuth() {
+  const res  = await fetch('/api/me');
+  const data = await res.json();
+  if(data.logged_in) {
+    document.getElementById('loginNavBtn').style.display = 'none';
+    const btn = document.getElementById('userNavBtn');
+    btn.style.display = 'flex';
+    btn.textContent = data.user.role === 'admin' ? 'Admin Panel' : 'My Dashboard';
+  }
+}
+checkAuth();
+
+// ── Blog ───────────────────────────────────────────────────────
+async function loadBlog() {
+  const res   = await fetch('/api/blog');
+  const posts = await res.json();
+  const icons = ['fa-newspaper','fa-layer-group','fa-drafting-compass'];
+  document.getElementById('blogGrid').innerHTML = posts.map((p,i) => `
+    <div class="blog-card">
+      <div class="blog-img"><i class="fas ${icons[i%3]} blog-img-icon"></i></div>
+      <div class="blog-body">
+        <div class="blog-date">${new Date(p.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</div>
+        <div class="blog-title">${p.title}</div>
+        <p class="blog-excerpt">${(p.excerpt||p.content).substring(0,110)}...</p>
+      </div>
+    </div>`).join('');
+}
+loadBlog();
+
+// ── Contact form ───────────────────────────────────────────────
+document.getElementById('contactForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const res  = await fetch('/api/contact', {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({name:document.getElementById('cName').value, email:document.getElementById('cEmail').value,
+      phone:document.getElementById('cPhone').value, subject:document.getElementById('cSubject').value,
+      message:document.getElementById('cMessage').value})});
+  const data = await res.json();
+  if(data.success){showToast(data.message); e.target.reset();}
+});
+
+// ── CHATBOT ────────────────────────────────────────────────────
+const RATE_KNOWLEDGE = {
+  'Aluminum Windows (Single Glass)': {min:280,max:350},
+  'Aluminum Windows (Double Glass)': {min:420,max:520},
+  'Aluminum Sliding Door':           {min:320,max:400},
+  'Aluminum Casement Door':          {min:380,max:480},
+  'ACP Cladding (Standard 3mm)':     {min:180,max:220},
+  'ACP Cladding (FR Grade 4mm)':     {min:240,max:300},
+  'Glass Office Partition':          {min:450,max:600},
+  'Structural Glazing Facade':       {min:850,max:1200},
+  'Shopfront Aluminum Frame':        {min:500,max:700},
+  'Skylight / Canopy':               {min:950,max:1400},
+};
+
+function getBotReply(msg) {
+  const m = msg.toLowerCase();
+  if(m.includes('window') && (m.includes('rate')||m.includes('price')||m.includes('cost')||m.includes('sqft')))
+    return `🪟 <b>Aluminum Window Rates:</b><br>• Single Glass: ₹280–₹350/sqft<br>• Double Glass (DGU): ₹420–₹520/sqft<br><br>For a 4ft×5ft window = 20 sqft:<br>• Single glass: ₹5,600–₹7,000 + GST<br>• Double glass: ₹8,400–₹10,400 + GST<br><br>Want an exact quote? <a href="/login" style="color:var(--gold)">Place an order</a> for a site survey.`;
+  if(m.includes('acp') || m.includes('cladding'))
+    return `🏢 <b>ACP Cladding Rates:</b><br>• Standard 3mm: ₹180–₹220/sqft<br>• FR Grade 4mm: ₹240–₹300/sqft<br><br>ACP is ideal for building facades, shopfronts, and interior cladding. Min order: 50 sqft.<br>Lead time: 5–7 days.`;
+  if(m.includes('glass partition') || m.includes('office partition'))
+    return `🏗️ <b>Glass Office Partition:</b><br>• Rate: ₹450–₹600/sqft<br>• Includes aluminum frame + 10mm glass<br>• Frosted, clear, or tinted glass available<br>• Min order: 30 sqft<br>• Lead time: 10–15 days`;
+  if(m.includes('door'))
+    return `🚪 <b>Aluminum Door Rates:</b><br>• Sliding Door: ₹320–₹400/sqft<br>• Casement Door: ₹380–₹480/sqft<br><br>Available in all finishes — silver, black, bronze, wooden PVDF. Custom sizes welcome.`;
+  if(m.includes('structural') || m.includes('glazing'))
+    return `🏙️ <b>Structural Glazing:</b><br>• Rate: ₹850–₹1,200/sqft<br>• Frameless glass facade for commercial buildings<br>• DGU glass standard<br>• Min order: 100 sqft<br>• Lead time: 15–21 days`;
+  if(m.includes('skylight') || m.includes('canopy'))
+    return `☀️ <b>Skylights & Canopies:</b><br>• Rate: ₹950–₹1,400/sqft<br>• Toughened or laminated glass<br>• Custom shapes — flat, pitched, barrel vault<br>• Ideal for restaurants, farmhouses, offices`;
+  if(m.includes('lead time') || m.includes('how long') || m.includes('delivery') || m.includes('days'))
+    return `⏱️ <b>Lead Times:</b><br>• ACP Cladding: 5–7 days<br>• Windows & Doors: 7–12 days<br>• Glass Partitions: 10–15 days<br>• Structural Glazing: 15–21 days<br>• Skylights: 14–21 days<br><br>Timeline starts after site survey & advance payment.`;
+  if(m.includes('order') || m.includes('how to') || m.includes('book') || m.includes('start'))
+    return `📋 <b>How to Place an Order:</b><br><br>1. <a href="/login" style="color:var(--gold)">Create an account</a> / Login<br>2. Go to Dashboard → Place Order<br>3. Select service & enter measurements<br>4. Get instant price estimate<br>5. Submit — we'll call within 24hrs for site survey!`;
+  if(m.includes('color') || m.includes('finish') || m.includes('colour'))
+    return `🎨 <b>Available Finishes:</b><br>• Silver (Mill Finish)<br>• Powder Coated: White, Black, Bronze, Champagne<br>• Anodized: Silver, Bronze, Gold<br>• Wooden Finish (PVDF)<br>• Custom Colors available on request`;
+  if(m.includes('glass') && (m.includes('type')||m.includes('option')))
+    return `🔮 <b>Glass Options:</b><br>• 5mm/8mm/10mm Clear Glass<br>• Tinted (Grey/Blue)<br>• Frosted Glass<br>• DGU (5+12+5mm or 6+12+6mm) — best for noise & heat<br>• Tempered 10mm<br>• Laminated Glass`;
+  if(m.includes('contact') || m.includes('phone') || m.includes('call') || m.includes('whatsapp'))
+    return `📞 <b>Contact Us:</b><br>• Phone: +91 95087 77145<br>• WhatsApp: +91 95087 77145<br>• Email: info@aluminopro.in<br>• Workshop: Plot 42, Sector 58, Noida<br><br>Working hours: Mon–Sat 9AM–7PM`;
+  if(m.includes('gst') || m.includes('tax'))
+    return `🧾 GST @ 18% is applicable on all orders. Our GST number: <b>09ABCDE1234F1Z5</b>. GST-compliant invoices are generated after order completion.`;
+  if(m.includes('payment') || m.includes('upi') || m.includes('pay'))
+    return `💳 <b>Payment:</b><br>• UPI: 9508777145@apl<br>• Supported apps: PhonePe, GPay, Paytm, BHIM<br><br>After admin confirms your order amount, you can pay directly from your dashboard with the exact amount pre-filled!`;
+  if(m.includes('warranty') || m.includes('guarantee'))
+    return `🛡️ We provide warranty on all our installations:<br>• Aluminum frames: 5 years structural warranty<br>• Powder coating: 3 years finish warranty<br>• Glass: 1 year installation warranty<br><br>Warranty cards provided on completion.`;
+  if(m.includes('hello')||m.includes('hi')||m.includes('hey'))
+    return `👋 Hello! Welcome to AluminoPro. I can help you with rates, product info, ordering process, and more. What would you like to know?`;
+  // Calculate price if sqft mentioned
+  const sqftMatch = m.match(/(\d+)\s*(?:sq\.?\s*ft|sqft)/i);
+  if(sqftMatch) {
+    const sqft = parseInt(sqftMatch[1]);
+    let service = 'Aluminum Windows (Single Glass)';
+    if(m.includes('door')) service = 'Aluminum Sliding Door';
+    else if(m.includes('acp')) service = 'ACP Cladding (Standard 3mm)';
+    else if(m.includes('partition')) service = 'Glass Office Partition';
+    const r = RATE_KNOWLEDGE[service];
+    return `📐 For <b>${sqft} sqft</b> of ${service}:<br>• Base: ₹${(sqft*r.min).toLocaleString('en-IN')} – ₹${(sqft*r.max).toLocaleString('en-IN')}<br>• + GST (18%): ₹${Math.round(sqft*r.min*.18).toLocaleString('en-IN')} – ₹${Math.round(sqft*r.max*.18).toLocaleString('en-IN')}<br>• <b>Total: ₹${Math.round(sqft*r.min*1.18).toLocaleString('en-IN')} – ₹${Math.round(sqft*r.max*1.18).toLocaleString('en-IN')}</b><br><br>Use our <a href="/login" style="color:var(--gold)">order calculator</a> for exact dimensions!`;
+  }
+  return `I can help you with:<br>• <b>Window rates</b> — ask "window price"<br>• <b>ACP cladding</b> — ask "ACP rate"<br>• <b>Glass partition</b> — ask "partition price"<br>• <b>Lead times</b> — ask "how long does it take"<br>• <b>Custom estimate</b> — tell me the sqft (e.g. "200 sqft window")<br>• <b>Ordering</b> — ask "how to order"`;
+}
+
+let chatOpen = false;
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatbot').classList.toggle('open', chatOpen);
+  document.getElementById('chatIcon').className = chatOpen ? 'fas fa-times' : 'fas fa-comments';
+  document.getElementById('chatBadge').style.display = 'none';
+  if(chatOpen) document.getElementById('chatInput').focus();
+}
+
+function addMsg(text, sender) {
+  const el = document.createElement('div');
+  el.className = 'chat-msg ' + sender;
+  el.innerHTML = text;
+  document.getElementById('chatMessages').appendChild(el);
+  document.getElementById('chatMessages').scrollTop = 9999;
+}
+
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg   = input.value.trim();
+  if(!msg) return;
+  input.value = '';
+  addMsg(msg, 'user');
+  const typing = document.createElement('div');
+  typing.className = 'chat-msg bot typing';
+  typing.textContent = 'Typing…';
+  document.getElementById('chatMessages').appendChild(typing);
+  setTimeout(() => {
+    typing.remove();
+    addMsg(getBotReply(msg), 'bot');
+  }, 600);
+}
+
+function sendQuick(msg) {
+  document.getElementById('chatInput').value = msg;
+  sendChat();
+}
+</script>
+</body>
+</html>
