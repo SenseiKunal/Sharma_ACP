@@ -891,9 +891,13 @@ def get_invoice(oid):
     return jsonify(serialize(order))
 
 # ══════════════════════════════════════════════════════════════════════════════
-# STARTUP
+# STARTUP — init_db() at MODULE LEVEL so gunicorn also initialises the DB
 # ══════════════════════════════════════════════════════════════════════════════
-if __name__ == '__main__':
+try:
     init_db()
+except Exception as _startup_err:
+    print(f"⚠️  init_db error: {_startup_err}")
+
+if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(debug=False, host='0.0.0.0', port=port)
