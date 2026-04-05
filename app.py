@@ -45,7 +45,7 @@ CORS(app, supports_credentials=True)
 
 # ── Business Config ─────────────────────────────────────────────────────────────
 UPI_ID   = '9508777145@apl'
-UPI_NAME = 'Kunal Sharma UG Sandeep Sharma'
+UPI_NAME = 'Sandeep Sharma'
 
 SERVICE_RATES = {
     'Aluminum Windows (Single Glass)': {'min': 280,  'max': 350},
@@ -244,7 +244,7 @@ def init_db():
         INSERT INTO users (name, email, password, role, phone)
         VALUES (%s, %s, %s, %s, %s)
         ON CONFLICT (email) DO NOTHING
-    """, ('Admin', 'admin@aluminiumpro.com', hash_password('admin123'), 'admin', '9508777145'))
+    """, ('Admin', 'admin@aluminiumpro.com', hash_password('admin123'), 'admin', '9955744336'))
 
     # ── Seed blog posts ──────────────────────────────────────────────────────────
     cur.execute("SELECT COUNT(*) AS cnt FROM blog_posts")
