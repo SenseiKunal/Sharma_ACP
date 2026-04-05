@@ -47,18 +47,31 @@ CORS(app, supports_credentials=True)
 UPI_ID   = '9508777145@apl'
 UPI_NAME = 'Sandeep Sharma'
 
+# ── Default rates (admin can update these via dashboard → Rate Management) ──────
 SERVICE_RATES = {
-    'Aluminum Windows (Single Glass)': {'min': 280,  'max': 350},
-    'Aluminum Windows (Double Glass)': {'min': 420,  'max': 520},
-    'Aluminum Sliding Door':           {'min': 320,  'max': 400},
-    'Aluminum Casement Door':          {'min': 380,  'max': 480},
-    'ACP Cladding (Standard 3mm)':     {'min': 180,  'max': 220},
-    'ACP Cladding (FR Grade 4mm)':     {'min': 240,  'max': 300},
-    'Glass Office Partition':          {'min': 450,  'max': 600},
-    'Structural Glazing Facade':       {'min': 850,  'max': 1200},
-    'Shopfront Aluminum Frame':        {'min': 500,  'max': 700},
-    'Skylight / Canopy':               {'min': 950,  'max': 1400},
+    'Aluminum Windows (Single Glass)': {'min': 300,  'max': 400},
+    'Aluminum Windows (Double Glass)': {'min': 450,  'max': 580},
+    'Aluminum Sliding Door':           {'min': 350,  'max': 450},
+    'Aluminum Casement Door':          {'min': 400,  'max': 500},
+    'ACP Cladding (Standard 3mm)':     {'min': 200,  'max': 260},
+    'ACP Cladding (FR Grade 4mm)':     {'min': 260,  'max': 320},
+    'Glass Office Partition':          {'min': 480,  'max': 650},
+    'Structural Glazing Facade':       {'min': 900,  'max': 1300},
+    'Shopfront Aluminum Frame':        {'min': 550,  'max': 750},
+    'Skylight / Canopy':               {'min': 1000, 'max': 1500},
 }
+
+def get_live_rates():
+    """Returns rates from DB if admin has overridden them, else default SERVICE_RATES."""
+    try:
+        conn = get_db()
+        rows = fetchall(conn, "SELECT service_name, min_rate, max_rate FROM service_rates")
+        conn.close()
+        if rows:
+            return {r['service_name']: {'min': float(r['min_rate']), 'max': float(r['max_rate'])} for r in rows}
+    except Exception:
+        pass
+    return SERVICE_RATES
 COLOR_OPTIONS = [
     'Silver (Mill Finish)', 'Powder Coated White', 'Powder Coated Black',
     'Powder Coated Bronze', 'Powder Coated Champagne', 'Anodized Silver',
@@ -266,6 +279,42 @@ def init_db():
                 (title, content, excerpt)
             )
 
+    # ── Service rates table (admin can edit via dashboard) ─────────────────────
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS service_rates (
+            id           SERIAL PRIMARY KEY,
+            service_name TEXT   UNIQUE NOT NULL,
+            min_rate     REAL   NOT NULL,
+            max_rate     REAL   NOT NULL,
+            material     TEXT   DEFAULT '',
+            lead_time    TEXT   DEFAULT '',
+            min_order    TEXT   DEFAULT '',
+            updated_at   TIMESTAMP DEFAULT NOW()
+        )
+    """)
+
+    # Seed default rates if table is empty
+    cur.execute("SELECT COUNT(*) AS cnt FROM service_rates")
+    if cur.fetchone()['cnt'] == 0:
+        default_rates = [
+            ('Aluminum Windows (Single Glass)', 300,  400,  '6063 Alloy + 5mm Clear Glass',  '7–10 days',  '10 sqft'),
+            ('Aluminum Windows (Double Glass)', 450,  580,  '6063 Alloy + DGU 5+12+5mm',     '10–14 days', '10 sqft'),
+            ('Aluminum Sliding Door',           350,  450,  'Heavy Section + 8mm Glass',      '7–12 days',  '20 sqft'),
+            ('Aluminum Casement Door',          400,  500,  'Heavy Section + Glass',          '7–12 days',  '15 sqft'),
+            ('ACP Cladding (Standard 3mm)',     200,  260,  '3mm ACP + Aluminium Framework',  '5–7 days',   '50 sqft'),
+            ('ACP Cladding (FR Grade 4mm)',     260,  320,  '4mm FR ACP + Framework',         '5–7 days',   '50 sqft'),
+            ('Glass Office Partition',          480,  650,  'Aluminium Frame + 10mm Glass',   '10–15 days', '30 sqft'),
+            ('Structural Glazing Facade',       900,  1300, 'Structural Silicone + DGU',      '15–21 days', '100 sqft'),
+            ('Shopfront Aluminum Frame',        550,  750,  'Box Section + Glass',            '7–10 days',  '40 sqft'),
+            ('Skylight / Canopy',               1000, 1500, 'Special Section + Toughened Glass', '14–21 days', '20 sqft'),
+        ]
+        for row in default_rates:
+            cur.execute("""
+                INSERT INTO service_rates (service_name, min_rate, max_rate, material, lead_time, min_order)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                ON CONFLICT (service_name) DO NOTHING
+            """, row)
+
     conn.commit()
     conn.close()
     print("✅ PostgreSQL DB initialised")
@@ -430,15 +479,73 @@ def upload_dp():
 # ══════════════════════════════════════════════════════════════════════════════
 @app.route('/api/rates')
 def get_rates():
-    return jsonify({'rates': SERVICE_RATES, 'colors': COLOR_OPTIONS, 'glass': GLASS_OPTIONS})
+    return jsonify({'rates': get_live_rates(), 'colors': COLOR_OPTIONS, 'glass': GLASS_OPTIONS})
+
+@app.route('/api/rates/full')
+def get_rates_full():
+    """Returns full rate data including material, lead_time, min_order for admin table."""
+    try:
+        conn = get_db()
+        rows = fetchall(conn, "SELECT * FROM service_rates ORDER BY id")
+        conn.close()
+        if rows:
+            return jsonify({'rates': [serialize(r) for r in rows]})
+    except Exception:
+        pass
+    # Fallback to defaults
+    return jsonify({'rates': [
+        {'service_name': k, 'min_rate': v['min'], 'max_rate': v['max'],
+         'material': '', 'lead_time': '', 'min_order': ''}
+        for k, v in SERVICE_RATES.items()
+    ]})
+
+@app.route('/api/admin/rates', methods=['PUT'])
+@admin_required
+def update_rate():
+    """Admin updates a single service rate."""
+    data = request.json
+    service = data.get('service_name', '')
+    min_r   = float(data.get('min_rate', 0))
+    max_r   = float(data.get('max_rate', 0))
+    material   = data.get('material', '')
+    lead_time  = data.get('lead_time', '')
+    min_order  = data.get('min_order', '')
+    if not service or min_r <= 0 or max_r <= 0:
+        return jsonify({'success': False, 'message': 'Invalid rate values'})
+    if min_r > max_r:
+        return jsonify({'success': False, 'message': 'Min rate cannot be greater than max rate'})
+    conn = get_db()
+    run(conn, """
+        INSERT INTO service_rates (service_name, min_rate, max_rate, material, lead_time, min_order, updated_at)
+        VALUES (%s, %s, %s, %s, %s, %s, NOW())
+        ON CONFLICT (service_name) DO UPDATE
+        SET min_rate=%s, max_rate=%s, material=%s, lead_time=%s, min_order=%s, updated_at=NOW()
+    """, (service, min_r, max_r, material, lead_time, min_order,
+             min_r, max_r, material, lead_time, min_order))
+    conn.commit()
+    conn.close()
+    # Also update in-memory SERVICE_RATES so calculator is immediately updated
+    SERVICE_RATES[service] = {'min': min_r, 'max': max_r}
+    return jsonify({'success': True, 'message': f'Rate updated for {service}'})
+
+@app.route('/api/admin/rates/reset', methods=['POST'])
+@admin_required
+def reset_rates():
+    """Reset all rates to default values."""
+    conn = get_db()
+    run(conn, "DELETE FROM service_rates")
+    conn.commit()
+    conn.close()
+    return jsonify({'success': True, 'message': 'Rates reset to defaults. Restart to reload.'})
 
 @app.route('/api/calculate', methods=['POST'])
 def calculate_price():
     data    = request.json
     service = data.get('service_type', '')
-    if service not in SERVICE_RATES:
+    live_rates = get_live_rates()
+    if service not in live_rates:
         return jsonify({'error': 'Unknown service type'}), 400
-    rate   = SERVICE_RATES[service]
+    rate   = live_rates[service]
     width  = float(data.get('width_ft',    0) or 0)
     height = float(data.get('height_ft',   0) or 0)
     csqft  = float(data.get('custom_sqft', 0) or 0)
@@ -509,7 +616,7 @@ def create_order():
     qty     = max(1, int(data.get('quantity', 1) or 1))
     sqft_per   = csqft if csqft > 0 else (width * height)
     total_sqft = round(sqft_per * qty, 2)
-    base_rate  = SERVICE_RATES.get(service, {}).get('min', 0)
+    base_rate  = get_live_rates().get(service, {}).get('min', 0)
     est_area   = f"{total_sqft} sqft" if total_sqft else data.get('estimated_area', '')
     conn = get_db()
     run(conn, """
