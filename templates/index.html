@@ -327,16 +327,16 @@ footer{background:var(--primary);color:rgba(255,255,255,.8);padding:60px;display
     <table class="rates-table">
       <thead><tr><th>Service</th><th>Material</th><th>Rate (₹/sqft)</th><th>Min. Order</th><th>Lead Time</th><th>Available</th></tr></thead>
       <tbody id="ratesTableBody">
-        <tr><td>Aluminum Window (Single Glass)</td><td>6063 Alloy + 5mm Clear Glass</td><td class="rate-price">₹300 – ₹400</td><td>10 sqft</td><td>7–10 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
-        <tr><td>Aluminum Window (Double Glass)</td><td>6063 Alloy + DGU 5+12+5mm</td><td class="rate-price">₹450 – ₹580</td><td>10 sqft</td><td>10–14 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
-        <tr><td>Aluminum Sliding Door</td><td>Heavy Section + 8mm Glass</td><td class="rate-price">₹350 – ₹450</td><td>20 sqft</td><td>7–12 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
-        <tr><td>Aluminum Casement Door</td><td>Heavy Section + Glass</td><td class="rate-price">₹400 – ₹500</td><td>15 sqft</td><td>7–12 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
-        <tr><td>ACP Cladding (Standard 3mm)</td><td>3mm ACP + Aluminium Framework</td><td class="rate-price">₹200 – ₹260</td><td>50 sqft</td><td>5–7 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
-        <tr><td>ACP Cladding (FR Grade 4mm)</td><td>4mm FR ACP + Framework</td><td class="rate-price">₹260 – ₹320</td><td>50 sqft</td><td>5–7 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
-        <tr><td>Glass Office Partition</td><td>Aluminium Frame + 10mm Glass</td><td class="rate-price">₹480 – ₹650</td><td>30 sqft</td><td>10–15 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
-        <tr><td>Structural Glazing Facade</td><td>Structural Silicone + DGU</td><td class="rate-price">₹900 – ₹1,300</td><td>100 sqft</td><td>15–21 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
-        <tr><td>Shopfront Aluminum Frame</td><td>Box Section + Glass</td><td class="rate-price">₹550 – ₹750</td><td>40 sqft</td><td>7–10 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
-        <tr><td>Skylight / Canopy</td><td>Special Section + Toughened Glass</td><td class="rate-price">₹1,000 – ₹1,500</td><td>20 sqft</td><td>14–21 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Aluminum Window (Single Glass)</td><td>6063 Alloy + 5mm Clear Glass</td><td class="rate-price">₹350/sqft</td><td>10 sqft</td><td>7–10 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Aluminum Window (Double Glass)</td><td>6063 Alloy + DGU 5+12+5mm</td><td class="rate-price">₹500/sqft</td><td>10 sqft</td><td>10–14 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Aluminum Sliding Door</td><td>Heavy Section + 8mm Glass</td><td class="rate-price">₹400/sqft</td><td>20 sqft</td><td>7–12 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Aluminum Casement Door</td><td>Heavy Section + Glass</td><td class="rate-price">₹450/sqft</td><td>15 sqft</td><td>7–12 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>ACP Cladding (Standard 3mm)</td><td>3mm ACP + Aluminium Framework</td><td class="rate-price">₹230/sqft</td><td>50 sqft</td><td>5–7 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>ACP Cladding (FR Grade 4mm)</td><td>4mm FR ACP + Framework</td><td class="rate-price">₹290/sqft</td><td>50 sqft</td><td>5–7 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Glass Office Partition</td><td>Aluminium Frame + 10mm Glass</td><td class="rate-price">₹550/sqft</td><td>30 sqft</td><td>10–15 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Structural Glazing Facade</td><td>Structural Silicone + DGU</td><td class="rate-price">₹1,100/sqft</td><td>100 sqft</td><td>15–21 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Shopfront Aluminum Frame</td><td>Box Section + Glass</td><td class="rate-price">₹650/sqft</td><td>40 sqft</td><td>7–10 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
+        <tr><td>Skylight / Canopy</td><td>Special Section + Toughened Glass</td><td class="rate-price">₹1,200/sqft</td><td>20 sqft</td><td>14–21 days</td><td><span class="badge-avail">✓ Yes</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -483,7 +483,7 @@ async function loadRatesTable() {
       <tr>
         <td>${r.service_name}</td>
         <td>${r.material || '—'}</td>
-        <td class="rate-price">₹${Number(r.min_rate).toLocaleString('en-IN')} – ₹${Number(r.max_rate).toLocaleString('en-IN')}</td>
+        <td class="rate-price">₹${Number(r.rate).toLocaleString('en-IN')}/sqft</td>
         <td>${r.min_order || '—'}</td>
         <td>${r.lead_time || '—'}</td>
         <td><span class="badge-avail">✓ Yes</span></td>
@@ -521,32 +521,32 @@ document.getElementById('contactForm').addEventListener('submit', async e => {
 
 // ── CHATBOT ────────────────────────────────────────────────────
 const RATE_KNOWLEDGE = {
-  'Aluminum Windows (Single Glass)': {min:280,max:350},
-  'Aluminum Windows (Double Glass)': {min:420,max:520},
-  'Aluminum Sliding Door':           {min:320,max:400},
-  'Aluminum Casement Door':          {min:380,max:480},
-  'ACP Cladding (Standard 3mm)':     {min:180,max:220},
-  'ACP Cladding (FR Grade 4mm)':     {min:240,max:300},
-  'Glass Office Partition':          {min:450,max:600},
-  'Structural Glazing Facade':       {min:850,max:1200},
-  'Shopfront Aluminum Frame':        {min:500,max:700},
-  'Skylight / Canopy':               {min:950,max:1400},
+  'Aluminum Windows (Single Glass)': 350,
+  'Aluminum Windows (Double Glass)': 500,
+  'Aluminum Sliding Door':           400,
+  'Aluminum Casement Door':          450,
+  'ACP Cladding (Standard 3mm)':     230,
+  'ACP Cladding (FR Grade 4mm)':     290,
+  'Glass Office Partition':          550,
+  'Structural Glazing Facade':       1100,
+  'Shopfront Aluminum Frame':        650,
+  'Skylight / Canopy':               1200,
 };
 
 function getBotReply(msg) {
   const m = msg.toLowerCase();
   if(m.includes('window') && (m.includes('rate')||m.includes('price')||m.includes('cost')||m.includes('sqft')))
-    return `🪟 <b>Aluminum Window Rates:</b><br>• Single Glass: ₹280–₹350/sqft<br>• Double Glass (DGU): ₹420–₹520/sqft<br><br>For a 4ft×5ft window = 20 sqft:<br>• Single glass: ₹5,600–₹7,000 + GST<br>• Double glass: ₹8,400–₹10,400 + GST<br><br>Want an exact quote? <a href="/login" style="color:var(--gold)">Place an order</a> for a site survey.`;
+    return `🪟 <b>Aluminum Window Rates:</b><br>• Single Glass: ₹350/sqft<br>• Double Glass (DGU): ₹500/sqft<br><br>For a 4ft×5ft window = 20 sqft:<br>• Single glass: ₹7,000 + GST (18%) = ₹8,260<br>• Double glass: ₹10,000 + GST (18%) = ₹11,800<br><br>Want an exact quote? <a href="/login" style="color:var(--gold)">Place an order</a> for a site survey.`;
   if(m.includes('acp') || m.includes('cladding'))
-    return `🏢 <b>ACP Cladding Rates:</b><br>• Standard 3mm: ₹180–₹220/sqft<br>• FR Grade 4mm: ₹240–₹300/sqft<br><br>ACP is ideal for building facades, shopfronts, and interior cladding. Min order: 50 sqft.<br>Lead time: 5–7 days.`;
+    return `🏢 <b>ACP Cladding Rates:</b><br>• Standard 3mm: ₹230/sqft<br>• FR Grade 4mm: ₹290/sqft<br><br>ACP is ideal for building facades, shopfronts, and interior cladding. Min order: 50 sqft.<br>Lead time: 5–7 days.`;
   if(m.includes('glass partition') || m.includes('office partition'))
-    return `🏗️ <b>Glass Office Partition:</b><br>• Rate: ₹450–₹600/sqft<br>• Includes aluminum frame + 10mm glass<br>• Frosted, clear, or tinted glass available<br>• Min order: 30 sqft<br>• Lead time: 10–15 days`;
+    return `🏗️ <b>Glass Office Partition:</b><br>• Rate: ₹550/sqft<br>• Includes aluminum frame + 10mm glass<br>• Frosted, clear, or tinted glass available<br>• Min order: 30 sqft<br>• Lead time: 10–15 days`;
   if(m.includes('door'))
-    return `🚪 <b>Aluminum Door Rates:</b><br>• Sliding Door: ₹320–₹400/sqft<br>• Casement Door: ₹380–₹480/sqft<br><br>Available in all finishes — silver, black, bronze, wooden PVDF. Custom sizes welcome.`;
+    return `🚪 <b>Aluminum Door Rates:</b><br>• Sliding Door: ₹400/sqft<br>• Casement Door: ₹450/sqft<br><br>Available in all finishes — silver, black, bronze, wooden PVDF. Custom sizes welcome.`;
   if(m.includes('structural') || m.includes('glazing'))
-    return `🏙️ <b>Structural Glazing:</b><br>• Rate: ₹850–₹1,200/sqft<br>• Frameless glass facade for commercial buildings<br>• DGU glass standard<br>• Min order: 100 sqft<br>• Lead time: 15–21 days`;
+    return `🏙️ <b>Structural Glazing:</b><br>• Rate: ₹1,100/sqft<br>• Frameless glass facade for commercial buildings<br>• DGU glass standard<br>• Min order: 100 sqft<br>• Lead time: 15–21 days`;
   if(m.includes('skylight') || m.includes('canopy'))
-    return `☀️ <b>Skylights & Canopies:</b><br>• Rate: ₹950–₹1,400/sqft<br>• Toughened or laminated glass<br>• Custom shapes — flat, pitched, barrel vault<br>• Ideal for restaurants, farmhouses, offices`;
+    return `☀️ <b>Skylights & Canopies:</b><br>• Rate: ₹1,200/sqft<br>• Toughened or laminated glass<br>• Custom shapes — flat, pitched, barrel vault<br>• Ideal for restaurants, farmhouses, offices`;
   if(m.includes('lead time') || m.includes('how long') || m.includes('delivery') || m.includes('days'))
     return `⏱️ <b>Lead Times:</b><br>• ACP Cladding: 5–7 days<br>• Windows & Doors: 7–12 days<br>• Glass Partitions: 10–15 days<br>• Structural Glazing: 15–21 days<br>• Skylights: 14–21 days<br><br>Timeline starts after site survey & advance payment.`;
   if(m.includes('order') || m.includes('how to') || m.includes('book') || m.includes('start'))
@@ -574,7 +574,9 @@ function getBotReply(msg) {
     else if(m.includes('acp')) service = 'ACP Cladding (Standard 3mm)';
     else if(m.includes('partition')) service = 'Glass Office Partition';
     const r = RATE_KNOWLEDGE[service];
-    return `📐 For <b>${sqft} sqft</b> of ${service}:<br>• Base: ₹${(sqft*r.min).toLocaleString('en-IN')} – ₹${(sqft*r.max).toLocaleString('en-IN')}<br>• + GST (18%): ₹${Math.round(sqft*r.min*.18).toLocaleString('en-IN')} – ₹${Math.round(sqft*r.max*.18).toLocaleString('en-IN')}<br>• <b>Total: ₹${Math.round(sqft*r.min*1.18).toLocaleString('en-IN')} – ₹${Math.round(sqft*r.max*1.18).toLocaleString('en-IN')}</b><br><br>Use our <a href="/login" style="color:var(--gold)">order calculator</a> for exact dimensions!`;
+    const base = sqft * r;
+    const gst  = Math.round(base * 0.18);
+    return `📐 For <b>${sqft} sqft</b> of ${service}:<br>• Rate: ₹${r}/sqft<br>• Base price: ₹${base.toLocaleString('en-IN')}<br>• GST (18%): ₹${gst.toLocaleString('en-IN')}<br>• <b>Total: ₹${(base+gst).toLocaleString('en-IN')}</b><br><br>Use our <a href="/login" style="color:var(--gold)">order calculator</a> for exact dimensions!`;
   }
   return `I can help you with:<br>• <b>Window rates</b> — ask "window price"<br>• <b>ACP cladding</b> — ask "ACP rate"<br>• <b>Glass partition</b> — ask "partition price"<br>• <b>Lead times</b> — ask "how long does it take"<br>• <b>Custom estimate</b> — tell me the sqft (e.g. "200 sqft window")<br>• <b>Ordering</b> — ask "how to order"`;
 }

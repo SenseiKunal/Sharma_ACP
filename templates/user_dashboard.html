@@ -263,10 +263,10 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;disp
           <p style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Estimated Price</p>
           <div class="price-row"><span class="lbl">Sqft per unit</span><span class="val" id="rSqftPer">—</span></div>
           <div class="price-row"><span class="lbl">Qty × Total sqft</span><span class="val" id="rTotalSqft">—</span></div>
-          <div class="price-row"><span class="lbl">Rate range</span><span class="val" id="rRate">—</span></div>
+          <div class="price-row"><span class="lbl">Rate per sqft</span><span class="val" id="rRate">—</span></div>
           <div class="price-row"><span class="lbl">Base price (before GST)</span><span class="val" id="rBase">—</span></div>
           <div class="price-row"><span class="lbl">GST @ 18%</span><span class="val" id="rGst">—</span></div>
-          <div class="price-row price-total-row"><span class="lbl">Total (incl. GST)</span><span class="val" id="rTotal">—</span></div>
+          <div class="price-row price-total-row"><span class="lbl">Total Amount (incl. 18% GST)</span><span class="val" id="rTotal">—</span></div>
           <p class="price-disclaimer">⚠️ This is an <strong>indicative estimate</strong>. Final pricing confirmed after site survey. Rates vary by glass type, finish, and site conditions.</p>
         </div>
       </div>
@@ -435,7 +435,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;disp
             </div>
             <div style="display:flex;align-items:flex-start;gap:11px;">
               <div style="width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;border-radius:2px;">4</div>
-              <p style="font-size:13px;color:var(--text2);line-height:1.5;">Complete payment and share screenshot on WhatsApp: <strong style="color:var(--gold)">+91 95087 77145</strong></p>
+              <p style="font-size:13px;color:var(--text2);line-height:1.5;">Complete payment and share screenshot on WhatsApp: <strong style="color:var(--gold)">+91 99557 44336</strong></p>
             </div>
           </div>
         </div>
@@ -633,11 +633,11 @@ async function calcPrice() {
     const d = await res.json();
     if(d.error) return;
     document.getElementById('rSqftPer').textContent   = `${d.sqft_per_unit} sqft`;
-    document.getElementById('rTotalSqft').textContent = `${qty} × ${d.sqft_per_unit} = ${d.total_sqft} sqft`;
-    document.getElementById('rRate').textContent      = `₹${d.min_rate} – ₹${d.max_rate} /sqft`;
-    document.getElementById('rBase').textContent      = `₹${d.min_price.toLocaleString('en-IN')} – ₹${d.max_price.toLocaleString('en-IN')}`;
-    document.getElementById('rGst').textContent       = `₹${d.gst_min.toLocaleString('en-IN')} – ₹${d.gst_max.toLocaleString('en-IN')}`;
-    document.getElementById('rTotal').textContent     = `₹${d.total_min_gst.toLocaleString('en-IN')} – ₹${d.total_max_gst.toLocaleString('en-IN')}`;
+    document.getElementById('rTotalSqft').textContent = `${d.quantity} × ${d.sqft_per_unit} = ${d.total_sqft} sqft`;
+    document.getElementById('rRate').textContent      = `₹${d.rate}/sqft`;
+    document.getElementById('rBase').textContent      = `₹${d.price.toLocaleString('en-IN')}`;
+    document.getElementById('rGst').textContent       = `₹${d.gst.toLocaleString('en-IN')}`;
+    document.getElementById('rTotal').textContent     = `₹${d.total_with_gst.toLocaleString('en-IN')}`;
     document.getElementById('priceResult').classList.add('show');
   } catch(e) {}
 }

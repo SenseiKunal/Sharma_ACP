@@ -256,8 +256,7 @@ table.dt tr:hover td{background:rgba(184,134,11,.03);}
           <tr>
             <th>Service</th>
             <th>Material / Spec</th>
-            <th>Min Rate (₹/sqft)</th>
-            <th>Max Rate (₹/sqft)</th>
+            <th style="text-align:center;">Rate (₹/sqft)</th>
             <th>Min Order</th>
             <th>Lead Time</th>
             <th>Last Updated</th>
@@ -795,22 +794,18 @@ async function loadRatesMgmt() {
 }
 
 async function saveRate(serviceName) {
-  const key = encodeURIComponent(serviceName);
-  const minEl = document.getElementById('min_'+key);
-  const maxEl = document.getElementById('max_'+key);
-  const matEl = document.getElementById('mat_'+key);
-  const moEl  = document.getElementById('mo_'+key);
-  const ltEl  = document.getElementById('lt_'+key);
-  const minV = parseFloat(minEl.value);
-  const maxV = parseFloat(maxEl.value);
-  if(!minV || !maxV) { showToast('Min and Max rates are required','error'); return; }
-  if(minV > maxV)    { showToast('Min rate cannot be greater than Max rate','error'); return; }
+  const key     = encodeURIComponent(serviceName);
+  const rateEl  = document.getElementById('rate_'+key);
+  const matEl   = document.getElementById('mat_'+key);
+  const moEl    = document.getElementById('mo_'+key);
+  const ltEl    = document.getElementById('lt_'+key);
+  const rateVal = parseFloat(rateEl.value);
+  if(!rateVal || rateVal <= 0) { showToast('Please enter a valid rate','error'); return; }
   const res = await fetch('/api/admin/rates', {
     method: 'PUT', headers: {'Content-Type':'application/json'},
     body: JSON.stringify({
       service_name: serviceName,
-      min_rate:     minV,
-      max_rate:     maxV,
+      rate:         rateVal,
       material:     matEl ? matEl.value : '',
       lead_time:    ltEl  ? ltEl.value  : '',
       min_order:    moEl  ? moEl.value  : '',
@@ -819,14 +814,8 @@ async function saveRate(serviceName) {
   const d = await res.json();
   if(d.success) {
     showToast(d.message);
-    // Flash the row green briefly
-    const row = document.querySelector(`[id^="rate-row-"]`);
-    minEl.style.borderColor = 'var(--success)';
-    maxEl.style.borderColor = 'var(--success)';
-    setTimeout(() => {
-      minEl.style.borderColor = 'var(--border)';
-      maxEl.style.borderColor = 'var(--border)';
-    }, 2000);
+    rateEl.style.color = 'var(--success)';
+    setTimeout(() => { rateEl.style.color = 'var(--gold)'; }, 2000);
   } else {
     showToast(d.message || 'Update failed', 'error');
   }
