@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sharma ACP — Premium Aluminum & ACP Solutions</title>
+<title>AluminoPro — Premium Aluminum & ACP Solutions</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -231,7 +231,7 @@ footer{background:var(--primary);color:rgba(255,255,255,.8);padding:60px;display
 <nav id="navbar">
   <a href="/" class="nav-logo">
     <div class="nav-logo-icon"><i class="fas fa-layer-group"></i></div>
-    <span class="nav-logo-text">Sharma <span>ACP</span></span>
+    <span class="nav-logo-text">Alumino<span>Pro</span></span>
   </a>
   <div class="nav-links">
     <a href="#services">Services</a>
@@ -397,7 +397,7 @@ footer{background:var(--primary);color:rgba(255,255,255,.8);padding:60px;display
 <!-- FOOTER -->
 <footer>
   <div class="footer-brand">
-    <a href="/" class="nav-logo"><div class="nav-logo-icon"><i class="fas fa-layer-group"></i></div><span class="nav-logo-text">Sharma <span>ACP</span></span></a>
+    <a href="/" class="nav-logo"><div class="nav-logo-icon"><i class="fas fa-layer-group"></i></div><span class="nav-logo-text">Alumino<span>Pro</span></span></a>
     <p>Premium aluminum fabrication and ACP cladding solutions for residential and commercial projects across Jharkhand.</p>
     <div class="footer-social">
       <a href="https://www.instagram.com/sharma_acp_work" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
@@ -410,7 +410,7 @@ footer{background:var(--primary);color:rgba(255,255,255,.8);padding:60px;display
   <div class="footer-col"><h4>Company</h4><a href="#">About Us</a><a href="#blog">Blog</a><a href="#contact">Contact</a><a href="/login">Login</a><a href="/login">Sign Up</a></div>
   <div class="footer-col"><h4>Quick Links</h4><a href="#rates">Rate Card</a><a href="/dashboard">My Dashboard</a><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
 </footer>
-<div class="footer-bottom"><p>© 2024 Sharma ACP. All rights reserved. Dhanbad, Jharkhand.</p><p style="color:var(--gold-light);font-size:12px;">GST: 09ABCDE1234F1Z5</p></div>
+<div class="footer-bottom"><p>© 2024 AluminoPro. All rights reserved. Dhanbad, Jharkhand.</p><p style="color:var(--gold-light);font-size:12px;">GST: 09ABCDE1234F1Z5</p></div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
@@ -424,11 +424,11 @@ footer{background:var(--primary);color:rgba(255,255,255,.8);padding:60px;display
 <div class="chatbot" id="chatbot">
   <div class="chat-header">
     <div class="chat-avatar"><i class="fas fa-robot"></i></div>
-    <div><div class="chat-title">Sharma ACP Assistant</div><div class="chat-subtitle">Ask about rates, products & more</div></div>
+    <div><div class="chat-title">AluminoPro Assistant</div><div class="chat-subtitle">Ask about rates, products & more</div></div>
     <button class="chat-close" onclick="toggleChat()"><i class="fas fa-times"></i></button>
   </div>
   <div class="chat-messages" id="chatMessages">
-    <div class="chat-msg bot">👋 Hi! I'm your Sharma ACP assistant. I can help you with:<br><br>• Product information<br>• Price estimates<br>• Lead times<br>• How to place an order<br><br>What would you like to know?</div>
+    <div class="chat-msg bot">👋 Hi! I'm your AluminoPro assistant. I can help you with:<br><br>• Product information<br>• Price estimates<br>• Lead times<br>• How to place an order<br><br>What would you like to know?</div>
   </div>
   <div class="chat-quick" id="quickReplies">
     <button class="quick-btn" onclick="sendQuick('Window rates')">Window rates</button>
@@ -564,7 +564,7 @@ function getBotReply(msg) {
   if(m.includes('warranty') || m.includes('guarantee'))
     return `🛡️ We provide warranty on all our installations:<br>• Aluminum frames: 5 years structural warranty<br>• Powder coating: 3 years finish warranty<br>• Glass: 1 year installation warranty<br><br>Warranty cards provided on completion.`;
   if(m.includes('hello')||m.includes('hi')||m.includes('hey'))
-    return `👋 Hello! Welcome to Sharma ACP. I can help you with rates, product info, ordering process, and more. What would you like to know?`;
+    return `👋 Hello! Welcome to AluminoPro. I can help you with rates, product info, ordering process, and more. What would you like to know?`;
   // Calculate price if sqft mentioned
   const sqftMatch = m.match(/(\d+)\s*(?:sq\.?\s*ft|sqft)/i);
   if(sqftMatch) {

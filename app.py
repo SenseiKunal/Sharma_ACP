@@ -34,17 +34,16 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'change_this_in_render_env_vars')
-app.permanent_session_lifetime = timedelta(minutes=15)  # Auto-logout after 15 min
+app.permanent_session_lifetime = timedelta(days=7)
 app.config.update(
     SESSION_COOKIE_SECURE   = True,   # Render uses HTTPS
     SESSION_COOKIE_HTTPONLY = True,
     SESSION_COOKIE_SAMESITE = 'Lax',
-    SESSION_COOKIE_NAME     = 'sharma_acp_session',
+    SESSION_COOKIE_NAME     = 'alumino_session',
 )
 CORS(app, supports_credentials=True)
 
 # ── Business Config ─────────────────────────────────────────────────────────────
-# ── Sharma ACP — Dhanbad, Jharkhand ─────────────────────────────────────────────
 UPI_ID   = '9508777145@apl'
 UPI_NAME = 'Sandeep Sharma'
 
@@ -880,7 +879,7 @@ def handle_cancel_request(rid):
             SET status='cancelled', payment_status='refund_pending',
                 cancel_requested=0, admin_note=%s, updated_at=%s
             WHERE id=%s
-        """, (f'Cancelled: {note}' if note else 'Cancelled by Sharma ACP admin', datetime.now(), req['order_id']))
+        """, (f'Cancelled: {note}' if note else 'Cancelled by admin', datetime.now(), req['order_id']))
     else:
         run(conn, "UPDATE orders SET cancel_requested=0 WHERE id=%s", (req['order_id'],))
     conn.commit()

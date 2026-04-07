@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel — Sharma ACP</title>
+<title>Admin Panel — AluminoPro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -137,7 +137,7 @@ table.dt tr:hover td{background:rgba(184,134,11,.03);}
 <aside class="sidebar">
   <div class="sidebar-logo">
     <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
-    <span class="logo-text">Sharma <span>ACP</span></span>
+    <span class="logo-text">Alumino<span>Pro</span></span>
     <span class="admin-pill">ADMIN</span>
   </div>
   <nav class="sidebar-nav">
@@ -839,59 +839,6 @@ async function init() {
   await loadAllOrders();
 }
 init();
-</script>
-
-<!-- ── AUTO-LOGOUT AFTER 15 MIN INACTIVITY ──────────── -->
-<div id="inactivityBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#C05621;color:#fff;padding:11px 20px;text-align:center;font-size:13px;font-weight:600;align-items:center;justify-content:center;gap:12px;">
-  <i class="fas fa-clock"></i>
-  <span>Your session will expire in <strong id="countdownNum">60</strong> seconds due to inactivity.</span>
-  <button onclick="resetInactivityTimer()" style="padding:4px 14px;background:#fff;color:#C05621;border:none;font-size:11px;font-weight:700;cursor:pointer;border-radius:4px;">Stay Logged In</button>
-</div>
-<script>
-(function(){
-  const TIMEOUT_MS   = 15 * 60 * 1000; // 15 minutes
-  const WARNING_SEC  = 60;              // warn 60 seconds before logout
-  let   logoutTimer, warnTimer, countdownInterval;
-
-  function formatTime(sec) { return sec; }
-
-  function startCountdown() {
-    let sec = WARNING_SEC;
-    document.getElementById('inactivityBanner').style.display = 'flex';
-    document.getElementById('countdownNum').textContent = sec;
-    countdownInterval = setInterval(() => {
-      sec--;
-      document.getElementById('countdownNum').textContent = sec;
-      if(sec <= 0) {
-        clearInterval(countdownInterval);
-        doAutoLogout();
-      }
-    }, 1000);
-  }
-
-  async function doAutoLogout() {
-    try { await fetch('/api/logout', {method:'POST'}); } catch(e) {}
-    window.location.href = '/login?timeout=1';
-  }
-
-  function resetInactivityTimer() {
-    clearTimeout(logoutTimer);
-    clearTimeout(warnTimer);
-    clearInterval(countdownInterval);
-    document.getElementById('inactivityBanner').style.display = 'none';
-    // Reset
-    warnTimer   = setTimeout(startCountdown, TIMEOUT_MS - WARNING_SEC * 1000);
-    logoutTimer = setTimeout(doAutoLogout,   TIMEOUT_MS);
-  }
-
-  // Start timers on page load
-  resetInactivityTimer();
-
-  // Reset on any user activity
-  ['mousemove','keydown','click','scroll','touchstart'].forEach(evt =>
-    document.addEventListener(evt, resetInactivityTimer, {passive: true})
-  );
-})();
 </script>
 </body>
 </html>
