@@ -34,17 +34,16 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'change_this_in_render_env_vars')
-app.permanent_session_lifetime = timedelta(minutes=15)  # Auto-logout after 15 min
+app.permanent_session_lifetime = timedelta(days=7)
 app.config.update(
     SESSION_COOKIE_SECURE   = True,   # Render uses HTTPS
     SESSION_COOKIE_HTTPONLY = True,
     SESSION_COOKIE_SAMESITE = 'Lax',
-    SESSION_COOKIE_NAME     = 'sharma_acp_session',
+    SESSION_COOKIE_NAME     = 'alumino_session',
 )
 CORS(app, supports_credentials=True)
 
 # ── Business Config ─────────────────────────────────────────────────────────────
-# ── Sharma ACP — Dhanbad, Jharkhand ─────────────────────────────────────────────
 UPI_ID   = '9508777145@apl'
 UPI_NAME = 'Sandeep Sharma'
 
@@ -83,19 +82,6 @@ GLASS_OPTIONS = [
     '5mm Tinted (Grey)', '5mm Tinted (Blue)', '5mm Frosted',
     'DGU (5+12+5mm)', 'DGU (6+12+6mm)', 'Tempered 10mm', 'Laminated Glass',
 ]
-# Extra charge per sqft based on glass type (added on top of service base rate)
-GLASS_SURCHARGE = {
-    '5mm Clear Glass':    0,    # standard — no extra
-    '8mm Clear Glass':    25,   # +₹25/sqft
-    '10mm Clear Glass':   50,   # +₹50/sqft
-    '5mm Tinted (Grey)':  30,   # +₹30/sqft
-    '5mm Tinted (Blue)':  30,   # +₹30/sqft
-    '5mm Frosted':        35,   # +₹35/sqft
-    'DGU (5+12+5mm)':     150,  # +₹150/sqft (double glazing)
-    'DGU (6+12+6mm)':     180,  # +₹180/sqft (thicker DGU)
-    'Tempered 10mm':      80,   # +₹80/sqft
-    'Laminated Glass':    100,  # +₹100/sqft
-}
 CANCEL_TERMS = [
     "Cancellation is only allowed if work has NOT started (status: Pending).",
     "Orders with 'Running' or 'Done' status cannot be cancelled.",
@@ -310,16 +296,16 @@ def init_db():
     cur.execute("SELECT COUNT(*) AS cnt FROM service_rates")
     if cur.fetchone()['cnt'] == 0:
         default_rates = [
-            ('Aluminum Windows (Single Glass)', 350,  '6063 Alloy + 5mm Clear Float Glass',      '7–10 days',  '10 sqft'),
-            ('Aluminum Windows (Double Glass)', 500,  '6063 Alloy + DGU (5+12+5mm Air Gap)',     '10–14 days', '10 sqft'),
-            ('Aluminum Sliding Door',           400,  'Heavy Duty Section + 8mm Toughened Glass','7–12 days',  '20 sqft'),
-            ('Aluminum Casement Door',          450,  'Heavy Section + 6mm Toughened Glass',     '7–12 days',  '15 sqft'),
-            ('ACP Cladding (Standard 3mm)',     230,  '3mm ACP Panel + GI Framework + Sealant',  '5–7 days',   '50 sqft'),
-            ('ACP Cladding (FR Grade 4mm)',     290,  '4mm FR-rated ACP + GI Framework',         '5–7 days',   '50 sqft'),
-            ('Glass Office Partition',          550,  'Aluminium Frame + 10mm Toughened Glass',  '10–15 days', '30 sqft'),
-            ('Structural Glazing Facade',       1100, 'Structural Silicone + DGU Glass',         '15–21 days', '100 sqft'),
-            ('Shopfront Aluminum Frame',        650,  'Box Section + 8mm Toughened Glass',       '7–10 days',  '40 sqft'),
-            ('Skylight / Canopy',               1200, 'Special Aluminium Section + Toughened Glass', '14–21 days', '20 sqft'),
+            ('Aluminum Windows (Single Glass)', 350,  '6063 Alloy + 5mm Clear Glass',     '7–10 days',  '10 sqft'),
+            ('Aluminum Windows (Double Glass)', 500,  '6063 Alloy + DGU 5+12+5mm',        '10–14 days', '10 sqft'),
+            ('Aluminum Sliding Door',           400,  'Heavy Section + 8mm Glass',         '7–12 days',  '20 sqft'),
+            ('Aluminum Casement Door',          450,  'Heavy Section + Glass',             '7–12 days',  '15 sqft'),
+            ('ACP Cladding (Standard 3mm)',     230,  '3mm ACP + Aluminium Framework',     '5–7 days',   '50 sqft'),
+            ('ACP Cladding (FR Grade 4mm)',     290,  '4mm FR ACP + Framework',            '5–7 days',   '50 sqft'),
+            ('Glass Office Partition',          550,  'Aluminium Frame + 10mm Glass',      '10–15 days', '30 sqft'),
+            ('Structural Glazing Facade',       1100, 'Structural Silicone + DGU',         '15–21 days', '100 sqft'),
+            ('Shopfront Aluminum Frame',        650,  'Box Section + Glass',               '7–10 days',  '40 sqft'),
+            ('Skylight / Canopy',               1200, 'Special Section + Toughened Glass', '14–21 days', '20 sqft'),
         ]
         for row in default_rates:
             cur.execute("""
@@ -549,42 +535,29 @@ def reset_rates():
 
 @app.route('/api/calculate', methods=['POST'])
 def calculate_price():
-    data       = request.json
-    service    = data.get('service_type', '')
-    glass_type = data.get('glass_type', '')
+    data    = request.json
+    service = data.get('service_type', '')
     live_rates = get_live_rates()
     if service not in live_rates:
         return jsonify({'error': 'Unknown service type'}), 400
-    base_rate     = live_rates[service]
-    glass_extra   = GLASS_SURCHARGE.get(glass_type, 0)
-    # ACP services don't use glass — no surcharge
-    if 'ACP' in service:
-        glass_extra = 0
-    effective_rate = base_rate + glass_extra
+    rate       = live_rates[service]
     width      = float(data.get('width_ft',    0) or 0)
     height     = float(data.get('height_ft',   0) or 0)
     csqft      = float(data.get('custom_sqft', 0) or 0)
     qty        = max(1, int(data.get('quantity', 1) or 1))
     sqft_per   = csqft if csqft > 0 else (width * height)
     total_sqft = round(sqft_per * qty, 2)
-    price      = total_sqft * effective_rate
+    price      = total_sqft * rate
     gst        = round(price * 0.18)
     return jsonify({
-        'sqft_per_unit':  round(sqft_per, 2),
-        'total_sqft':     total_sqft,
-        'quantity':       qty,
-        'base_rate':      base_rate,
-        'glass_surcharge':glass_extra,
-        'effective_rate': effective_rate,
-        'glass_type':     glass_type,
-        'price':          round(price),
-        'gst':            gst,
-        'total_with_gst': round(price + gst),
+        'sqft_per_unit': round(sqft_per, 2),
+        'total_sqft':    total_sqft,
+        'quantity':      qty,
+        'rate':          rate,
+        'price':         round(price),
+        'gst':           gst,
+        'total_with_gst':round(price + gst),
     })
-
-@app.route('/api/glass-surcharges')
-def glass_surcharges():
-    return jsonify(GLASS_SURCHARGE)
 
 # ══════════════════════════════════════════════════════════════════════════════
 # UPI PAYMENT
@@ -906,7 +879,7 @@ def handle_cancel_request(rid):
             SET status='cancelled', payment_status='refund_pending',
                 cancel_requested=0, admin_note=%s, updated_at=%s
             WHERE id=%s
-        """, (f'Cancelled: {note}' if note else 'Cancelled by Sharma ACP admin', datetime.now(), req['order_id']))
+        """, (f'Cancelled: {note}' if note else 'Cancelled by admin', datetime.now(), req['order_id']))
     else:
         run(conn, "UPDATE orders SET cancel_requested=0 WHERE id=%s", (req['order_id'],))
     conn.commit()

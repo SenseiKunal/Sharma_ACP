@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login — Sharma ACP</title>
+<title>Login — AluminoPro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -20,6 +20,7 @@
 body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;display:flex;}
 ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg3);}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px;}
 
+/* ── LEFT PANEL ── */
 .auth-left{flex:1;background:linear-gradient(145deg,var(--primary) 0%,var(--primary2) 60%,#0F3460 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:48px;min-height:100vh;}
 .left-pattern{position:absolute;inset:0;background-image:radial-gradient(circle at 25% 75%,rgba(184,134,11,.18) 0%,transparent 50%),radial-gradient(circle at 75% 25%,rgba(184,134,11,.1) 0%,transparent 50%);pointer-events:none;}
 .left-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:55px 55px;pointer-events:none;}
@@ -40,96 +41,96 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
 .feat-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.4;}
 .left-footer{position:relative;z-index:1;font-size:11px;color:rgba(255,255,255,.3);}
 
-.auth-right{width:500px;background:#fff;display:flex;align-items:center;justify-content:center;padding:40px 44px;min-height:100vh;overflow-y:auto;}
+/* ── RIGHT PANEL ── */
+.auth-right{width:480px;background:#fff;display:flex;align-items:center;justify-content:center;padding:48px 44px;min-height:100vh;}
 .auth-box{width:100%;}
 
-.auth-tabs{display:flex;margin-bottom:28px;border-bottom:2px solid var(--border);}
-.auth-tab{flex:1;padding:11px;text-align:center;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+/* Tabs */
+.auth-tabs{display:flex;margin-bottom:32px;border-bottom:2px solid var(--border);}
+.auth-tab{flex:1;padding:12px;text-align:center;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
 .auth-tab.active{color:var(--gold);border-color:var(--gold);}
 .auth-panel{display:none;}
 .auth-panel.active{display:block;}
-.auth-title{font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--text);margin-bottom:3px;}
-.auth-sub{font-size:13px;color:var(--text3);margin-bottom:24px;}
 
-.form-group{margin-bottom:14px;position:relative;}
-.form-group label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;font-weight:700;}
-.form-group label .req{color:var(--danger);}
+.auth-title{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--text);margin-bottom:4px;}
+.auth-sub{font-size:13px;color:var(--text3);margin-bottom:28px;}
+
+/* Form */
+.form-group{margin-bottom:16px;}
+.form-group label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:7px;font-weight:700;}
 .input-wrap{position:relative;}
 .input-wrap .icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:13px;pointer-events:none;}
-.input-wrap input,.input-wrap select{width:100%;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:10px 14px 10px 38px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s;border-radius:7px;appearance:none;}
-.input-wrap input:focus,.input-wrap select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.1);}
-.input-wrap input.valid{border-color:var(--success);}
-.input-wrap input.invalid{border-color:var(--danger);}
-.input-wrap .eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;padding:4px;}
-.input-wrap .valid-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;display:none;}
-.input-wrap input.valid ~ .valid-icon{display:block;color:var(--success);}
-.input-wrap input.invalid ~ .valid-icon{display:none;}
-/* select arrow */
-.input-wrap select{padding-right:36px;}
-.input-wrap .select-arrow{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:12px;pointer-events:none;}
-
-.field-hint{font-size:11px;color:var(--text3);margin-top:4px;display:none;}
-.input-wrap input.invalid ~ .field-hint,.field-hint.show{display:block;color:var(--danger);}
-.field-ok{font-size:11px;color:var(--success);margin-top:4px;display:none;}
-.field-ok.show{display:block;}
-
+.input-wrap input{width:100%;background:#fff;border:1.5px solid var(--border);color:var(--text);padding:11px 14px 11px 38px;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s;border-radius:7px;}
+.input-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,134,11,.1);}
+.input-wrap .eye-btn{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;padding:4px;line-height:1;}
+.input-wrap .eye-btn:hover{color:var(--text);}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 
+/* Checkbox */
 .form-check{display:flex;align-items:flex-start;gap:8px;margin-top:4px;cursor:pointer;}
 .form-check input{width:16px;height:16px;margin-top:2px;flex-shrink:0;accent-color:var(--gold);cursor:pointer;}
 .form-check label{font-size:12px;color:var(--text3);cursor:pointer;line-height:1.5;}
 .form-check a{color:var(--gold);text-decoration:none;}
+.form-check a:hover{text-decoration:underline;}
 
-.btn-auth{width:100%;padding:13px;background:var(--gold);color:#fff;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:7px;box-shadow:0 3px 12px rgba(184,134,11,.3);}
-.btn-auth:hover{background:var(--gold2);transform:translateY(-1px);}
+/* Button */
+.btn-auth{width:100%;padding:13px;background:var(--gold);color:#fff;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:7px;box-shadow:0 3px 12px rgba(184,134,11,.3);}
+.btn-auth:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(184,134,11,.4);}
 .btn-auth:disabled{opacity:.6;cursor:not-allowed;transform:none;}
 
-.alert{padding:10px 14px;font-size:13px;border-radius:6px;margin-bottom:12px;display:none;align-items:center;gap:8px;}
-.alert.show{display:flex;}
+/* Alerts */
+.alert{padding:10px 14px;font-size:13px;border-radius:6px;margin-bottom:14px;display:none;}
+.alert.show{display:flex;align-items:center;gap:8px;}
 .alert-error{background:rgba(197,48,48,.08);border:1px solid rgba(197,48,48,.2);color:var(--danger);}
 .alert-success{background:rgba(45,138,78,.08);border:1px solid rgba(45,138,78,.2);color:var(--success);}
 
-.switch-link{text-align:center;font-size:12px;color:var(--text3);margin-top:16px;}
-.switch-link a{color:var(--gold);font-weight:700;text-decoration:none;cursor:pointer;}
+.divider{text-align:center;font-size:12px;color:var(--text3);margin:20px 0;position:relative;}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:40%;height:1px;background:var(--border);}
+.divider::before{left:0;}
+.divider::after{right:0;}
 
-/* ── SESSION TIMEOUT BANNER ────────────────────────── */
-#timeoutBanner{display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#C53030;color:#fff;padding:12px 24px;text-align:center;font-size:14px;font-weight:600;gap:12px;align-items:center;justify-content:center;}
-#timeoutBanner.show{display:flex;}
-#timeoutBanner button{padding:5px 16px;background:#fff;color:#C53030;border:none;font-size:12px;font-weight:700;cursor:pointer;border-radius:4px;}
+.switch-link{text-align:center;font-size:12px;color:var(--text3);margin-top:18px;}
+.switch-link a{color:var(--gold);font-weight:700;text-decoration:none;cursor:pointer;}
+.switch-link a:hover{text-decoration:underline;}
 
 @media(max-width:860px){
   .auth-left{display:none;}
-  .auth-right{width:100%;padding:32px 20px;}
+  .auth-right{width:100%;padding:36px 24px;}
 }
 </style>
 </head>
 <body>
-
-<!-- Session Timeout Warning Banner (shown on all pages via JS include) -->
-<div id="timeoutBanner">
-  <i class="fas fa-clock"></i>
-  <span id="timeoutMsg">Your session will expire in <strong id="timeoutCount">60</strong> seconds due to inactivity.</span>
-  <button onclick="extendSession()">Stay Logged In</button>
-</div>
 
 <div class="auth-left">
   <div class="left-pattern"></div>
   <div class="left-grid"></div>
   <a href="/" class="left-logo">
     <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
-    <span class="logo-text">Sharma <span>ACP</span></span>
+    <span class="logo-text">Alumino<span>Pro</span></span>
   </a>
   <div class="left-content">
     <h1 class="left-title">Your Projects,<br><span>Our Precision.</span></h1>
     <p class="left-sub">Track orders, get instant quotes, book site visits, and pay securely — all in one place.</p>
     <div class="left-features">
-      <div class="feat"><div class="feat-icon"><i class="fas fa-calculator"></i></div><div><div class="feat-title">Live Price Calculator</div><div class="feat-desc">Enter dimensions, get instant estimate with GST.</div></div></div>
-      <div class="feat"><div class="feat-icon"><i class="fas fa-box-open"></i></div><div><div class="feat-title">Real-Time Order Tracking</div><div class="feat-desc">Know where your project stands — Pending, Running, or Done.</div></div></div>
-      <div class="feat"><div class="feat-icon"><i class="fas fa-file-invoice"></i></div><div><div class="feat-title">GST Invoices</div><div class="feat-desc">Download professional invoices on order completion.</div></div></div>
-      <div class="feat"><div class="feat-icon"><i class="fas fa-qrcode"></i></div><div><div class="feat-title">UPI Payment</div><div class="feat-desc">Pay directly via PhonePe, GPay, Paytm with pre-filled amount.</div></div></div>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-calculator"></i></div>
+        <div><div class="feat-title">Live Price Calculator</div><div class="feat-desc">Enter dimensions, get instant estimate with GST.</div></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-box-open"></i></div>
+        <div><div class="feat-title">Real-Time Order Tracking</div><div class="feat-desc">Know where your project stands — Pending, Running, or Done.</div></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-file-invoice"></i></div>
+        <div><div class="feat-title">GST Invoices</div><div class="feat-desc">Download professional invoices on order completion.</div></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon"><i class="fas fa-qrcode"></i></div>
+        <div><div class="feat-title">UPI Payment</div><div class="feat-desc">Pay directly via PhonePe, GPay, Paytm with pre-filled amount.</div></div>
+      </div>
     </div>
   </div>
-  <div class="left-footer">© 2024 Sharma ACP · Manaitand, Dhanbad, Jharkhand</div>
+  <div class="left-footer">© 2024 AluminoPro · Plot 42, Sector 58, Noida, UP</div>
 </div>
 
 <div class="auth-right">
@@ -142,313 +143,124 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-
     <!-- ── LOGIN ── -->
     <div class="auth-panel active" id="panel-login">
       <h2 class="auth-title">Welcome Back</h2>
-      <p class="auth-sub">Sign in to your Sharma ACP account</p>
+      <p class="auth-sub">Sign in to your AluminoPro account</p>
       <div class="alert alert-error" id="loginErr"><i class="fas fa-exclamation-circle"></i><span id="loginErrMsg"></span></div>
       <div class="form-group">
-        <label>Email Address <span class="req">*</span></label>
+        <label>Email Address</label>
         <div class="input-wrap">
           <i class="icon fas fa-envelope"></i>
-          <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" oninput="validateLoginEmail(this)">
-          <i class="valid-icon fas fa-check-circle"></i>
+          <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
         </div>
-        <div class="field-hint" id="loginEmailHint">Please enter a valid email (must contain @)</div>
       </div>
       <div class="form-group">
-        <label>Password <span class="req">*</span></label>
+        <label>Password</label>
         <div class="input-wrap">
           <i class="icon fas fa-lock"></i>
           <input type="password" id="loginPass" placeholder="Enter your password" autocomplete="current-password">
           <button class="eye-btn" type="button" onclick="toggleEye('loginPass',this)"><i class="fas fa-eye-slash"></i></button>
         </div>
       </div>
-      <button class="btn-auth" id="loginBtn" onclick="doLogin()">Sign In <i class="fas fa-arrow-right"></i></button>
+      <button class="btn-auth" id="loginBtn" onclick="doLogin()">
+        Sign In <i class="fas fa-arrow-right"></i>
+      </button>
       <div class="switch-link">Don't have an account? <a onclick="switchTab('signup')">Create one free</a></div>
     </div>
 
     <!-- ── SIGNUP ── -->
     <div class="auth-panel" id="panel-signup">
       <h2 class="auth-title">Create Account</h2>
-      <p class="auth-sub">Join Sharma ACP and track all your projects</p>
+      <p class="auth-sub">Join AluminoPro and track all your projects</p>
       <div class="alert alert-error"   id="signupErr"><i class="fas fa-exclamation-circle"></i><span id="signupErrMsg"></span></div>
       <div class="alert alert-success" id="signupOk"><i class="fas fa-check-circle"></i><span id="signupOkMsg"></span></div>
-
       <div class="form-row">
         <div class="form-group">
-          <label>Full Name <span class="req">*</span></label>
-          <div class="input-wrap">
-            <i class="icon fas fa-user"></i>
-            <input type="text" id="sName" placeholder="Rajesh Kumar" autocomplete="name">
-          </div>
+          <label>Full Name *</label>
+          <div class="input-wrap"><i class="icon fas fa-user"></i><input type="text" id="sName" placeholder="Rajesh Kumar" autocomplete="name"></div>
         </div>
         <div class="form-group">
-          <label>Phone <span class="req">*</span> <span style="color:var(--text3);font-weight:400;">(10 digits)</span></label>
-          <div class="input-wrap">
-            <i class="icon fas fa-phone"></i>
-            <input type="tel" id="sPhone" placeholder="9876543210" maxlength="10" autocomplete="tel"
-              oninput="validatePhone(this)" onkeypress="return /[0-9]/.test(event.key)">
-            <i class="valid-icon fas fa-check-circle"></i>
-          </div>
-          <div class="field-hint" id="phoneHint">Phone number must be exactly 10 digits</div>
-          <div class="field-ok"   id="phoneOk">✓ Valid phone number</div>
+          <label>Phone *</label>
+          <div class="input-wrap"><i class="icon fas fa-phone"></i><input type="tel" id="sPhone" placeholder="98765 43210" autocomplete="tel"></div>
         </div>
       </div>
-
       <div class="form-group">
-        <label>Email Address <span class="req">*</span></label>
-        <div class="input-wrap">
-          <i class="icon fas fa-envelope"></i>
-          <input type="email" id="sEmail" placeholder="you@example.com" autocomplete="email"
-            oninput="validateEmail(this, 'emailHint', 'emailOk')">
-          <i class="valid-icon fas fa-check-circle"></i>
-        </div>
-        <div class="field-hint" id="emailHint">Email must contain @ and a valid domain (e.g. gmail.com)</div>
-        <div class="field-ok"   id="emailOk">✓ Valid email address</div>
+        <label>Email Address *</label>
+        <div class="input-wrap"><i class="icon fas fa-envelope"></i><input type="email" id="sEmail" placeholder="you@example.com" autocomplete="email"></div>
       </div>
-
-      <!-- State dropdown -->
       <div class="form-group">
-        <label>State</label>
-        <div class="input-wrap">
-          <i class="icon fas fa-map"></i>
-          <select id="sState" onchange="onStateChange()">
-            <option value="">— Select State —</option>
-          </select>
-          <i class="select-arrow fas fa-chevron-down"></i>
-        </div>
+        <label>City / Address</label>
+        <div class="input-wrap"><i class="icon fas fa-map-marker-alt"></i><input type="text" id="sAddress" placeholder="Your city or area"></div>
       </div>
-
-      <!-- City dropdown (shown after state selected) -->
-      <div class="form-group" id="cityGroup" style="display:none;">
-        <label>City</label>
-        <div class="input-wrap">
-          <i class="icon fas fa-city"></i>
-          <select id="sCity" onchange="updateAddress()">
-            <option value="">— Select City —</option>
-          </select>
-          <i class="select-arrow fas fa-chevron-down"></i>
-        </div>
-      </div>
-
       <div class="form-row">
         <div class="form-group">
-          <label>Password <span class="req">*</span></label>
+          <label>Password *</label>
           <div class="input-wrap">
             <i class="icon fas fa-lock"></i>
-            <input type="password" id="sPass" placeholder="Min 6 characters" autocomplete="new-password"
-              oninput="validatePass(this)">
+            <input type="password" id="sPass" placeholder="Min 6 chars" autocomplete="new-password">
             <button class="eye-btn" type="button" onclick="toggleEye('sPass',this)"><i class="fas fa-eye-slash"></i></button>
           </div>
-          <div class="field-hint" id="passHint">Password must be at least 6 characters</div>
         </div>
         <div class="form-group">
-          <label>Confirm Password <span class="req">*</span></label>
+          <label>Confirm Password *</label>
           <div class="input-wrap">
             <i class="icon fas fa-lock"></i>
-            <input type="password" id="sPass2" placeholder="Repeat password" autocomplete="new-password"
-              oninput="validatePass2(this)">
+            <input type="password" id="sPass2" placeholder="Repeat password" autocomplete="new-password">
           </div>
-          <div class="field-hint" id="pass2Hint">Passwords do not match</div>
         </div>
       </div>
-
       <label class="form-check">
         <input type="checkbox" id="sTerms">
         <label for="sTerms">I agree to the <a href="#" onclick="return false;">Terms of Service</a> and <a href="#" onclick="return false;">Privacy Policy</a></label>
       </label>
-
-      <button class="btn-auth" id="signupBtn" onclick="doSignup()" style="margin-top:14px;">
+      <button class="btn-auth" id="signupBtn" onclick="doSignup()" style="margin-top:16px;">
         Create Account <i class="fas fa-user-plus"></i>
       </button>
       <div class="switch-link">Already have an account? <a onclick="switchTab('login')">Sign in</a></div>
     </div>
-
   </div>
 </div>
 
 <script>
-// ── India States & Cities Data ─────────────────────────────────────────────────
-const INDIA_DATA = {
-  'Andhra Pradesh':       ['Visakhapatnam','Vijayawada','Guntur','Nellore','Kurnool','Kakinada','Rajamahendravaram','Tirupati','Kadapa'],
-  'Arunachal Pradesh':    ['Itanagar','Naharlagun','Tawang','Ziro','Pasighat'],
-  'Assam':                ['Guwahati','Silchar','Dibrugarh','Jorhat','Nagaon','Tinsukia','Tezpur'],
-  'Bihar':                ['Patna','Gaya','Bhagalpur','Muzaffarpur','Purnia','Darbhanga','Ara','Begusarai','Katihar'],
-  'Chhattisgarh':         ['Raipur','Bhilai','Bilaspur','Durg','Korba','Rajnandgaon','Raigarh'],
-  'Goa':                  ['Panaji','Margao','Vasco da Gama','Mapusa','Ponda'],
-  'Gujarat':              ['Ahmedabad','Surat','Vadodara','Rajkot','Bhavnagar','Jamnagar','Junagadh','Gandhinagar','Anand'],
-  'Haryana':              ['Faridabad','Gurugram','Panipat','Ambala','Yamunanagar','Rohtak','Hisar','Karnal','Sonipat'],
-  'Himachal Pradesh':     ['Shimla','Manali','Dharamshala','Solan','Mandi','Kullu','Hamirpur'],
-  'Jharkhand':            ['Ranchi','Jamshedpur','Dhanbad','Bokaro','Deoghar','Hazaribagh','Giridih','Dumka','Phusro','Chirkunda'],
-  'Karnataka':            ['Bengaluru','Mysuru','Hubballi','Mangaluru','Belagavi','Davangere','Ballari','Vijayapura','Shivamogga'],
-  'Kerala':               ['Thiruvananthapuram','Kochi','Kozhikode','Thrissur','Kollam','Palakkad','Alappuzha','Malappuram'],
-  'Madhya Pradesh':       ['Bhopal','Indore','Jabalpur','Gwalior','Ujjain','Sagar','Rewa','Satna','Dewas'],
-  'Maharashtra':          ['Mumbai','Pune','Nagpur','Nashik','Aurangabad','Solapur','Amravati','Thane','Kolhapur','Navi Mumbai'],
-  'Manipur':              ['Imphal','Thoubal','Bishnupur','Churachandpur'],
-  'Meghalaya':            ['Shillong','Tura','Nongstoin'],
-  'Mizoram':              ['Aizawl','Lunglei','Saiha'],
-  'Nagaland':             ['Kohima','Dimapur','Mokokchung'],
-  'Odisha':               ['Bhubaneswar','Cuttack','Rourkela','Berhampur','Sambalpur','Puri','Balasore','Bhadrak'],
-  'Punjab':               ['Ludhiana','Amritsar','Jalandhar','Patiala','Bathinda','Mohali','Hoshiarpur','Gurdaspur'],
-  'Rajasthan':            ['Jaipur','Jodhpur','Kota','Bikaner','Ajmer','Udaipur','Bhilwara','Alwar','Sikar'],
-  'Sikkim':               ['Gangtok','Namchi','Gyalshing'],
-  'Tamil Nadu':           ['Chennai','Coimbatore','Madurai','Tiruchirappalli','Salem','Tirunelveli','Vellore','Erode','Thoothukudi'],
-  'Telangana':            ['Hyderabad','Warangal','Nizamabad','Karimnagar','Ramagundam','Khammam','Nalgonda'],
-  'Tripura':              ['Agartala','Udaipur','Dharmanagar'],
-  'Uttar Pradesh':        ['Lucknow','Kanpur','Varanasi','Agra','Meerut','Allahabad','Ghaziabad','Noida','Bareilly','Aligarh','Moradabad','Saharanpur','Gorakhpur','Faizabad'],
-  'Uttarakhand':          ['Dehradun','Haridwar','Roorkee','Haldwani','Rudrapur','Kashipur','Rishikesh','Nainital'],
-  'West Bengal':          ['Kolkata','Asansol','Siliguri','Durgapur','Bardhaman','Malda','Barasat','Krishnanagar','Howrah'],
-  'Delhi':                ['New Delhi','Dwarka','Rohini','Janakpuri','Laxmi Nagar','Saket','Vasant Kunj','Karol Bagh','Connaught Place'],
-  'Jammu & Kashmir':      ['Srinagar','Jammu','Anantnag','Baramulla','Sopore'],
-  'Ladakh':               ['Leh','Kargil'],
-  'Chandigarh':           ['Chandigarh'],
-  'Dadra & Nagar Haveli': ['Silvassa'],
-  'Daman & Diu':          ['Daman','Diu'],
-  'Lakshadweep':          ['Kavaratti'],
-  'Puducherry':           ['Puducherry','Karaikal','Yanam'],
-  'Andaman & Nicobar':    ['Port Blair'],
-};
-
-// Populate state dropdown on load
-window.addEventListener('DOMContentLoaded', () => {
-  const sel = document.getElementById('sState');
-  Object.keys(INDIA_DATA).sort().forEach(state => {
-    const opt = document.createElement('option');
-    opt.value = state; opt.textContent = state;
-    sel.appendChild(opt);
-  });
-  // Default Jharkhand selected since business is there
-  sel.value = 'Jharkhand';
-  onStateChange();
-  setTimeout(() => {
-    const cityEl = document.getElementById('sCity');
-    if(cityEl) cityEl.value = 'Dhanbad';
-    updateAddress();
-  }, 50);
-});
-
-function onStateChange() {
-  const state  = document.getElementById('sState').value;
-  const cities = INDIA_DATA[state] || [];
-  const cityEl = document.getElementById('sCity');
-  const grp    = document.getElementById('cityGroup');
-  cityEl.innerHTML = '<option value="">— Select City —</option>';
-  if(cities.length) {
-    cities.forEach(c => {
-      const o = document.createElement('option');
-      o.value = c; o.textContent = c;
-      cityEl.appendChild(o);
-    });
-    grp.style.display = 'block';
-  } else {
-    grp.style.display = 'none';
-  }
-  updateAddress();
-}
-
-function updateAddress() {
-  // Combined state + city stored as address
-  const state = document.getElementById('sState').value;
-  const city  = document.getElementById('sCity').value;
-  // Will be read during signup
-}
-
-// ── Validation ─────────────────────────────────────────────────────────────────
-function validatePhone(inp) {
-  const val = inp.value.replace(/\D/g,'');
-  inp.value = val; // strip non-digits
-  const hint = document.getElementById('phoneHint');
-  const ok   = document.getElementById('phoneOk');
-  if(val.length === 0) {
-    inp.className=''; hint.classList.remove('show'); ok.classList.remove('show');
-  } else if(val.length < 10) {
-    inp.className='invalid'; hint.classList.add('show'); ok.classList.remove('show');
-  } else if(val.length === 10) {
-    inp.className='valid'; hint.classList.remove('show'); ok.classList.add('show');
-  } else {
-    inp.value = val.slice(0,10); // hard limit 10
-    inp.className='valid'; hint.classList.remove('show'); ok.classList.add('show');
-  }
-}
-
-function isValidEmail(email) {
-  // Must have @ with text before and after, with a dot in domain
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function validateEmail(inp, hintId, okId) {
-  const hint = document.getElementById(hintId);
-  const ok   = okId ? document.getElementById(okId) : null;
-  if(!inp.value) {
-    inp.className=''; if(hint) hint.classList.remove('show'); if(ok) ok.classList.remove('show');
-  } else if(isValidEmail(inp.value)) {
-    inp.className='valid'; if(hint) hint.classList.remove('show'); if(ok) ok.classList.add('show');
-  } else {
-    inp.className='invalid'; if(hint) hint.classList.add('show'); if(ok) ok.classList.remove('show');
-  }
-}
-
-function validateLoginEmail(inp) {
-  const hint = document.getElementById('loginEmailHint');
-  if(!inp.value) { inp.className=''; hint.classList.remove('show'); return; }
-  if(isValidEmail(inp.value)) { inp.className='valid'; hint.classList.remove('show'); }
-  else { inp.className='invalid'; hint.classList.add('show'); }
-}
-
-function validatePass(inp) {
-  const hint = document.getElementById('passHint');
-  if(inp.value.length >= 6) { inp.className='valid'; hint.classList.remove('show'); }
-  else if(inp.value.length > 0) { inp.className='invalid'; hint.classList.add('show'); }
-  else { inp.className=''; hint.classList.remove('show'); }
-  validatePass2(document.getElementById('sPass2'));
-}
-
-function validatePass2(inp) {
-  const hint = document.getElementById('pass2Hint');
-  if(!inp.value) { inp.className=''; hint.classList.remove('show'); return; }
-  if(inp.value === document.getElementById('sPass').value) {
-    inp.className='valid'; hint.classList.remove('show');
-  } else {
-    inp.className='invalid'; hint.classList.add('show');
-  }
-}
-
-// ── Toggle password visibility ─────────────────────────────────────────────────
-function toggleEye(id, btn) {
-  const inp  = document.getElementById(id);
-  const show = inp.type === 'password';
-  inp.type   = show ? 'text' : 'password';
-  btn.innerHTML = show ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-}
-
-// ── Tab switching ──────────────────────────────────────────────────────────────
+// ── Tab switching ──────────────────────────────────────────────
 function switchTab(tab) {
   document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   document.getElementById('panel-'+tab).classList.add('active');
-  ['loginErr','signupErr','signupOk'].forEach(id => document.getElementById(id).classList.remove('show'));
+  // Clear errors
+  ['loginErr','signupErr','signupOk'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
+  });
 }
+
+// Check URL hash for signup tab
 if(window.location.hash === '#signup') switchTab('signup');
 
-// ── Alert helpers ──────────────────────────────────────────────────────────────
+// ── Password toggle ────────────────────────────────────────────
+function toggleEye(id, btn) {
+  const inp = document.getElementById(id);
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+}
+
+// ── Alert helpers ──────────────────────────────────────────────
 function showErr(errId, msgId, msg) {
+  const el = document.getElementById(errId);
   document.getElementById(msgId).textContent = msg;
-  document.getElementById(errId).classList.add('show');
-  setTimeout(() => document.getElementById(errId).classList.remove('show'), 5000);
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 5000);
 }
 function showOk(okId, msgId, msg) {
   document.getElementById(msgId).textContent = msg;
   document.getElementById(okId).classList.add('show');
 }
 
-// ── Login ──────────────────────────────────────────────────────────────────────
+// ── Login ──────────────────────────────────────────────────────
 async function doLogin() {
   const btn   = document.getElementById('loginBtn');
   const email = document.getElementById('loginEmail').value.trim();
   const pass  = document.getElementById('loginPass').value;
-
   if(!email || !pass) { showErr('loginErr','loginErrMsg','Please fill in all fields.'); return; }
-  if(!isValidEmail(email)) { showErr('loginErr','loginErrMsg','Please enter a valid email address with @'); return; }
-
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
   try {
@@ -471,34 +283,20 @@ async function doLogin() {
   }
 }
 
-// ── Signup ─────────────────────────────────────────────────────────────────────
+// ── Signup ─────────────────────────────────────────────────────
 async function doSignup() {
-  const btn   = document.getElementById('signupBtn');
-  const name  = document.getElementById('sName').value.trim();
-  const phone = document.getElementById('sPhone').value.trim();
-  const email = document.getElementById('sEmail').value.trim();
-  const state = document.getElementById('sState').value;
-  const city  = document.getElementById('sCity').value;
-  const pass  = document.getElementById('sPass').value;
-  const pass2 = document.getElementById('sPass2').value;
-  const addr  = [city, state].filter(Boolean).join(', ');
+  const btn  = document.getElementById('signupBtn');
+  const name = document.getElementById('sName').value.trim();
+  const phone= document.getElementById('sPhone').value.trim();
+  const email= document.getElementById('sEmail').value.trim();
+  const addr = document.getElementById('sAddress').value.trim();
+  const pass = document.getElementById('sPass').value;
+  const pass2= document.getElementById('sPass2').value;
 
-  // Validations with clear messages
-  if(!name)               { showErr('signupErr','signupErrMsg','Please enter your full name.'); return; }
-  if(!phone || phone.length !== 10) {
-    showErr('signupErr','signupErrMsg','Phone number must be exactly 10 digits.'); return;
-  }
-  if(!/^[0-9]{10}$/.test(phone)) {
-    showErr('signupErr','signupErrMsg','Phone number must contain only digits (no spaces or +91).'); return;
-  }
-  if(!email)              { showErr('signupErr','signupErrMsg','Please enter your email address.'); return; }
-  if(!isValidEmail(email)){ showErr('signupErr','signupErrMsg','Please enter a valid email address (must contain @).'); return; }
-  if(!pass)               { showErr('signupErr','signupErrMsg','Please enter a password.'); return; }
-  if(pass.length < 6)     { showErr('signupErr','signupErrMsg','Password must be at least 6 characters.'); return; }
-  if(pass !== pass2)      { showErr('signupErr','signupErrMsg','Passwords do not match.'); return; }
-  if(!document.getElementById('sTerms').checked) {
-    showErr('signupErr','signupErrMsg','Please accept the Terms of Service.'); return;
-  }
+  if(!name || !email || !pass)   { showErr('signupErr','signupErrMsg','Name, email and password are required.'); return; }
+  if(pass !== pass2)             { showErr('signupErr','signupErrMsg','Passwords do not match.'); return; }
+  if(pass.length < 6)            { showErr('signupErr','signupErrMsg','Password must be at least 6 characters.'); return; }
+  if(!document.getElementById('sTerms').checked) { showErr('signupErr','signupErrMsg','Please accept the Terms of Service.'); return; }
 
   btn.disabled = true;
   btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
@@ -525,14 +323,14 @@ async function doSignup() {
   btn.innerHTML = 'Create Account <i class="fas fa-user-plus"></i>';
 }
 
-// ── Enter key ──────────────────────────────────────────────────────────────────
+// ── Enter key ──────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
   if(e.key !== 'Enter') return;
   if(document.getElementById('panel-login').classList.contains('active')) doLogin();
   else doSignup();
 });
 
-// ── Redirect if already logged in ─────────────────────────────────────────────
+// ── Redirect if already logged in ─────────────────────────────
 (async () => {
   try {
     const res  = await fetch('/api/me');
@@ -540,23 +338,6 @@ document.addEventListener('keydown', e => {
     if(data.logged_in) window.location.href = '/dashboard';
   } catch(e) {}
 })();
-
-// ── Auto-logout after 15 min inactivity (session timeout) ─────────────────────
-// This script is also injected via base template concept into dashboard pages
-// Here it runs on the login page to show timeout message if redirected
-const urlParams = new URLSearchParams(window.location.search);
-if(urlParams.get('timeout') === '1') {
-  const banner = document.getElementById('timeoutBanner');
-  banner.style.background = '#1A1A2E';
-  banner.innerHTML = '<i class="fas fa-clock"></i> <span>You were logged out automatically due to 15 minutes of inactivity.</span>';
-  banner.classList.add('show');
-  setTimeout(() => banner.classList.remove('show'), 5000);
-}
-
-async function extendSession() {
-  try { await fetch('/api/me'); } catch(e) {}
-  document.getElementById('timeoutBanner').classList.remove('show');
-}
 </script>
 </body>
 </html>

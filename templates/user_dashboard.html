@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Dashboard — Sharma ACP</title>
+<title>My Dashboard — AluminoPro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -153,7 +153,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;disp
 <aside class="sidebar">
   <a href="/" class="sidebar-logo">
     <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
-    <span class="logo-text">Sharma <span>ACP</span></span>
+    <span class="logo-text">Alumino<span>Pro</span></span>
   </a>
   <div class="sidebar-user">
     <div class="user-avatar" id="sideAvatar">?</div>
@@ -264,7 +264,6 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;disp
           <div class="price-row"><span class="lbl">Sqft per unit</span><span class="val" id="rSqftPer">—</span></div>
           <div class="price-row"><span class="lbl">Qty × Total sqft</span><span class="val" id="rTotalSqft">—</span></div>
           <div class="price-row"><span class="lbl">Rate per sqft</span><span class="val" id="rRate">—</span></div>
-          <div class="price-row" id="rGlassRow" style="display:none;background:rgba(184,134,11,.05);border-radius:4px;padding:6px 8px;margin:2px 0;"><span class="lbl" style="color:var(--gold);font-weight:600;"><i class="fas fa-th" style="font-size:10px;margin-right:4px;"></i>Glass Type Surcharge</span><span class="val" id="rGlassExtra" style="color:var(--gold);font-size:12px;">—</span></div>
           <div class="price-row"><span class="lbl">Base price (before GST)</span><span class="val" id="rBase">—</span></div>
           <div class="price-row"><span class="lbl">GST @ 18%</span><span class="val" id="rGst">—</span></div>
           <div class="price-row price-total-row"><span class="lbl">Total Amount (incl. 18% GST)</span><span class="val" id="rTotal">—</span></div>
@@ -282,7 +281,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;disp
         </div>
         <div class="form-group" id="glassGroup">
           <label>Glass Type</label>
-          <select id="oGlassType" onchange="calcPrice()">
+          <select id="oGlassType">
             <option value="">Select glass type</option>
           </select>
         </div>
@@ -432,7 +431,7 @@ body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;disp
             </div>
             <div style="display:flex;align-items:flex-start;gap:11px;">
               <div style="width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#1A1A2E;flex-shrink:0;border-radius:2px;">3</div>
-              <p style="font-size:13px;color:var(--grey-light);line-height:1.5;">Verify the amount matches your invoice. The note will say <strong style="color:var(--white)">"Sharma ACP Order #XX"</strong>.</p>
+              <p style="font-size:13px;color:var(--grey-light);line-height:1.5;">Verify the amount matches your invoice. The note will say <strong style="color:var(--white)">"AluminoPro Order #XX"</strong>.</p>
             </div>
             <div style="display:flex;align-items:flex-start;gap:11px;">
               <div style="width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;border-radius:2px;">4</div>
@@ -635,16 +634,7 @@ async function calcPrice() {
     if(d.error) return;
     document.getElementById('rSqftPer').textContent   = `${d.sqft_per_unit} sqft`;
     document.getElementById('rTotalSqft').textContent = `${d.quantity} × ${d.sqft_per_unit} = ${d.total_sqft} sqft`;
-    // Show glass surcharge row if applicable
-    const glassRow = document.getElementById('rGlassRow');
-    if(d.glass_surcharge && d.glass_surcharge > 0) {
-      document.getElementById('rRate').textContent  = `₹${d.base_rate}/sqft (base)`;
-      document.getElementById('rGlassExtra').textContent = `+₹${d.glass_surcharge}/sqft → ₹${d.effective_rate}/sqft total`;
-      if(glassRow) glassRow.style.display = 'flex';
-    } else {
-      document.getElementById('rRate').textContent  = `₹${d.effective_rate}/sqft`;
-      if(glassRow) glassRow.style.display = 'none';
-    }
+    document.getElementById('rRate').textContent      = `₹${d.rate}/sqft`;
     document.getElementById('rBase').textContent      = `₹${d.price.toLocaleString('en-IN')}`;
     document.getElementById('rGst').textContent       = `₹${d.gst.toLocaleString('en-IN')}`;
     document.getElementById('rTotal').textContent     = `₹${d.total_with_gst.toLocaleString('en-IN')}`;
@@ -845,7 +835,7 @@ async function viewInvoice(orderId) {
   const colorInfo = o.color_finish ? `<br><small>Finish: ${o.color_finish}</small>` : '';
   const glassInfo = o.glass_type ? `<br><small>Glass: ${o.glass_type}</small>` : '';
   const win = window.open('','_blank');
-  win.document.write(`<!DOCTYPE html><html><head><title>Invoice — Sharma ACP #${o.id}</title>
+  win.document.write(`<!DOCTYPE html><html><head><title>Invoice — AluminoPro #${o.id}</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>*{margin:0;padding:0;box-sizing:border-box;}
   body{background:#f4f4f0;color:#111;font-family:Outfit,sans-serif;padding:40px;}
@@ -870,8 +860,8 @@ async function viewInvoice(orderId) {
   </head><body>
   <div class="inv">
     <div class="hd">
-      <div><div class="logo">Sharma ACP<small>Premium Aluminum Solutions</small></div>
-        <p style="font-size:12px;color:#888;margin-top:8px;line-height:1.6;">Plot No. 42, Sector 58, Noida, UP 201301<br>📞 +91 98765 43210 | ✉️ info@sharmaacpwork.in<br>GST: 09ABCDE1234F1Z5</p>
+      <div><div class="logo">AluminoPro<small>Premium Aluminum Solutions</small></div>
+        <p style="font-size:12px;color:#888;margin-top:8px;line-height:1.6;">Plot No. 42, Sector 58, Noida, UP 201301<br>📞 +91 98765 43210 | ✉️ info@aluminopro.in<br>GST: 09ABCDE1234F1Z5</p>
       </div>
       <div><div class="inv-id">INVOICE #INV-${String(o.id).padStart(4,'0')}</div>
         <div class="inv-date">Date: ${new Date(o.updated_at||o.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</div>
@@ -896,12 +886,11 @@ async function viewInvoice(orderId) {
       <div class="tot-row"><span>GST @ 18%</span><span>₹${Number(gstAmt).toLocaleString('en-IN')}</span></div>
       <div class="tot-row grand"><span>Total</span><span>₹${Number(grandTotal).toLocaleString('en-IN')}</span></div>
     </div>
-    <div class="footer">Thank you for choosing Sharma ACP! | This is a computer-generated invoice and does not require a signature.<br>For queries: info@sharmaacpwork.in | +91 98765 43210</div>
+    <div class="footer">Thank you for choosing AluminoPro! | This is a computer-generated invoice and does not require a signature.<br>For queries: info@aluminopro.in | +91 98765 43210</div>
     <div style="text-align:center;margin-top:24px;" class="no-print">
       <button onclick="window.print()" style="padding:11px 28px;background:#C9A84C;color:#111;border:none;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:1px;">🖨️ PRINT / SAVE AS PDF</button>
     </div>
-  </div>
-</body></html>`);
+  </div></body></html>`);
 }
 
 // ── FEEDBACK ───────────────────────────────────────────────────
@@ -962,8 +951,8 @@ async function openPayment(orderId, amount, serviceType) {
   await loadUPI(); // ensure QR + info is loaded
 
   const upiId   = document.getElementById('upiIdDisplay').textContent;
-  const upiName = document.getElementById('upiName')?.textContent || 'Sharma ACP';
-  const note    = `Sharma ACP Order #${orderId}`;
+  const upiName = document.getElementById('upiName')?.textContent || 'AluminoPro';
+  const note    = `AluminoPro Order #${orderId}`;
 
   // Show the amount banner
   const banner = document.getElementById('payAmountBanner');
@@ -1003,7 +992,7 @@ function updateCustomPayQR(toast) {
   if(!amount || parseFloat(amount) <= 0) return;
   const upiId   = document.getElementById('upiIdDisplay').textContent;
   const upiName = document.getElementById('upiName').textContent;
-  const note    = orderId ? `Sharma ACP Order #${orderId}` : 'Sharma ACP Payment';
+  const note    = orderId ? `AluminoPro Order #${orderId}` : 'AluminoPro Payment';
   const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
   // Update QR
   document.getElementById('upiQrImg').src =
@@ -1031,7 +1020,7 @@ async function loadUPI() {
     const infoRes  = await fetch('/api/payment/info');
     const infoData = await infoRes.json();
     const upiId   = infoData.upi_id   || '9508777145@apl';
-    const upiName = infoData.upi_name || 'Sharma ACP';
+    const upiName = infoData.upi_name || 'AluminoPro';
 
     document.getElementById('upiIdDisplay').textContent = upiId;
     if(document.getElementById('upiName'))
@@ -1054,7 +1043,7 @@ async function loadUPI() {
   } catch(e) {
     // Fallback on any error
     document.getElementById('upiQrImg').src =
-      'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=upi%3A%2F%2Fpay%3Fpa%3D9508777145%40apl%26pn%3DSharma ACP%26cu%3DINR&choe=UTF-8';
+      'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=upi%3A%2F%2Fpay%3Fpa%3D9508777145%40apl%26pn%3DAluminoPro%26cu%3DINR&choe=UTF-8';
   }
 }
 
@@ -1192,7 +1181,7 @@ async function launchRazorpay() {
       key:         createData.key_id,
       amount:      createData.amount,
       currency:    'INR',
-      name:        'Sharma ACP',
+      name:        'AluminoPro',
       description: `Order #${rzCurrentOrder.orderId} · ${rzCurrentOrder.serviceType}`,
       order_id:    createData.rz_order_id,
       prefill: {
@@ -1253,45 +1242,6 @@ async function init() {
   loadUPI(); // pre-load UPI info in background
 }
 init();
-</script>
-
-
-<!-- AUTO LOGOUT: 15 min inactivity -->
-<div id="inactivityBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#C05621;color:#fff;padding:11px 20px;text-align:center;font-size:13px;font-weight:600;align-items:center;justify-content:center;gap:12px;">
-  <i class="fas fa-clock"></i>
-  <span>Session expires in <strong id="countdownNum">60</strong> sec due to inactivity.</span>
-  <button onclick="resetInactivityTimer()" style="padding:4px 14px;background:#fff;color:#C05621;border:none;font-size:11px;font-weight:700;cursor:pointer;border-radius:4px;margin-left:8px;">Stay Logged In</button>
-</div>
-<script>
-(function(){
-  var TIMEOUT = 15*60*1000, WARN = 60;
-  var logoutT, warnT, countT;
-  function startWarn(){
-    var s = WARN;
-    document.getElementById('inactivityBanner').style.display='flex';
-    document.getElementById('countdownNum').textContent=s;
-    countT=setInterval(function(){
-      s--;
-      document.getElementById('countdownNum').textContent=s;
-      if(s<=0){clearInterval(countT);doLogoutNow();}
-    },1000);
-  }
-  function doLogoutNow(){
-    fetch('/api/logout',{method:'POST'}).finally(function(){
-      window.location.href='/login?timeout=1';
-    });
-  }
-  window.resetInactivityTimer=function(){
-    clearTimeout(logoutT);clearTimeout(warnT);clearInterval(countT);
-    document.getElementById('inactivityBanner').style.display='none';
-    warnT=setTimeout(startWarn, TIMEOUT - WARN*1000);
-    logoutT=setTimeout(doLogoutNow, TIMEOUT);
-  };
-  resetInactivityTimer();
-  ['mousemove','keydown','click','scroll','touchstart'].forEach(function(e){
-    document.addEventListener(e,resetInactivityTimer,{passive:true});
-  });
-})();
 </script>
 </body>
 </html>
