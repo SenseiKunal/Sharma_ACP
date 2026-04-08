@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel — AluminoPro</title>
+<title>Admin Panel — Sharma ACP</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -137,7 +137,7 @@ table.dt tr:hover td{background:rgba(184,134,11,.03);}
 <aside class="sidebar">
   <div class="sidebar-logo">
     <div class="logo-icon"><i class="fas fa-layer-group"></i></div>
-    <span class="logo-text">Alumino<span>Pro</span></span>
+    <span class="logo-text">Sharma <span>ACP</span></span>
     <span class="admin-pill">ADMIN</span>
   </div>
   <nav class="sidebar-nav">
@@ -839,6 +839,45 @@ async function init() {
   await loadAllOrders();
 }
 init();
+</script>
+
+
+<!-- AUTO LOGOUT: 15 min inactivity -->
+<div id="inactivityBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:#C05621;color:#fff;padding:11px 20px;text-align:center;font-size:13px;font-weight:600;align-items:center;justify-content:center;gap:12px;">
+  <i class="fas fa-clock"></i>
+  <span>Session expires in <strong id="countdownNum">60</strong> sec due to inactivity.</span>
+  <button onclick="resetInactivityTimer()" style="padding:4px 14px;background:#fff;color:#C05621;border:none;font-size:11px;font-weight:700;cursor:pointer;border-radius:4px;margin-left:8px;">Stay Logged In</button>
+</div>
+<script>
+(function(){
+  var TIMEOUT = 15*60*1000, WARN = 60;
+  var logoutT, warnT, countT;
+  function startWarn(){
+    var s = WARN;
+    document.getElementById('inactivityBanner').style.display='flex';
+    document.getElementById('countdownNum').textContent=s;
+    countT=setInterval(function(){
+      s--;
+      document.getElementById('countdownNum').textContent=s;
+      if(s<=0){clearInterval(countT);doLogoutNow();}
+    },1000);
+  }
+  function doLogoutNow(){
+    fetch('/api/logout',{method:'POST'}).finally(function(){
+      window.location.href='/login?timeout=1';
+    });
+  }
+  window.resetInactivityTimer=function(){
+    clearTimeout(logoutT);clearTimeout(warnT);clearInterval(countT);
+    document.getElementById('inactivityBanner').style.display='none';
+    warnT=setTimeout(startWarn, TIMEOUT - WARN*1000);
+    logoutT=setTimeout(doLogoutNow, TIMEOUT);
+  };
+  resetInactivityTimer();
+  ['mousemove','keydown','click','scroll','touchstart'].forEach(function(e){
+    document.addEventListener(e,resetInactivityTimer,{passive:true});
+  });
+})();
 </script>
 </body>
 </html>
